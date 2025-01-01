@@ -3,29 +3,25 @@
     x:Class="Archivum.Pages.MangasPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:selector="clr-namespace:Archivum.Selectors"
+    xmlns:view="clr-namespace:Archivum.Views"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
     x:DataType="viewmodel:MangasViewModel"
     Shell.NavBarIsVisible="False">
 
     <Page.Resources>
-        <DataTemplate x:Key="MangaViewModelTemplate" x:DataType="viewmodel:MangaViewModel">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Text="{Binding Title}" />
-                <Label Grid.Row="1" Text="{Binding Path}" />
-                <Label Grid.Row="2" Text="{Binding Created}" />
-                <Label Grid.Row="3" Text="{Binding Modified}" />
-                <Label Grid.Row="4" Text="{Binding Size}" />
-            </Grid>
+        <DataTemplate x:Key="DirectoryItemTemplate" x:DataType="viewmodel:MangaViewModel">
+            <view:DirectoryView />
         </DataTemplate>
+        <DataTemplate x:Key="FileItemTemplate" x:DataType="viewmodel:MangaViewModel">
+            <view:FileView />
+        </DataTemplate>
+        <selector:MangaDataTemplateSelector
+            x:Key="MangaDataTemplateSelector"
+            DirectoryItemTemplate="{StaticResource DirectoryItemTemplate}"
+            FileItemTemplate="{StaticResource FileItemTemplate}" />
     </Page.Resources>
 
-    <CollectionView ItemTemplate="{StaticResource MangaViewModelTemplate}" ItemsSource="{Binding Mangas}" />
+    <CollectionView ItemTemplate="{StaticResource MangaDataTemplateSelector}" ItemsSource="{Binding Mangas}" />
 
 </ContentPage>
