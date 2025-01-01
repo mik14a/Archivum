@@ -6,6 +6,9 @@ namespace Archivum.ViewModels;
 public partial class MangaViewModel : ObservableObject
 {
     [ObservableProperty]
+    public partial bool IsDirectory { get; set; }
+
+    [ObservableProperty]
     public partial string Title { get; set; }
 
     [ObservableProperty]
@@ -21,6 +24,7 @@ public partial class MangaViewModel : ObservableObject
     public partial long Size { get; set; }
 
     public MangaViewModel(Manga model) {
+        IsDirectory = model.IsDirectory;
         Title = model.Title;
         Path = model.Path;
         Created = model.Created;
