@@ -3,13 +3,13 @@
     x:Class="Archivum.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Archivum"
-    Shell.FlyoutBehavior="Flyout"
-    Title="Archivum">
+    xmlns:page="clr-namespace:Archivum.Pages"
+    Title="Archivum"
+    Shell.FlyoutBehavior="Flyout">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Manga"
+        ContentTemplate="{DataTemplate page:MangasPage}"
+        Route="MangasPage" />
 
 </Shell>
