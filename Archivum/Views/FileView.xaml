@@ -11,10 +11,12 @@
         <RowDefinition />
         <RowDefinition />
         <RowDefinition />
+        <RowDefinition />
     </Grid.RowDefinitions>
-    <Label Grid.Row="0" Text="{Binding Title}" />
-    <Label Grid.Row="1" Text="{Binding Path}" />
-    <Label Grid.Row="2" Text="{Binding Created}" />
-    <Label Grid.Row="3" Text="{Binding Modified}" />
-    <Label Grid.Row="4" Text="{Binding Size}" />
+    <Label Grid.Row="0" Text="{Binding Author}" />
+    <Label Grid.Row="1" Text="{Binding Title}" />
+    <Label Grid.Row="2" Text="{Binding Volume}" />
+    <Label Grid.Row="3" Text="{Binding Created}" />
+    <Label Grid.Row="4" Text="{Binding Modified}" />
+    <Label Grid.Row="5" Text="{Binding Size}" />
 </Grid>

@@ -10,31 +10,33 @@ public partial class MangaViewModel : ObservableObject
     public partial bool IsDirectory { get; set; }
 
     [ObservableProperty]
+    public partial string Author { get; set; }
+    [ObservableProperty]
     public partial string Title { get; set; }
+    [ObservableProperty]
+    public partial string Volume { get; set; }
 
     [ObservableProperty]
     public partial string Path { get; set; }
-
     [ObservableProperty]
     public partial DateTime Created { get; set; }
-
     [ObservableProperty]
     public partial DateTime Modified { get; set; }
-
     [ObservableProperty]
     public partial long Size { get; set; }
 
     [ObservableProperty]
     public partial int Index { get; set; } = -1;
-
     [ObservableProperty]
     public partial ImageSource? Image { get; set; }
 
     public ObservableCollection<byte[]> Images { get; } = [];
 
     public MangaViewModel(Manga model) {
-        IsDirectory = model.IsDirectory;
+        IsDirectory = false;
+        Author = model.Author;
         Title = model.Title;
+        Volume = model.Volume;
         Path = model.Path;
         Created = model.Created;
         Modified = model.Modified;
