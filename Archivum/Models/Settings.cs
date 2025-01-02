@@ -4,10 +4,12 @@ public class Settings
 {
     public string FolderPath { get; set; } = DefaultFolderPath;
     public string? FilePattern { get; set; }
+    public string? Backdrop { get; set; }
 
     public static Settings Default => new() {
         FolderPath = DefaultFolderPath,
-        FilePattern = $"[{Manga.AuthorPattern}] {Manga.TitlePattern} {Manga.VolumePattern}"
+        FilePattern = $"[{Manga.AuthorPattern}] {Manga.TitlePattern} {Manga.VolumePattern}",
+        Backdrop = nameof(Controls.SystemBackdrop.Mica)
     };
 
     public static string DefaultFolderPath

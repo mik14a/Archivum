@@ -1,6 +1,6 @@
 using Archivum.ViewModels;
 
-namespace Archivum.Selectors;
+namespace Archivum.Controls;
 
 class MangaDataTemplateSelector : DataTemplateSelector
 {
