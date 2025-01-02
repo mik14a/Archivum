@@ -4,6 +4,13 @@ using Archivum.Repositories;
 using Archivum.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
+
+#if WINDOWS10_0_17763_0_OR_GREATER
+using Microsoft.Extensions.Options;
+using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Xaml.Media;
+#endif
 
 namespace Archivum;
 
@@ -42,6 +49,18 @@ public static class MauiProgram
             .AddSingleton<MangasViewModel>()
             .AddSingleton<MangasPage>();
 
+        builder.ConfigureLifecycleEvents(events => {
+#if WINDOWS10_0_17763_0_OR_GREATER
+            events.AddWindows(wndLifeCycleBuilder
+                => wndLifeCycleBuilder.OnWindowCreated(window
+                    => {
+                        var backdrop = Application.Current!.Windows[0]!.Page!.Handler!.MauiContext!.Services!.GetService<IOptions<Models.Settings>>()!.Value.Backdrop;
+                        var systemBackdrop = Enum.TryParse<Controls.SystemBackdrop>(backdrop, out var parsedBackdrop) ? parsedBackdrop : Controls.SystemBackdrop.Mica;
+                        window.SystemBackdrop = CreateSystemBackdrop(systemBackdrop);
+                    }));
+#endif
+        });
+
         return builder.Build();
     }
 
@@ -49,6 +68,17 @@ public static class MauiProgram
         settings.FolderPath ??= Models.Settings.Default.FolderPath;
         settings.FilePattern ??= Models.Settings.Default.FilePattern;
     }
+
+#if WINDOWS10_0_17763_0_OR_GREATER
+    static SystemBackdrop CreateSystemBackdrop(Controls.SystemBackdrop systemBackdrop) {
+        return systemBackdrop switch {
+            Controls.SystemBackdrop.Mica => new MicaBackdrop { Kind = MicaKind.Base },
+            Controls.SystemBackdrop.MicaAlt => new MicaBackdrop { Kind = MicaKind.BaseAlt },
+            Controls.SystemBackdrop.Acrylic => new DesktopAcrylicBackdrop(),
+            _ => throw new System.NotImplementedException(),
+        };
+    }
+#endif
 
     static readonly string _settingFile;
 }
