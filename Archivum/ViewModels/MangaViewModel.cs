@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using Archivum.Controls;
-using Archivum.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
 
@@ -14,6 +14,9 @@ public partial class MangaViewModel : ObservableObject
 {
     [ObservableProperty]
     public partial bool IsDirectory { get; set; }
+
+    [ObservableProperty]
+    public partial ImageSource? Image { get; set; }
 
     [ObservableProperty]
     public partial string Author { get; set; }
@@ -31,14 +34,20 @@ public partial class MangaViewModel : ObservableObject
     [ObservableProperty]
     public partial long Size { get; set; }
 
-    [ObservableProperty]
+    [ObservableProperty()]
+    [NotifyPropertyChangedFor(nameof(ViewSingleFrame))]
+    [NotifyPropertyChangedFor(nameof(ViewSpreadFrame))]
+    [NotifyPropertyChangedFor(nameof(Images))]
     public partial int Pages { get; protected set; } = 0;
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Images))]
     public partial int Index { get; protected set; } = -1;
 
+    public bool ViewSingleFrame => 1 == Pages;
+    public bool ViewSpreadFrame => 2 == Pages;
     public ImageSource?[] Images => _images;
 
-    public MangaViewModel(Manga model) {
+    public MangaViewModel(Models.Manga model, string[] imageExtensions) {
         IsDirectory = false;
         Author = model.Author;
         Title = model.Title;
@@ -47,17 +56,23 @@ public partial class MangaViewModel : ObservableObject
         Created = model.Created;
         Modified = model.Modified;
         Size = model.Size;
+        _imageExtensions = imageExtensions;
+
+        using var archive = ZipFile.OpenRead(Path);
+        var imageFile = archive.Entries.FirstOrDefault(IsImageEntry);
+        if (imageFile != null) {
+            using var stream = imageFile.Open();
+            using var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            Image = new MemoryImageSource(memoryStream.ToArray());
+        }
     }
 
     public async Task LoadAsync() {
         if (IsDirectory) return;
 
-        using var archive = System.IO.Compression.ZipFile.OpenRead(Path);
-        var imageFiles = archive.Entries
-            .Where(e => e.Name.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
-                       e.Name.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
-                       e.Name.EndsWith(".png", StringComparison.OrdinalIgnoreCase));
-
+        using var archive = ZipFile.OpenRead(Path);
+        var imageFiles = archive.Entries.Where(IsImageEntry);
         foreach (var entry in imageFiles) {
             using var stream = entry.Open();
             using var memoryStream = new MemoryStream();
@@ -65,8 +80,12 @@ public partial class MangaViewModel : ObservableObject
             _imageSources.Add(memoryStream.ToArray());
         }
 
-        Pages = 2;
-        Index = 0;
+        SetSingleFrameView();
+        MoveToPreviousFrame();
+    }
+
+    bool IsImageEntry(ZipArchiveEntry entry) {
+        return _imageExtensions.Contains(System.IO.Path.GetExtension(entry.Name), StringComparer.OrdinalIgnoreCase);
     }
 
     public void SetSingleFrameView() {
@@ -98,20 +117,18 @@ public partial class MangaViewModel : ObservableObject
         _images = new ImageSource[value];
         if (Index < 0 || _imageSources.Count <= Index) return;
         for (var i = 0; i < value; i++) {
-            System.Diagnostics.Debug.WriteLine($"_images[{i}] = _imageSources[{Index + i}]");
             _images[i] = new MemoryImageSource(_imageSources[Index + i]);
         }
-        OnPropertyChanged(nameof(Images));
     }
 
     partial void OnIndexChanged(int value) {
         if (value < 0 || _imageSources.Count <= value) return;
         for (var i = 0; i < Pages; i++) {
-            System.Diagnostics.Debug.WriteLine($"_images[{i}] = _imageSources[{value + i}]");
             _images[i] = new MemoryImageSource(_imageSources[value + i]);
         }
-        OnPropertyChanged(nameof(Images));
     }
+
+    readonly string[] _imageExtensions;
 
     ImageSource?[] _images = [];
     readonly List<byte[]> _imageSources = [];

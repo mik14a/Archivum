@@ -10,22 +10,30 @@
 
     <Grid
         x:Name="_Grid"
-        HorizontalOptions="CenterAndExpand"
-        VerticalOptions="CenterAndExpand">
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
         <Image
             Grid.Column="0"
             Aspect="AspectFit"
             HorizontalOptions="End"
+            IsVisible="{Binding Model.ViewSpreadFrame}"
             Source="{Binding Model.Images[1]}" />
         <Image
             Grid.Column="1"
             Aspect="AspectFit"
             HorizontalOptions="Start"
+            IsVisible="{Binding Model.ViewSpreadFrame}"
+            Source="{Binding Model.Images[0]}" />
+        <Image
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Aspect="AspectFit"
+            HorizontalOptions="CenterAndExpand"
+            IsVisible="{Binding Model.ViewSingleFrame}"
             Source="{Binding Model.Images[0]}" />
     </Grid>
 

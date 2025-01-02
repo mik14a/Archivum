@@ -9,11 +9,24 @@ public partial class MangasPage : ContentPage
 {
     public MangasViewModel Model => _model;
 
+    public int ColumnSpan { get; private set; } = 1;
+
     public MangasPage(MangasViewModel viewModel) {
         _model = viewModel;
         InitializeComponent();
         BindingContext = this;
+
+#if WINDOWS || MACCATALYST
+        _Page.SizeChanged += PageSizeChanged;
+#endif
     }
+
+#if WINDOWS || MACCATALYST
+    void PageSizeChanged(object? sender, System.EventArgs e) {
+        ColumnSpan = ((int)_Page.Width + 159) / 160;
+        OnPropertyChanged(nameof(ColumnSpan));
+    }
+#endif
 
     protected override async void OnAppearing() {
         await _model.LoadAsync();
