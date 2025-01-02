@@ -64,6 +64,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiXaml Update="Pages\MangaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Pages\MangasPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

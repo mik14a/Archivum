@@ -3,10 +3,11 @@
     x:Class="Archivum.Pages.MangasPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:page="clr-namespace:Archivum.Pages"
     xmlns:selector="clr-namespace:Archivum.Selectors"
     xmlns:view="clr-namespace:Archivum.Views"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
-    x:DataType="viewmodel:MangasViewModel"
+    x:DataType="page:MangasPage"
     Shell.NavBarIsVisible="False">
 
     <Page.Resources>
@@ -22,6 +23,11 @@
             FileItemTemplate="{StaticResource FileItemTemplate}" />
     </Page.Resources>
 
-    <CollectionView ItemTemplate="{StaticResource MangaDataTemplateSelector}" ItemsSource="{Binding Mangas}" />
+    <CollectionView
+        ItemTemplate="{StaticResource MangaDataTemplateSelector}"
+        ItemsSource="{Binding Model.Mangas}"
+        SelectionChangedCommand="{Binding SelectMangaCommand}"
+        SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+        SelectionMode="Single" />
 
 </ContentPage>

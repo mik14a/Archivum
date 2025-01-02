@@ -1,24 +1,28 @@
 using Archivum.ViewModels;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Archivum.Pages;
 
 public partial class MangasPage : ContentPage
 {
+    public MangasViewModel Model => _model;
 
     public MangasPage(MangasViewModel viewModel) {
-        _viewModel = viewModel;
+        _model = viewModel;
         InitializeComponent();
-        BindingContext = _viewModel;
+        BindingContext = this;
     }
 
     protected override async void OnAppearing() {
-        await _viewModel.LoadAsync();
+        await _model.LoadAsync();
         base.OnAppearing();
     }
 
-    protected override void OnDisappearing() {
-        base.OnDisappearing();
+    [RelayCommand]
+    async Task SelectMangaAsync(MangaViewModel mangaViewModel) {
+        if (mangaViewModel is null) return;
+        await Navigation.PushAsync(new MangaPage(mangaViewModel));
     }
 
-    private readonly MangasViewModel _viewModel;
+    readonly MangasViewModel _model;
 }
