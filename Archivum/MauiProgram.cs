@@ -5,9 +5,15 @@ using Archivum.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using Microsoft.Maui.Hosting;
+using System.IO;
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Controls.Hosting;
 
 #if WINDOWS10_0_17763_0_OR_GREATER
 using Microsoft.Extensions.Options;
+using Microsoft.Maui.Controls;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml.Media;
 #endif

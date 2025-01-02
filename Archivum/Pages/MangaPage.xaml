@@ -5,12 +5,28 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:page="clr-namespace:Archivum.Pages"
     x:Name="_Page"
-    x:DataType="page:MangaPage">
+    x:DataType="page:MangaPage"
+    Shell.NavBarIsVisible="False">
 
-    <Image
-        Aspect="AspectFit"
-        HorizontalOptions="FillAndExpand"
-        Source="{Binding Model.Image}"
-        VerticalOptions="FillAndExpand" />
+    <Grid
+        x:Name="_Grid"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Image
+            Grid.Column="0"
+            Aspect="AspectFit"
+            HorizontalOptions="End"
+            Source="{Binding Model.Images[1]}" />
+        <Image
+            Grid.Column="1"
+            Aspect="AspectFit"
+            HorizontalOptions="Start"
+            Source="{Binding Model.Images[0]}" />
+    </Grid>
 
 </ContentPage>
