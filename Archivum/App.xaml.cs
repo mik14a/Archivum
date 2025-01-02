@@ -1,4 +1,7 @@
-﻿namespace Archivum;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+
+namespace Archivum;
 
 public partial class App : Application
 {

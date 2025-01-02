@@ -1,3 +1,5 @@
+using System;
+
 namespace Archivum.Models;
 
 public class Manga
