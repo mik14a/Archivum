@@ -72,7 +72,9 @@ public static class MauiProgram
 
     static void EnsureInitializeSettings(Models.Settings settings) {
         settings.FolderPath ??= Models.Settings.Default.FolderPath;
+        settings.ImageExtensions ??= Models.Settings.Default.ImageExtensions;
         settings.FilePattern ??= Models.Settings.Default.FilePattern;
+        settings.Backdrop ??= Models.Settings.Default.Backdrop;
     }
 
 #if WINDOWS10_0_17763_0_OR_GREATER

@@ -7,6 +7,7 @@
     xmlns:page="clr-namespace:Archivum.Pages"
     xmlns:view="clr-namespace:Archivum.Views"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
+    x:Name="_Page"
     x:DataType="page:MangasPage"
     Shell.NavBarIsVisible="False">
 
@@ -28,6 +29,14 @@
         ItemsSource="{Binding Model.Mangas}"
         SelectionChangedCommand="{Binding SelectMangaCommand}"
         SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
-        SelectionMode="Single" />
+        SelectionMode="Single">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout
+                HorizontalItemSpacing="8"
+                Orientation="Vertical"
+                Span="{Binding ColumnSpan}"
+                VerticalItemSpacing="16" />
+        </CollectionView.ItemsLayout>
+    </CollectionView>
 
 </ContentPage>
