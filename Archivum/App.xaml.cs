@@ -10,6 +10,11 @@ public partial class App : Application
     }
 
     protected override Window CreateWindow(IActivationState? activationState) {
-        return new Window(new AppShell());
+        var window = new Window(new AppShell(activationState?.Context)) {
+            Title = nameof(Archivum),
+            MinimumWidth = 320, MinimumHeight = 240,
+            Width = 800, Height = 600
+        };
+        return window;
     }
 }

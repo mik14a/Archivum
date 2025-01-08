@@ -1,15 +1,22 @@
+using System;
+using System.IO;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
+using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using Archivum.Pages;
 using Archivum.Repositories;
 using Archivum.ViewModels;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Maui.LifecycleEvents;
-using Microsoft.Maui.Hosting;
-using System.IO;
-using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
+using Microsoft.Maui.LifecycleEvents;
+using CommunityToolkit.Maui.Storage;
+using Microsoft.Maui.ApplicationModel;
 
 #if WINDOWS10_0_17763_0_OR_GREATER
 using Microsoft.Extensions.Options;
@@ -31,6 +38,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts => {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -51,9 +59,12 @@ public static class MauiProgram
         builder.Services
             .Configure<Models.Settings>(EnsureInitializeSettings)
             .Configure<Models.Settings>(builder.Configuration)
+            .AddSingleton<IFolderPicker>(FolderPicker.Default)
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
             .AddSingleton<MangasViewModel>()
-            .AddSingleton<MangasPage>();
+            .AddSingleton<MangasPage>()
+            .AddSingleton<SettingsViewModel>()
+            .AddSingleton<SettingsPage>();
 
         builder.ConfigureLifecycleEvents(events => {
 #if WINDOWS10_0_17763_0_OR_GREATER
@@ -68,6 +79,16 @@ public static class MauiProgram
         });
 
         return builder.Build();
+    }
+
+    public static async Task LaunchSettingsFolderAsync() {
+        var folderPath = Path.GetDirectoryName(_settingFile) ?? Environment.CurrentDirectory;
+        await Launcher.OpenAsync(folderPath);
+    }
+
+    public static async Task SaveSettings(Models.Settings settings) {
+        var json = JsonSerializer.Serialize(settings, _jsonSerializerOptions);
+        await File.WriteAllTextAsync(_settingFile, json);
     }
 
     static void EnsureInitializeSettings(Models.Settings settings) {
@@ -89,4 +110,8 @@ public static class MauiProgram
 #endif
 
     static readonly string _settingFile;
+    static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+        WriteIndented = true
+    };
 }

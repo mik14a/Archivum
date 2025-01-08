@@ -47,7 +47,7 @@ public partial class MangaViewModel : ObservableObject
     public bool ViewSpreadFrame => 2 == Pages;
     public ImageSource?[] Images => _images;
 
-    public MangaViewModel(Models.Manga model, string[] imageExtensions) {
+    public MangaViewModel(Models.Manga model, string imageExtensions) {
         IsDirectory = false;
         Author = model.Author;
         Title = model.Title;
@@ -56,16 +56,18 @@ public partial class MangaViewModel : ObservableObject
         Created = model.Created;
         Modified = model.Modified;
         Size = model.Size;
-        _imageExtensions = imageExtensions;
+        _imageExtensions = imageExtensions.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
-        using var archive = ZipFile.OpenRead(Path);
-        var imageFile = archive.Entries.FirstOrDefault(IsImageEntry);
-        if (imageFile != null) {
-            using var stream = imageFile.Open();
-            using var memoryStream = new MemoryStream();
-            stream.CopyTo(memoryStream);
-            Image = new MemoryImageSource(memoryStream.ToArray());
-        }
+        try {
+            using var archive = ZipFile.OpenRead(Path);
+            var imageFile = archive.Entries.FirstOrDefault(IsImageEntry);
+            if (imageFile != null) {
+                using var stream = imageFile.Open();
+                using var memoryStream = new MemoryStream();
+                stream.CopyTo(memoryStream);
+                Image = new MemoryImageSource(memoryStream.ToArray());
+            }
+        } catch { }
     }
 
     public async Task LoadAsync() {

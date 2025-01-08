@@ -13,6 +13,7 @@ public class MangasViewModel : ObservableObject
     public MangasViewModel(IMangaRepository repository, IOptions<Models.Settings> settings) {
         _repository = repository;
         _settings = settings.Value!;
+
     }
 
     public async Task LoadAsync() {
