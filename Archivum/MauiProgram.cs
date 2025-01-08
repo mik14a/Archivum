@@ -65,6 +65,8 @@ public static class MauiProgram
             .AddSingleton<MangasPage>()
             .AddSingleton<AuthorsViewModel>()
             .AddSingleton<AuthorsPage>()
+            .AddSingleton<TitlesViewModel>()
+            .AddSingleton<TitlesPage>()
             .AddSingleton<SettingsViewModel>()
             .AddSingleton<SettingsPage>();
 

@@ -19,6 +19,11 @@
         ContentTemplate="{DataTemplate page:AuthorsPage}"
         Route="AuthorsPage" />
 
+    <ShellContent
+        Title="タイトル一覧"
+        ContentTemplate="{DataTemplate page:TitlesPage}"
+        Route="TitlesPage" />
+
     <MenuItem Command="{Binding OpenSettingsCommand}" Text="設定" />
 
 </Shell>

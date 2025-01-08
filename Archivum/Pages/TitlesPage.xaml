@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Archivum.Pages.TitlesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:page="clr-namespace:Archivum.Pages"
+    xmlns:view="clr-namespace:Archivum.Views"
+    xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
+    x:Name="_Page"
+    x:DataType="page:TitlesPage">
+
+    <CollectionView
+        ItemsSource="{Binding Model.Titles}"
+        SelectionChangedCommand="{Binding SelectTitleCommand}"
+        SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+        SelectionMode="Single">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="viewmodel:TitleViewModel">
+                <view:TitleView />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout
+                HorizontalItemSpacing="4"
+                Orientation="Vertical"
+                Span="{Binding ColumnSpan}"
+                VerticalItemSpacing="4" />
+        </CollectionView.ItemsLayout>
+    </CollectionView>
+
+</ContentPage>
