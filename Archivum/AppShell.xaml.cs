@@ -1,4 +1,7 @@
+using System;
 using System.Threading.Tasks;
+using Archivum.Contracts.Repositories;
+using Archivum.Repositories;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui;
@@ -10,8 +13,29 @@ public partial class AppShell : Shell
 {
     public AppShell(IMauiContext? context) {
         _context = context;
+        _repository = _context?.Services.GetService<IMangaRepository>() as LocalMangaRepository;
         InitializeComponent();
         BindingContext = this;
+    }
+
+    protected override async void OnAppearing() {
+        base.OnAppearing();
+
+        try {
+            await _repository?.LoadCacheAsync();
+        } catch (Exception ex) {
+            System.Diagnostics.Debug.WriteLine($"Cache load failed: {ex.Message}");
+        }
+    }
+
+    protected override async void OnDisappearing() {
+        try {
+            await _repository?.SaveCacheAsync();
+        } catch (Exception ex) {
+            System.Diagnostics.Debug.WriteLine($"Cache save failed: {ex.Message}");
+        }
+
+        base.OnDisappearing();
     }
 
     [RelayCommand]
@@ -21,4 +45,5 @@ public partial class AppShell : Shell
     }
 
     readonly IMauiContext? _context;
+    readonly LocalMangaRepository? _repository;
 }

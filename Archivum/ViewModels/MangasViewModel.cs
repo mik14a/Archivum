@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,10 +20,11 @@ public class MangasViewModel : ObservableObject
     public async Task LoadAsync() {
         var mangas = await _repository.GetAllAsync();
         foreach (var manga in mangas) {
-            Mangas.Add(ToMangaViewModel(manga));
+            var viewModel = Mangas.SingleOrDefault(m => m.Path == manga.Path);
+            if (viewModel == null) {
+                Mangas.Add(new(manga, _settings.ImageExtensions!));
+            }
         }
-
-        MangaViewModel ToMangaViewModel(Models.Manga model) => new(model, _settings.ImageExtensions);
     }
 
     readonly IMangaRepository _repository;
