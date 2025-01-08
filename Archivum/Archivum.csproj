@@ -66,6 +66,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiXaml Update="Pages\AuthorsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Pages\MangaPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -75,10 +78,13 @@
     <MauiXaml Update="Pages\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Views\AuthorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Views\DirectoryView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Views\FileView.xaml">
+    <MauiXaml Update="Views\MangaView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>

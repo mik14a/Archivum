@@ -9,14 +9,14 @@ using Archivum.Pages;
 using Archivum.Repositories;
 using Archivum.ViewModels;
 using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
-using CommunityToolkit.Maui.Storage;
-using Microsoft.Maui.ApplicationModel;
 
 #if WINDOWS10_0_17763_0_OR_GREATER
 using Microsoft.Extensions.Options;
@@ -63,6 +63,8 @@ public static class MauiProgram
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
             .AddSingleton<MangasViewModel>()
             .AddSingleton<MangasPage>()
+            .AddSingleton<AuthorsViewModel>()
+            .AddSingleton<AuthorsPage>()
             .AddSingleton<SettingsViewModel>()
             .AddSingleton<SettingsPage>();
 

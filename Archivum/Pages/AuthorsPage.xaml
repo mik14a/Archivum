@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="Archivum.Pages.MangasPage"
+    x:Class="Archivum.Pages.AuthorsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Archivum.Controls"
     xmlns:page="clr-namespace:Archivum.Pages"
     xmlns:view="clr-namespace:Archivum.Views"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
     x:Name="_Page"
-    x:DataType="page:MangasPage"
-    Shell.NavBarIsVisible="False">
+    x:DataType="page:AuthorsPage">
 
     <CollectionView
-        ItemsSource="{Binding Model.Mangas}"
-        SelectionChangedCommand="{Binding SelectMangaCommand}"
+        ItemsSource="{Binding Model.Authors}"
+        SelectionChangedCommand="{Binding SelectAuthorCommand}"
         SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
         SelectionMode="Single">
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="viewmodel:MangaViewModel">
-                <view:MangaView />
+            <DataTemplate x:DataType="viewmodel:AuthorViewModel">
+                <view:AuthorView />
             </DataTemplate>
         </CollectionView.ItemTemplate>
         <CollectionView.ItemsLayout>

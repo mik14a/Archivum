@@ -2,9 +2,9 @@ using Microsoft.Maui.Controls;
 
 namespace Archivum.Views;
 
-public partial class FileView : Grid
+public partial class MangaView : Grid
 {
-    public FileView() {
+    public MangaView() {
         InitializeComponent();
     }
 }
