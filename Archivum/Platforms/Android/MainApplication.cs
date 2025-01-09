@@ -3,7 +3,7 @@ using Android.Runtime;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace Archivum;
+namespace Archivum.Platforms.Android;
 
 [Application]
 public class MainApplication : MauiApplication

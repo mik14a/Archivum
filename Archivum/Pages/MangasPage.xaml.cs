@@ -29,7 +29,7 @@ public partial class MangasPage : ContentPage
 #endif
 
     protected override async void OnAppearing() {
-        await _model.LoadAsync();
+        await _model.SyncAsync();
         base.OnAppearing();
     }
 

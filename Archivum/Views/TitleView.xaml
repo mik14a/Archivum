@@ -18,6 +18,7 @@
 
     <Image
         Grid.Row="0"
+        Grid.ColumnSpan="2"
         Aspect="AspectFill"
         Source="{Binding Image}" />
     <Label

@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace Archivum;
+namespace Archivum.Platforms.MacCatalyst;
 
 public class Program
 {

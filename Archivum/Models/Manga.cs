@@ -6,11 +6,11 @@ namespace Archivum.Models;
 
 public class Manga
 {
-    public string Author { get; set; } = string.Empty;
-    public string Title { get; set; } = string.Empty;
-    public string Volume { get; set; } = string.Empty;
+    public required string Author { get; set; }
+    public required string Title { get; set; }
+    public required string Volume { get; set; }
 
-    public string Path { get; set; } = string.Empty;
+    public required string Path { get; set; }
     public DateTime Created { get; set; }
     public DateTime Modified { get; set; }
     public long Size { get; set; }

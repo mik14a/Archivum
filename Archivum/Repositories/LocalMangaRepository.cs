@@ -47,7 +47,8 @@ public class LocalMangaRepository : IMangaRepository
                 .Select(g => new Models.Author {
                     Name = g.Key,
                     Count = g.Count(),
-                    LastModified = g.Max(m => m.Modified)
+                    LastModified = g.Max(m => m.Modified),
+                    Cover = $"{g.First().Path},0"
                 })
                 .OrderBy(a => a.Name)
                 .ToArray();
@@ -56,6 +57,7 @@ public class LocalMangaRepository : IMangaRepository
                 if (_authors.TryGetValue(author.Name, out var existing)) {
                     existing.Count = author.Count;
                     existing.LastModified = author.LastModified;
+                    existing.Cover = author.Cover;
                 } else {
                     _authors.Add(author.Name, author);
                 }
@@ -75,7 +77,8 @@ public class LocalMangaRepository : IMangaRepository
                     Name = g.Key,
                     Author = g.First().Author,
                     Count = g.Count(),
-                    LastModified = g.Max(m => m.Modified)
+                    LastModified = g.Max(m => m.Modified),
+                    Cover = $"{g.First().Path},0"
                 })
                 .OrderBy(t => t.Name)
                 .ToArray();
@@ -85,6 +88,7 @@ public class LocalMangaRepository : IMangaRepository
                     existing.Author = title.Author;
                     existing.Count = title.Count;
                     existing.LastModified = title.LastModified;
+                    existing.Cover = title.Cover;
                 } else {
                     _titles.Add(title.Name, title);
                 }

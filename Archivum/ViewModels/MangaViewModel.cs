@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using Archivum.Contracts.Repositories;
 using Archivum.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
@@ -43,7 +44,7 @@ public partial class MangaViewModel : ObservableObject
     public bool ViewSpreadFrame => 2 == Pages;
     public ImageSource?[] Images => _images;
 
-    public MangaViewModel(Models.Manga model, string imageExtensions) {
+    public MangaViewModel(Models.Manga model, IMangaRepository repository, Models.Settings settings) {
         Author = model.Author;
         Title = model.Title;
         Volume = model.Volume;
@@ -51,32 +52,38 @@ public partial class MangaViewModel : ObservableObject
         Created = model.Created;
         Modified = model.Modified;
         Size = model.Size;
-        _imageExtensions = imageExtensions.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        _repository = repository;
+        _settings = settings;
 
+        _imageExtensions = settings.ImageExtensions!.Split(';', StringSplitOptions.RemoveEmptyEntries);
+    }
+
+    public async Task LoadCoverAsync() {
         try {
             using var archive = ZipFile.OpenRead(Path);
             var imageFile = archive.Entries.FirstOrDefault(IsImageEntry);
             if (imageFile != null) {
                 using var stream = imageFile.Open();
                 using var memoryStream = new MemoryStream();
-                stream.CopyTo(memoryStream);
+                await stream.CopyToAsync(memoryStream);
                 Image = new MemoryImageSource(memoryStream.ToArray());
             }
         } catch { }
     }
 
     public async Task LoadAsync() {
-        using var archive = ZipFile.OpenRead(Path);
-        var imageFiles = archive.Entries.Where(IsImageEntry);
-        foreach (var entry in imageFiles) {
-            using var stream = entry.Open();
-            using var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
-            _imageSources.Add(memoryStream.ToArray());
-        }
-
-        SetSingleFrameView();
-        MoveToPreviousFrame();
+        try {
+            using var archive = ZipFile.OpenRead(Path);
+            var imageFiles = archive.Entries.Where(IsImageEntry);
+            foreach (var entry in imageFiles) {
+                using var stream = entry.Open();
+                using var memoryStream = new MemoryStream();
+                await stream.CopyToAsync(memoryStream);
+                _imageSources.Add(memoryStream.ToArray());
+            }
+            SetSingleFrameView();
+            MoveToPreviousFrame();
+        } catch { }
     }
 
     bool IsImageEntry(ZipArchiveEntry entry) {
@@ -123,6 +130,8 @@ public partial class MangaViewModel : ObservableObject
         }
     }
 
+    readonly IMangaRepository _repository;
+    readonly Models.Settings _settings;
     readonly string[] _imageExtensions;
 
     ImageSource?[] _images = [];

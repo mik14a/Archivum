@@ -29,7 +29,7 @@ public partial class AuthorsPage : ContentPage
 #endif
 
     protected override async void OnAppearing() {
-        await _model.LoadAsync();
+        await _model.SyncAsync();
         base.OnAppearing();
     }
 
