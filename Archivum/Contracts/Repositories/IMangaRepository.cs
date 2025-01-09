@@ -5,5 +5,7 @@ namespace Archivum.Contracts.Repositories;
 
 public interface IMangaRepository
 {
-    Task<IEnumerable<Models.Manga>> GetAllAsync();
+    Task<IEnumerable<Models.Manga>> GetMangasAsync();
+    Task<IEnumerable<Models.Author>> GetAuthorsAsync();
+    Task<IEnumerable<Models.Title>> GetTitlesAsync();
 }

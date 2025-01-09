@@ -8,9 +8,9 @@
     x:DataType="viewmodel:MangaViewModel">
     <Grid.RowDefinitions>
         <RowDefinition Height="160" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
     </Grid.RowDefinitions>
     <Image
         Grid.Row="0"

@@ -18,7 +18,7 @@ public class MangasViewModel : ObservableObject
     }
 
     public async Task LoadAsync() {
-        var mangas = await _repository.GetAllAsync();
+        var mangas = await _repository.GetMangasAsync();
         foreach (var manga in mangas) {
             var viewModel = Mangas.SingleOrDefault(m => m.Path == manga.Path);
             if (viewModel == null) {

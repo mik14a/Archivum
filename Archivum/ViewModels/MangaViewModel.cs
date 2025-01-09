@@ -13,11 +13,7 @@ namespace Archivum.ViewModels;
 public partial class MangaViewModel : ObservableObject
 {
     [ObservableProperty]
-    public partial bool IsDirectory { get; set; }
-
-    [ObservableProperty]
     public partial ImageSource? Image { get; set; }
-
     [ObservableProperty]
     public partial string Author { get; set; }
     [ObservableProperty]
@@ -48,7 +44,6 @@ public partial class MangaViewModel : ObservableObject
     public ImageSource?[] Images => _images;
 
     public MangaViewModel(Models.Manga model, string imageExtensions) {
-        IsDirectory = false;
         Author = model.Author;
         Title = model.Title;
         Volume = model.Volume;
@@ -71,8 +66,6 @@ public partial class MangaViewModel : ObservableObject
     }
 
     public async Task LoadAsync() {
-        if (IsDirectory) return;
-
         using var archive = ZipFile.OpenRead(Path);
         var imageFiles = archive.Entries.Where(IsImageEntry);
         foreach (var entry in imageFiles) {

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,15 +15,15 @@ public partial class AuthorsViewModel : ObservableObject
     }
 
     public async Task LoadAsync() {
-        var mangas = await _repository.GetAllAsync();
-        var authors = mangas
-            .GroupBy(m => m.Author)
-            .Select(g => new AuthorViewModel(g.Key, g.Count()))
-            .OrderBy(a => a.Name);
-
-        Authors.Clear();
+        var authors = await _repository.GetAuthorsAsync();
         foreach (var author in authors) {
-            Authors.Add(author);
+            var existing = Authors.FirstOrDefault(a => a.Name == author.Name);
+            if (existing != null) {
+                existing.Count = author.Count;
+                existing.LastModified = author.LastModified;
+            } else {
+                Authors.Add(new AuthorViewModel(author));
+            }
         }
     }
 

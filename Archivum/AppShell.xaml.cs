@@ -22,7 +22,7 @@ public partial class AppShell : Shell
         base.OnAppearing();
 
         try {
-            await _repository?.LoadCacheAsync();
+            await _repository?.LoadLibraryAsync();
         } catch (Exception ex) {
             System.Diagnostics.Debug.WriteLine($"Cache load failed: {ex.Message}");
         }
@@ -30,7 +30,7 @@ public partial class AppShell : Shell
 
     protected override async void OnDisappearing() {
         try {
-            await _repository?.SaveCacheAsync();
+            await _repository?.SaveLibraryAsync();
         } catch (Exception ex) {
             System.Diagnostics.Debug.WriteLine($"Cache save failed: {ex.Message}");
         }

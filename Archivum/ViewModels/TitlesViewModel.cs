@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,15 +15,16 @@ public partial class TitlesViewModel : ObservableObject
     }
 
     public async Task LoadAsync() {
-        var mangas = await _repository.GetAllAsync();
-        var titles = mangas
-            .GroupBy(m => m.Title)
-            .Select(g => new TitleViewModel(g.Key, g.Count()))
-            .OrderBy(t => t.Name);
-
-        Titles.Clear();
+        var titles = await _repository.GetTitlesAsync();
         foreach (var title in titles) {
-            Titles.Add(title);
+            var existing = Titles.FirstOrDefault(t => t.Name == title.Name);
+            if (existing != null) {
+                existing.Author = title.Author;
+                existing.Count = title.Count;
+                existing.LastModified = title.LastModified;
+            } else {
+                Titles.Add(new TitleViewModel(title));
+            }
         }
     }
 

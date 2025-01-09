@@ -8,8 +8,7 @@
     xmlns:view="clr-namespace:Archivum.Views"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
     x:Name="_Page"
-    x:DataType="page:MangasPage"
-    Shell.NavBarIsVisible="False">
+    x:DataType="page:MangasPage">
 
     <CollectionView
         ItemsSource="{Binding Model.Mangas}"
