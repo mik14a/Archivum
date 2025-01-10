@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using Archivum.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
 
 namespace Archivum.ViewModels;
@@ -90,27 +91,33 @@ public partial class MangaViewModel : ObservableObject
         return _imageExtensions.Contains(System.IO.Path.GetExtension(entry.Name), StringComparer.OrdinalIgnoreCase);
     }
 
-    public void SetSingleFrameView() {
+    [RelayCommand]
+    void SetSingleFrameView() {
         Pages = 1;
     }
 
-    public void SetSpreadFrameView() {
+    [RelayCommand]
+    void SetSpreadFrameView() {
         Pages = 2;
     }
 
-    public void MoveToPreviousFrame() {
+    [RelayCommand]
+    void MoveToPreviousFrame() {
         Index = Math.Max(0, Index - 1);
     }
 
-    public void MoveToNextFrame() {
+    [RelayCommand]
+    void MoveToNextFrame() {
         Index = Math.Min(_imageSources.Count - 1, Index + 1);
     }
 
-    public void MoveToPreviousView() {
+    [RelayCommand]
+    void MoveToPreviousView() {
         Index = Math.Max(0, Index - Pages);
     }
 
-    public void MoveToNextView() {
+    [RelayCommand]
+    void MoveToNextView() {
         Index = Math.Min(_imageSources.Count - Pages, Index + Pages);
     }
 

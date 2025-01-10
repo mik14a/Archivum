@@ -17,6 +17,7 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
+using Archivum.Resources.Fonts;
 
 #if WINDOWS10_0_17763_0_OR_GREATER
 using Microsoft.Extensions.Options;
@@ -42,6 +43,7 @@ public static class MauiProgram
             .ConfigureFonts(fonts => {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("FluentSystemIcons-Regular.ttf", FluentUI.FontFamily);
             });
 
 #if DEBUG

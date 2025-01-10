@@ -6,7 +6,17 @@
     xmlns:page="clr-namespace:Archivum.Pages"
     x:Name="_Page"
     x:DataType="page:MangaPage"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="True">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding Model.MoveToNextViewCommand}" IconImageSource="{StaticResource IconNextPage}" />
+        <ToolbarItem Command="{Binding Model.MoveToNextFrameCommand}" IconImageSource="{StaticResource IconNextFrame}" />
+        <ToolbarItem Command="{Binding Model.MoveToPreviousFrameCommand}" IconImageSource="{StaticResource IconPreviousFrame}" />
+        <ToolbarItem Command="{Binding Model.MoveToPreviousViewCommand}" IconImageSource="{StaticResource IconPreviousPage}" />
+        <ToolbarItem Command="{Binding Model.SetSingleFrameViewCommand}" IconImageSource="{StaticResource IconSinglePage}" />
+        <ToolbarItem Command="{Binding Model.SetSpreadFrameViewCommand}" IconImageSource="{StaticResource IconSpreadPage}" />
+        <ToolbarItem Command="{Binding CloseCommand}" IconImageSource="{StaticResource IconClose}" />
+    </ContentPage.ToolbarItems>
 
     <Grid
         x:Name="_Grid"
@@ -36,5 +46,68 @@
             IsVisible="{Binding Model.ViewSingleFrame}"
             Source="{Binding Model.Images[0]}" />
     </Grid>
+
+    <FlyoutBase.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem
+                Command="{Binding Model.MoveToNextViewCommand}"
+                IconImageSource="{StaticResource IconNextPage}"
+                Text="Next Page">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Left" Modifiers="None" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                Command="{Binding Model.MoveToNextFrameCommand}"
+                IconImageSource="{StaticResource IconNextFrame}"
+                Text="Next Frame">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Left" Modifiers="Ctrl" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                Command="{Binding Model.MoveToPreviousFrameCommand}"
+                IconImageSource="{StaticResource IconPreviousFrame}"
+                Text="PreviousFrame">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Right" Modifiers="Ctrl" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                Command="{Binding Model.MoveToPreviousViewCommand}"
+                IconImageSource="{StaticResource IconPreviousPage}"
+                Text="Previous Page">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Right" Modifiers="None" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Command="{Binding Model.SetSingleFrameViewCommand}"
+                IconImageSource="{StaticResource IconSinglePage}"
+                Text="Single Page">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="1" Modifiers="None" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                Command="{Binding Model.SetSpreadFrameViewCommand}"
+                IconImageSource="{StaticResource IconSpreadPage}"
+                Text="Spread View">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="2" Modifiers="None" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Command="{Binding CloseCommand}"
+                IconImageSource="{StaticResource IconClose}"
+                Text="Close">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" Modifiers="None" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </FlyoutBase.ContextFlyout>
 
 </ContentPage>
