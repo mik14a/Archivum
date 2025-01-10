@@ -39,6 +39,25 @@ public class LocalMangaRepository : IMangaRepository
         }
     }
 
+    public async Task<IEnumerable<Models.Manga>> GetMangasFromAuthorAsync(string author) {
+        await _semaphore.WaitAsync();
+        try {
+            return [.. _mangas.Values.Where(m => m.Author == author)];
+        } finally {
+            _semaphore.Release();
+        }
+    }
+
+    public async Task<IEnumerable<Models.Manga>> GetMangasFromTitleAsync(string title) {
+        await _semaphore.WaitAsync();
+        try {
+            return [.. _mangas.Values.Where(m => m.Title == title)];
+        } finally {
+            _semaphore.Release();
+        }
+    }
+
+
     public async Task<IEnumerable<Models.Author>> GetAuthorsAsync() {
         await _semaphore.WaitAsync();
         try {

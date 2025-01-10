@@ -5,17 +5,16 @@ using Microsoft.Maui.Controls;
 
 namespace Archivum.Pages;
 
-public partial class AuthorsPage : ContentPage
+public partial class AuthorPage : ContentPage
 {
-    public AuthorsViewModel Model => _model;
+    public AuthorViewModel Model => _model;
 
     public int ColumnSpan { get; private set; } = 1;
 
-    public AuthorsPage(AuthorsViewModel viewModel) {
-        _model = viewModel;
+    public AuthorPage(AuthorViewModel model) {
+        _model = model;
         InitializeComponent();
         BindingContext = this;
-
 #if WINDOWS || MACCATALYST
         _Page.SizeChanged += PageSizeChanged;
 #endif
@@ -28,17 +27,16 @@ public partial class AuthorsPage : ContentPage
     }
 #endif
 
-    protected override async void OnAppearing() {
-        await _model.SyncAsync();
+    protected override void OnAppearing() {
+        _model.SyncAsync();
         base.OnAppearing();
     }
 
     [RelayCommand]
-    async Task SelectAuthorAsync(AuthorViewModel authorViewModel) {
-        if (authorViewModel is null) return;
-        var authorPage = new AuthorPage(authorViewModel);
-        await Navigation.PushAsync(authorPage);
+    async Task SelectMangaAsync(MangaViewModel mangaViewModel) {
+        if (mangaViewModel is null) return;
+        await Navigation.PushAsync(new MangaPage(mangaViewModel));
     }
 
-    readonly AuthorsViewModel _model;
+    readonly AuthorViewModel _model;
 }

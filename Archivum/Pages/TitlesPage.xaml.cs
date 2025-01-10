@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Archivum.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
@@ -33,8 +34,10 @@ public partial class TitlesPage : ContentPage
     }
 
     [RelayCommand]
-    void SelectTitle(TitleViewModel titleViewModel) {
+    async Task SelectTitle(TitleViewModel titleViewModel) {
         if (titleViewModel is null) return;
+        var titlePage = new TitlePage(titleViewModel);
+        await Navigation.PushAsync(titlePage);
     }
 
     readonly TitlesViewModel _model;

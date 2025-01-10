@@ -1,4 +1,6 @@
 using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -20,15 +22,17 @@ public partial class AuthorViewModel : ObservableObject
     public partial int Count { get; set; }
     [ObservableProperty]
     public partial DateTime LastModified { get; set; }
-
     [ObservableProperty]
     public partial string Cover { get; set; }
+
+    public ObservableCollection<MangaViewModel> Mangas { get; } = [];
 
     public AuthorViewModel(Models.Author model, IMangaRepository repository, Models.Settings settings) {
         Name = model.Name;
         Count = model.Count;
         LastModified = model.LastModified;
         Cover = model.Cover;
+        Mangas.CollectionChanged += MangasCollectionChanged;
         _repository = repository;
         _settings = settings;
     }
@@ -48,6 +52,24 @@ public partial class AuthorViewModel : ObservableObject
                     Image = new MemoryImageSource(memoryStream.ToArray());
                 }
             } catch { }
+        }
+    }
+
+    public async Task SyncAsync() {
+        var mangas = await _repository.GetMangasFromAuthorAsync(Name);
+        foreach (var manga in mangas) {
+            var existing = Mangas.FirstOrDefault(m => m.Path == manga.Path);
+            if (existing == null) {
+                Mangas.Add(new(manga, _repository, _settings));
+            }
+        }
+    }
+
+    void MangasCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
+        if (e.Action == NotifyCollectionChangedAction.Add) {
+            foreach (var manga in e.NewItems!.OfType<MangaViewModel>()) {
+                manga.LoadCoverAsync();
+            }
         }
     }
 
