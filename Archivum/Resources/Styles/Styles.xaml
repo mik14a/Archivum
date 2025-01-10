@@ -61,5 +61,33 @@
         Size="{StaticResource IconSize}"
         Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
                                 Dark={StaticResource LightOnDarkBackground}}" />
+    <FontImageSource
+        x:Key="IconLibrary"
+        FontFamily="{x:Static font:FluentUI.FontFamily}"
+        Glyph="{x:Static font:FluentUI.book_24_regular}"
+        Size="{StaticResource IconSize}"
+        Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
+                                Dark={StaticResource LightOnDarkBackground}}" />
+    <FontImageSource
+        x:Key="IconPeople"
+        FontFamily="{x:Static font:FluentUI.FontFamily}"
+        Glyph="{x:Static font:FluentUI.people_24_regular}"
+        Size="{StaticResource IconSize}"
+        Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
+                                Dark={StaticResource LightOnDarkBackground}}" />
+    <FontImageSource
+        x:Key="IconCollection"
+        FontFamily="{x:Static font:FluentUI.FontFamily}"
+        Glyph="{x:Static font:FluentUI.library_24_regular}"
+        Size="{StaticResource IconSize}"
+        Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
+                                Dark={StaticResource LightOnDarkBackground}}" />
+    <FontImageSource
+        x:Key="IconSettings"
+        FontFamily="{x:Static font:FluentUI.FontFamily}"
+        Glyph="{x:Static font:FluentUI.settings_24_regular}"
+        Size="{StaticResource IconSize}"
+        Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
+                                Dark={StaticResource LightOnDarkBackground}}" />
 
 </ResourceDictionary>

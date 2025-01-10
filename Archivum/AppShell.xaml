@@ -12,18 +12,24 @@
     <ShellContent
         Title="マンガ"
         ContentTemplate="{DataTemplate page:MangasPage}"
+        Icon="{StaticResource IconLibrary}"
         Route="MangasPage" />
 
     <ShellContent
         Title="作者一覧"
         ContentTemplate="{DataTemplate page:AuthorsPage}"
+        Icon="{StaticResource IconPeople}"
         Route="AuthorsPage" />
 
     <ShellContent
         Title="タイトル一覧"
         ContentTemplate="{DataTemplate page:TitlesPage}"
+        Icon="{StaticResource IconCollection}"
         Route="TitlesPage" />
 
-    <MenuItem Command="{Binding OpenSettingsCommand}" Text="設定" />
+    <MenuItem
+        Command="{Binding OpenSettingsCommand}"
+        IconImageSource="{StaticResource IconSettings}"
+        Text="設定" />
 
 </Shell>
