@@ -26,6 +26,11 @@ public partial class AuthorsViewModel : ObservableObject
             Authors.Remove(author);
         }
 
+        var duplicates = Authors.GroupBy(t => t.Name).Where(g => 1 < g.Count()).SelectMany(g => g.Skip(1)).ToArray();
+        foreach (var author in duplicates) {
+            Authors.Remove(author);
+        }
+
         foreach (var author in authors) {
             var existing = Authors.FirstOrDefault(a => a.Name == author.Name);
             if (existing != null) {

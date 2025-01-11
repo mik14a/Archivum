@@ -40,5 +40,11 @@ public partial class AuthorsPage : ContentPage
         await Navigation.PushAsync(authorPage);
     }
 
+    [RelayCommand]
+    async Task OpenPropertiesAsync(AuthorViewModel authorViewModel) {
+        if (authorViewModel is null) return;
+        await Navigation.PushModalAsync(new Editor.AuthorEditPage(authorViewModel));
+    }
+
     readonly AuthorsViewModel _model;
 }

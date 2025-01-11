@@ -33,6 +33,8 @@ public partial class AuthorViewModel : ObservableObject
         LastModified = model.LastModified;
         Cover = model.Cover;
         Mangas.CollectionChanged += MangasCollectionChanged;
+
+        _model = model;
         _repository = repository;
         _settings = settings;
     }
@@ -71,6 +73,18 @@ public partial class AuthorViewModel : ObservableObject
         }
     }
 
+    public void ApplyEdit() {
+        _model.Name = Name;
+        foreach (var manga in Mangas) {
+            manga.Author = Name;
+            manga.ApplyEdit();
+        }
+    }
+
+    public void CancelEdit() {
+        Name = _model.Name;
+    }
+
     void MangasCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
         if (e.Action == NotifyCollectionChangedAction.Add) {
             foreach (var manga in e.NewItems!.OfType<MangaViewModel>()) {
@@ -79,6 +93,7 @@ public partial class AuthorViewModel : ObservableObject
         }
     }
 
+    readonly Models.Author _model;
     readonly IMangaRepository _repository;
     readonly Models.Settings _settings;
 }

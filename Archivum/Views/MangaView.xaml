@@ -6,6 +6,7 @@
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
     Padding="16"
     x:DataType="viewmodel:MangaViewModel">
+
     <Grid.RowDefinitions>
         <RowDefinition Height="160" />
         <RowDefinition />

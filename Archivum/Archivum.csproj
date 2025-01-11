@@ -73,6 +73,9 @@
     <MauiXaml Update="Pages\AuthorsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Pages\Editor\AuthorEditPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Pages\Editor\MangaEditPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
