@@ -20,6 +20,7 @@
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Aspect="AspectFit"
+            MaximumHeightRequest="320"
             Source="{Binding Model.Image}" />
 
         <CollectionView

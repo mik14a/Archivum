@@ -26,6 +26,8 @@ public partial class MangaViewModel : ObservableObject
     [ObservableProperty]
     public partial string Path { get; set; }
     [ObservableProperty]
+    public partial int Cover { get; set; }
+    [ObservableProperty]
     public partial DateTime Created { get; set; }
     [ObservableProperty]
     public partial DateTime Modified { get; set; }
@@ -50,19 +52,21 @@ public partial class MangaViewModel : ObservableObject
         Title = model.Title;
         Volume = model.Volume;
         Path = model.Path;
+        Cover = model.Cover;
         Created = model.Created;
         Modified = model.Modified;
         Size = model.Size;
+
+        _model = model;
         _repository = repository;
         _settings = settings;
-
         _imageExtensions = settings.ImageExtensions!.Split(';', StringSplitOptions.RemoveEmptyEntries);
     }
 
     public async Task LoadCoverAsync() {
         try {
             using var archive = ZipFile.OpenRead(Path);
-            var imageFile = archive.Entries.FirstOrDefault(IsImageEntry);
+            var imageFile = archive.Entries.Where(IsImageEntry).ElementAtOrDefault(Cover);
             if (imageFile != null) {
                 using var stream = imageFile.Open();
                 using var memoryStream = new MemoryStream();
@@ -85,6 +89,20 @@ public partial class MangaViewModel : ObservableObject
             SetSingleFrameView();
             MoveToPreviousFrame();
         } catch { }
+    }
+
+    public void ApplyEdit() {
+        _model.Author = Author;
+        _model.Title = Title;
+        _model.Volume = Volume;
+        _model.Cover = Cover;
+    }
+
+    public void CancelEdit() {
+        Author = _model.Author;
+        Title = _model.Title;
+        Volume = _model.Volume;
+        Cover = _model.Cover;
     }
 
     bool IsImageEntry(ZipArchiveEntry entry) {
@@ -137,6 +155,7 @@ public partial class MangaViewModel : ObservableObject
         }
     }
 
+    readonly Models.Manga _model;
     readonly IMangaRepository _repository;
     readonly Models.Settings _settings;
     readonly string[] _imageExtensions;

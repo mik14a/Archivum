@@ -39,5 +39,11 @@ public partial class MangasPage : ContentPage
         await Navigation.PushAsync(new MangaPage(mangaViewModel));
     }
 
+    [RelayCommand]
+    async Task OpenPropertiesAsync(MangaViewModel mangaViewModel) {
+        if (mangaViewModel is null) return;
+        await Navigation.PushModalAsync(new Editor.MangaEditPage(mangaViewModel));
+    }
+
     readonly MangasViewModel _model;
 }

@@ -11,9 +11,10 @@ public class Manga
     public required string Volume { get; set; }
 
     public required string Path { get; set; }
-    public DateTime Created { get; set; }
-    public DateTime Modified { get; set; }
-    public long Size { get; set; }
+    public required int Cover { get; set; }
+    public required DateTime Created { get; set; }
+    public required DateTime Modified { get; set; }
+    public required long Size { get; set; }
 
     public static readonly string AuthorPattern = "{author}";
     public static readonly string TitlePattern = "{title}";
@@ -32,7 +33,7 @@ public class Manga
         var volume = match.Groups.TryGetValue("volume", out var volumeValue) ? volumeValue.Value : null;
         return new() {
             Author = author ?? string.Empty, Title = title ?? fileName, Volume = volume ?? string.Empty,
-            Path = file.FullName, Created = file.CreationTime, Modified = file.LastWriteTime, Size = file.Length,
+            Path = file.FullName, Cover = 0, Created = file.CreationTime, Modified = file.LastWriteTime, Size = file.Length,
         };
     }
 }

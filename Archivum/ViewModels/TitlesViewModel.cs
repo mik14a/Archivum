@@ -21,10 +21,9 @@ public partial class TitlesViewModel : ObservableObject
     public async Task SyncAsync() {
         var titles = await _repository.GetTitlesAsync();
 
-        foreach (var title in Titles) {
-            if (!titles.Any(t => t.Name == title.Name)) {
-                Titles.Remove(title);
-            }
+        var removed = Titles.Where(title => !titles.Any(t => t.Name == title.Name)).ToArray();
+        foreach (var title in removed) {
+            Titles.Remove(title);
         }
 
         foreach (var title in titles) {

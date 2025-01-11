@@ -60,6 +60,12 @@ public partial class TitleViewModel : ObservableObject
 
     public async Task SyncAsync() {
         var mangas = await _repository.GetMangasFromTitleAsync(Name);
+
+        var removed = Mangas.Where(manga => !mangas.Any(m => m.Path == manga.Path)).ToArray();
+        foreach (var manga in removed) {
+            Mangas.Remove(manga);
+        }
+
         foreach (var manga in mangas) {
             var existing = Mangas.FirstOrDefault(m => m.Path == manga.Path);
             if (existing == null) {
