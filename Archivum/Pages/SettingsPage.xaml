@@ -20,6 +20,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -57,25 +59,53 @@
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
-                    Text="ファイル名パターン"
+                    Text="フォルダ名パターン"
                     VerticalOptions="Center" />
                 <Entry
                     Grid.Row="2"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    Text="{Binding Model.FilePattern}" />
+                    Text="{Binding Model.FolderPattern}" />
 
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
+                    Text="ファイル名パターン"
+                    VerticalOptions="Center" />
+                <Entry
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Text="{Binding Model.FilePattern}" />
+
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
                     Text="背景効果"
                     VerticalOptions="Center" />
                 <Picker
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
                     ItemsSource="{x:Static viewmodel:SettingsViewModel.BackdropItems}"
                     SelectedItem="{Binding Model.Backdrop}" />
+
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Text="マンガフォルダの整理"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Text="マンガフォルダの整理します。ファイル名パターンにしたがってファイルを整理します。"
+                    VerticalOptions="Center" />
+                <Button
+                    Grid.Row="5"
+                    Grid.Column="2"
+                    Command="{Binding ArrangeMangasCommand}"
+                    Text="整理" />
+
             </Grid>
         </ScrollView>
 

@@ -100,6 +100,7 @@ public static class MauiProgram
     static void EnsureInitializeSettings(Models.Settings settings) {
         settings.FolderPath ??= Models.Settings.Default.FolderPath;
         settings.ImageExtensions ??= Models.Settings.Default.ImageExtensions;
+        settings.FolderPattern ??= Models.Settings.Default.FolderPattern;
         settings.FilePattern ??= Models.Settings.Default.FilePattern;
         settings.Backdrop ??= Models.Settings.Default.Backdrop;
     }

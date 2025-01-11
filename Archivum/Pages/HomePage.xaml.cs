@@ -35,6 +35,12 @@ public partial class HomePage : ContentPage
     }
 
     protected override async void OnAppearing() {
+        await RefreshAsync();
+        base.OnAppearing();
+    }
+
+    [RelayCommand]
+    async Task RefreshAsync() {
         var mangas = await _repository.GetMangasAsync();
         MangaCount = mangas.Count();
         OnPropertyChanged(nameof(MangaCount));
@@ -64,8 +70,6 @@ public partial class HomePage : ContentPage
         foreach (var title in mangas.GroupBy(m => m.Title).OrderByDescending(g => g.Max(m => m.LastRead)).Take(10)) {
             PopularTitles.Add(new(titles.Single(m => m.Name == title.Key), _repository, _settings));
         }
-
-        base.OnAppearing();
     }
 
     [RelayCommand]

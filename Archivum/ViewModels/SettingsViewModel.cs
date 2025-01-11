@@ -18,6 +18,9 @@ public partial class SettingsViewModel : ObservableObject
     public partial string ImageExtensions { get; set; } = string.Empty;
 
     [ObservableProperty]
+    public partial string FolderPattern { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial string FilePattern { get; set; } = string.Empty;
 
     [ObservableProperty]
@@ -31,6 +34,7 @@ public partial class SettingsViewModel : ObservableObject
     public Models.Settings Apply() {
         _setting.FolderPath = FolderPath;
         _setting.ImageExtensions = ImageExtensions;
+        _setting.FolderPattern = FolderPattern;
         _setting.FilePattern = FilePattern;
         _setting.Backdrop = Backdrop;
         return _setting;
@@ -39,6 +43,7 @@ public partial class SettingsViewModel : ObservableObject
     public void Cancel() {
         FolderPath = _setting.FolderPath ?? Models.Settings.DefaultFolderPath;
         ImageExtensions = _setting.ImageExtensions ?? Models.Settings.DefaultImageExtensions;
+        FolderPattern = _setting.FolderPattern ?? Models.Settings.DefaultFolderPattern;
         FilePattern = _setting.FilePattern ?? Models.Settings.DefaultFilePattern;
         Backdrop = _setting.Backdrop ?? Models.Settings.DefaultBackdrop;
     }

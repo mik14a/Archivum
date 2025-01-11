@@ -8,6 +8,10 @@
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
     x:DataType="page:HomePage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding RefreshCommand}" IconImageSource="{StaticResource IconRefresh}" />
+    </ContentPage.ToolbarItems>
+
     <ScrollView Padding="8">
         <Grid>
             <Grid.RowDefinitions>
