@@ -18,10 +18,7 @@
         <ToolbarItem Command="{Binding CloseCommand}" IconImageSource="{StaticResource IconClose}" />
     </ContentPage.ToolbarItems>
 
-    <Grid
-        x:Name="_Grid"
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand">
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -31,20 +28,32 @@
             Aspect="AspectFit"
             HorizontalOptions="End"
             IsVisible="{Binding Model.ViewSpreadFrame}"
-            Source="{Binding Model.Images[1]}" />
+            Source="{Binding Model.Images[1]}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToNextViewCommand}" />
+            </Image.GestureRecognizers>
+        </Image>
         <Image
             Grid.Column="1"
             Aspect="AspectFit"
             HorizontalOptions="Start"
             IsVisible="{Binding Model.ViewSpreadFrame}"
-            Source="{Binding Model.Images[0]}" />
+            Source="{Binding Model.Images[0]}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToPreviousViewCommand}" />
+            </Image.GestureRecognizers>
+        </Image>
         <Image
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Aspect="AspectFit"
             HorizontalOptions="CenterAndExpand"
             IsVisible="{Binding Model.ViewSingleFrame}"
-            Source="{Binding Model.Images[0]}" />
+            Source="{Binding Model.Images[0]}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToNextFrameCommand}" />
+            </Image.GestureRecognizers>
+        </Image>
     </Grid>
 
     <FlyoutBase.ContextFlyout>
