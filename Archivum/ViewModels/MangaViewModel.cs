@@ -17,6 +17,8 @@ public partial class MangaViewModel : ObservableObject
     [ObservableProperty]
     public partial ImageSource? Image { get; set; }
     [ObservableProperty]
+    public partial bool IsRead { get; set; }
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DisplayTitle))]
     public partial string Author { get; set; }
     [ObservableProperty]
@@ -64,6 +66,8 @@ public partial class MangaViewModel : ObservableObject
         Created = model.Created;
         Modified = model.Modified;
         Size = model.Size;
+
+        IsRead = DateTime.MinValue < model.LastRead;
 
         _model = model;
         _repository = repository;

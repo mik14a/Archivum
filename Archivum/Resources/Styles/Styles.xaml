@@ -118,5 +118,12 @@
         Size="{StaticResource IconSize}"
         Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
                                 Dark={StaticResource LightOnDarkBackground}}" />
+    <FontImageSource
+        x:Key="IconRead"
+        FontFamily="{x:Static font:FluentUI.FontFamily}"
+        Glyph="{x:Static font:FluentUI.checkmark_24_regular}"
+        Size="{StaticResource IconSize}"
+        Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
+                                Dark={StaticResource LightOnDarkBackground}}" />
 
 </ResourceDictionary>

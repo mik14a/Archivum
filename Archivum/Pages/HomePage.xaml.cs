@@ -57,7 +57,7 @@ public partial class HomePage : ContentPage
         OnPropertyChanged(nameof(TotalSize));
 
         RecentMangas.Clear();
-        foreach (var manga in mangas.OrderByDescending(m => m.LastRead).Take(10)) {
+        foreach (var manga in mangas.Where(m => m.LastRead != DateTime.MinValue).OrderByDescending(m => m.LastRead).Take(10)) {
             RecentMangas.Add(new(manga, _repository, _settings));
         }
 
@@ -67,7 +67,7 @@ public partial class HomePage : ContentPage
         }
 
         PopularTitles.Clear();
-        foreach (var title in mangas.GroupBy(m => m.Title).OrderByDescending(g => g.Max(m => m.LastRead)).Take(10)) {
+        foreach (var title in mangas.Where(m => m.LastRead != DateTime.MinValue).GroupBy(m => m.Title).OrderByDescending(g => g.Max(m => m.LastRead)).Take(10)) {
             PopularTitles.Add(new(titles.Single(m => m.Name == title.Key), _repository, _settings));
         }
     }
