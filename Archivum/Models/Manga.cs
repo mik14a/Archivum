@@ -1,9 +1,11 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Archivum.Models;
 
+[DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public class Manga
 {
     public required string Author { get; set; }
@@ -35,5 +37,9 @@ public class Manga
             Author = author ?? string.Empty, Title = title ?? fileName, Volume = volume ?? string.Empty,
             Path = file.FullName, Cover = 0, Created = file.CreationTime, Modified = file.LastWriteTime, Size = file.Length,
         };
+    }
+
+    private string GetDebuggerDisplay() {
+        return $"[{Author}] {Title} #{Volume} ({Path})";
     }
 }
