@@ -20,6 +20,13 @@ public partial class AuthorsViewModel : ObservableObject
 
     public async Task SyncAsync() {
         var authors = await _repository.GetAuthorsAsync();
+
+        foreach (var author in Authors) {
+            if (!authors.Any(a => a.Name == author.Name)) {
+                Authors.Remove(author);
+            }
+        }
+
         foreach (var author in authors) {
             var existing = Authors.FirstOrDefault(a => a.Name == author.Name);
             if (existing != null) {
