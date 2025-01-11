@@ -26,6 +26,11 @@ public partial class TitlesViewModel : ObservableObject
             Titles.Remove(title);
         }
 
+        var duplicates = Titles.GroupBy(t => t.Name).Where(g => 1 < g.Count()).SelectMany(g => g.Skip(1)).ToArray();
+        foreach (var title in duplicates) {
+            Titles.Remove(title);
+        }
+
         foreach (var title in titles) {
             var existing = Titles.FirstOrDefault(t => t.Name == title.Name);
             if (existing != null) {

@@ -40,5 +40,11 @@ public partial class TitlesPage : ContentPage
         await Navigation.PushAsync(titlePage);
     }
 
+    [RelayCommand]
+    async Task OpenPropertiesAsync(TitleViewModel titleViewModel) {
+        if (titleViewModel is null) return;
+        await Navigation.PushModalAsync(new Editor.TitleEditPage(titleViewModel));
+    }
+
     readonly TitlesViewModel _model;
 }

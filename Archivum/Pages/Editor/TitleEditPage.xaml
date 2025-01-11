@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Archivum.Pages.Editor.TitleEditPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:editor="clr-namespace:Archivum.Pages.Editor"
+    x:DataType="editor:TitleEditPage">
+
+    <Grid Padding="8">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0">
+            <Grid ColumnSpacing="8" RowSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    MaximumHeightRequest="320"
+                    Source="{Binding Model.Image}" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="タイトル"
+                    VerticalOptions="Center" />
+                <Entry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding Model.Name, Mode=TwoWay}" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="作者"
+                    VerticalOptions="Center" />
+                <Entry
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding Model.Author, Mode=TwoWay}" />
+
+            </Grid>
+        </ScrollView>
+
+        <Grid Grid.Row="1">
+            <HorizontalStackLayout HorizontalOptions="End" Spacing="4">
+                <Button Command="{Binding CancelCommand}" Text="キャンセル" />
+                <Button Command="{Binding SaveCommand}" Text="保存" />
+            </HorizontalStackLayout>
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

@@ -32,4 +32,14 @@
         Text="{Binding Count}"
         VerticalOptions="Center" />
 
+    <FlyoutBase.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem
+                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=OpenPropertiesCommand}"
+                CommandParameter="{Binding}"
+                IconImageSource="{StaticResource IconProperties}"
+                Text="プロパティ" />
+        </MenuFlyout>
+    </FlyoutBase.ContextFlyout>
+
 </Grid>
