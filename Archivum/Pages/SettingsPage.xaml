@@ -124,7 +124,10 @@
                 HorizontalOptions="End"
                 Spacing="4">
                 <Button Command="{Binding CancelCommand}" Text="キャンセル" />
-                <Button Command="{Binding SaveCommand}" Text="保存" />
+                <Button
+                    BackgroundColor="{x:Static Application.AccentColor}"
+                    Command="{Binding SaveCommand}"
+                    Text="保存" />
             </HorizontalStackLayout>
         </Grid>
 
