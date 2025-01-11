@@ -60,13 +60,12 @@ public partial class MangaViewModel : ObservableObject
         _model = model;
         _repository = repository;
         _settings = settings;
-        _imageExtensions = settings.ImageExtensions!.Split(';', StringSplitOptions.RemoveEmptyEntries);
     }
 
     public async Task LoadCoverAsync() {
         try {
             using var archive = ZipFile.OpenRead(Path);
-            var imageFile = archive.Entries.Where(IsImageEntry).ElementAtOrDefault(Cover);
+            var imageFile = archive.Entries.Where(_settings.IsImageEntry).ElementAtOrDefault(Cover);
             if (imageFile != null) {
                 using var stream = imageFile.Open();
                 using var memoryStream = new MemoryStream();
@@ -79,7 +78,7 @@ public partial class MangaViewModel : ObservableObject
     public async Task LoadAsync() {
         try {
             using var archive = ZipFile.OpenRead(Path);
-            var imageFiles = archive.Entries.Where(IsImageEntry);
+            var imageFiles = archive.Entries.Where(_settings.IsImageEntry);
             foreach (var entry in imageFiles) {
                 using var stream = entry.Open();
                 using var memoryStream = new MemoryStream();
@@ -103,10 +102,6 @@ public partial class MangaViewModel : ObservableObject
         Title = _model.Title;
         Volume = _model.Volume;
         Cover = _model.Cover;
-    }
-
-    bool IsImageEntry(ZipArchiveEntry entry) {
-        return _imageExtensions.Contains(System.IO.Path.GetExtension(entry.Name), StringComparer.OrdinalIgnoreCase);
     }
 
     [RelayCommand]

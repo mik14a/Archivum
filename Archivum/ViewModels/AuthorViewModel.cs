@@ -46,7 +46,7 @@ public partial class AuthorViewModel : ObservableObject
         if (File.Exists(path)) {
             try {
                 using var archive = ZipFile.OpenRead(path);
-                var imageFile = archive.Entries.ElementAtOrDefault(index);
+                var imageFile = archive.Entries.Where(_settings.IsImageEntry).ElementAtOrDefault(index);
                 if (imageFile != null) {
                     using var stream = imageFile.Open();
                     using var memoryStream = new MemoryStream();

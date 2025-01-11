@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 
 namespace Archivum.Models;
 
@@ -21,4 +23,9 @@ public class Settings
         FilePattern = DefaultFilePattern,
         Backdrop = DefaultBackdrop
     };
+
+    public bool IsImageEntry(ZipArchiveEntry entry) {
+        var imageExtensions = ImageExtensions!.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        return imageExtensions.Contains(Path.GetExtension(entry.Name), StringComparer.OrdinalIgnoreCase);
+    }
 }
