@@ -21,6 +21,11 @@ public partial class MangaPage : ContentPage
         _model.LoadAsync();
     }
 
+    protected override void OnDisappearing() {
+        _model.UpdateLastRead();
+        base.OnDisappearing();
+    }
+
 #if WINDOWS
     protected override void OnHandlerChanged() {
         base.OnHandlerChanged();

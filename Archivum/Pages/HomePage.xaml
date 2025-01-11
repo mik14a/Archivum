@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Archivum.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:page="clr-namespace:Archivum.Pages"
+    xmlns:view="clr-namespace:Archivum.Views"
+    xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
+    x:DataType="page:HomePage">
+
+    <ScrollView Padding="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <VerticalStackLayout Grid.Column="0">
+                    <Label
+                        FontSize="Header"
+                        HorizontalOptions="Center"
+                        Text="{Binding MangaCount}" />
+                    <Label
+                        FontSize="Caption"
+                        HorizontalOptions="Center"
+                        Text="マンガ" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1">
+                    <Label
+                        FontSize="Header"
+                        HorizontalOptions="Center"
+                        Text="{Binding AuthorCount}" />
+                    <Label
+                        FontSize="Caption"
+                        HorizontalOptions="Center"
+                        Text="作者" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="2">
+                    <Label
+                        FontSize="Header"
+                        HorizontalOptions="Center"
+                        Text="{Binding TitleCount}" />
+                    <Label
+                        FontSize="Caption"
+                        HorizontalOptions="Center"
+                        Text="タイトル" />
+                </VerticalStackLayout>
+
+                <Label
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    FontSize="Caption"
+                    HorizontalOptions="Center"
+                    Text="{Binding TotalSize, StringFormat='合計: {0:N2} GB'}" />
+            </Grid>
+
+            <VerticalStackLayout Grid.Row="1">
+                <Label FontSize="Large" Text="最近読んだマンガ" />
+                <CollectionView
+                    x:Name="_MangasCollectionView"
+                    ItemsSource="{Binding RecentMangas}"
+                    SelectionChangedCommand="{Binding SelectMangaCommand}"
+                    SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="8" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodel:MangaViewModel">
+                            <view:MangaView WidthRequest="160" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="2" Spacing="8">
+                <Label FontSize="Large" Text="お気に入りの作者" />
+                <CollectionView
+                    x:Name="_AuthorsCollectionView"
+                    ItemsSource="{Binding FavoriteAuthors}"
+                    SelectionChangedCommand="{Binding SelectAuthorCommand}"
+                    SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="8" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodel:AuthorsViewModel">
+                            <view:AuthorView WidthRequest="160" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="3" Spacing="8">
+                <Label FontSize="Large" Text="人気のタイトル" />
+                <CollectionView
+                    x:Name="_TitlesCollectionView"
+                    ItemsSource="{Binding PopularTitles}"
+                    SelectionChangedCommand="{Binding SelectTitleCommand}"
+                    SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="8" Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodel:TitlesViewModel">
+                            <view:TitleView WidthRequest="160" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

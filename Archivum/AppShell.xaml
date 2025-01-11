@@ -10,6 +10,12 @@
     Shell.FlyoutBehavior="Flyout">
 
     <ShellContent
+        Title="ホーム"
+        ContentTemplate="{DataTemplate page:HomePage}"
+        Icon="{StaticResource IconHome}"
+        Route="HomePage" />
+
+    <ShellContent
         Title="マンガ"
         ContentTemplate="{DataTemplate page:MangasPage}"
         Icon="{StaticResource IconLibrary}"

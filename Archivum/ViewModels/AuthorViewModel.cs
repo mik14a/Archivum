@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using Archivum.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
 
 namespace Archivum.ViewModels;
@@ -16,6 +17,8 @@ public partial class AuthorViewModel : ObservableObject
 {
     [ObservableProperty]
     public partial ImageSource? Image { get; set; }
+    [ObservableProperty]
+    public partial bool IsFavorite { get; set; }
     [ObservableProperty]
     public partial string Name { get; set; }
     [ObservableProperty]
@@ -29,6 +32,7 @@ public partial class AuthorViewModel : ObservableObject
 
     public AuthorViewModel(Models.Author model, IMangaRepository repository, Models.Settings settings) {
         Name = model.Name;
+        IsFavorite = model.Favorite;
         Count = model.Count;
         LastModified = model.LastModified;
         Cover = model.Cover;
@@ -40,6 +44,8 @@ public partial class AuthorViewModel : ObservableObject
     }
 
     public async Task LoadCoverAsync() {
+        if (Image != null) return;
+
         var cover = Cover.Split(',');
         var path = cover.ElementAtOrDefault(0);
         int.TryParse(cover.ElementAtOrDefault(1), out var index);
@@ -83,6 +89,12 @@ public partial class AuthorViewModel : ObservableObject
 
     public void CancelEdit() {
         Name = _model.Name;
+    }
+
+    [RelayCommand]
+    void ToggleFavorite() {
+        IsFavorite = !IsFavorite;
+        _model.Favorite = IsFavorite;
     }
 
     void MangasCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {

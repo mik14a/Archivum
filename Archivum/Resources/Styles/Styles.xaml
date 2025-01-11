@@ -13,6 +13,14 @@
     </OnIdiom>
 
     <FontImageSource
+        x:Key="IconHome"
+        FontFamily="{x:Static font:FluentUI.FontFamily}"
+        Glyph="{x:Static font:FluentUI.home_24_regular}"
+        Size="{StaticResource IconSize}"
+        Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
+                                Dark={StaticResource LightOnDarkBackground}}" />
+
+    <FontImageSource
         x:Key="IconPreviousFrame"
         FontFamily="{x:Static font:FluentUI.FontFamily}"
         Glyph="{x:Static font:FluentUI.arrow_right_24_regular}"
@@ -93,6 +101,13 @@
         x:Key="IconProperties"
         FontFamily="{x:Static font:FluentUI.FontFamily}"
         Glyph="{x:Static font:FluentUI.info_24_regular}"
+        Size="{StaticResource IconSize}"
+        Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
+                                Dark={StaticResource LightOnDarkBackground}}" />
+    <FontImageSource
+        x:Key="IconFavorite"
+        FontFamily="{x:Static font:FluentUI.FontFamily}"
+        Glyph="{x:Static font:FluentUI.heart_24_regular}"
         Size="{StaticResource IconSize}"
         Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground},
                                 Dark={StaticResource LightOnDarkBackground}}" />

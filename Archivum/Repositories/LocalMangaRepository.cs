@@ -166,6 +166,7 @@ public class LocalMangaRepository : IMangaRepository
             .GroupBy(m => m.Author)
             .Select(g => new Models.Author {
                 Name = g.Key,
+                Favorite = false,
                 Count = g.Count(),
                 LastModified = g.Max(m => m.Modified),
                 Cover = $"{g.First().Path},0"

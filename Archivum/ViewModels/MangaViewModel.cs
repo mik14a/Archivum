@@ -71,6 +71,8 @@ public partial class MangaViewModel : ObservableObject
     }
 
     public async Task LoadCoverAsync() {
+        if (Image != null) return;
+
         try {
             using var archive = ZipFile.OpenRead(Path);
             var imageFile = archive.Entries.Where(_settings.IsImageEntry).ElementAtOrDefault(Cover);
@@ -110,6 +112,10 @@ public partial class MangaViewModel : ObservableObject
         Title = _model.Title;
         Volume = _model.Volume;
         Cover = _model.Cover;
+    }
+
+    public void UpdateLastRead() {
+        _model.LastRead = DateTime.Now;
     }
 
     [RelayCommand]

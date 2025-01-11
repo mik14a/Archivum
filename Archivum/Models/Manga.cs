@@ -18,6 +18,8 @@ public class Manga
     public required DateTime Modified { get; set; }
     public required long Size { get; set; }
 
+    public DateTime LastRead { get; set; }
+
     public static readonly string AuthorPattern = "{author}";
     public static readonly string TitlePattern = "{title}";
     public static readonly string VolumePattern = "{volume}";
@@ -36,6 +38,7 @@ public class Manga
         return new() {
             Author = author ?? string.Empty, Title = title ?? fileName, Volume = volume ?? string.Empty,
             Path = file.FullName, Cover = 0, Created = file.CreationTime, Modified = file.LastWriteTime, Size = file.Length,
+            LastRead = DateTime.MinValue,
         };
     }
 

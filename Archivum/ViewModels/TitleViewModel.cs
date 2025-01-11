@@ -43,6 +43,8 @@ public partial class TitleViewModel : ObservableObject
     }
 
     public async Task LoadCoverAsync() {
+        if (Image != null) return;
+
         var cover = Cover.Split(',');
         var path = cover.ElementAtOrDefault(0);
         int.TryParse(cover.ElementAtOrDefault(1), out var index);
