@@ -17,10 +17,13 @@ public partial class MangaViewModel : ObservableObject
     [ObservableProperty]
     public partial ImageSource? Image { get; set; }
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplayTitle))]
     public partial string Author { get; set; }
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplayTitle))]
     public partial string Title { get; set; }
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplayTitle))]
     public partial string Volume { get; set; }
 
     [ObservableProperty]
@@ -33,6 +36,11 @@ public partial class MangaViewModel : ObservableObject
     public partial DateTime Modified { get; set; }
     [ObservableProperty]
     public partial long Size { get; set; }
+
+    public string DisplayTitle => _settings.FilePattern!
+        .Replace(Models.Manga.AuthorPattern, Author)
+        .Replace(Models.Manga.TitlePattern, Title)
+        .Replace(Models.Manga.VolumePattern, Volume);
 
     [ObservableProperty()]
     [NotifyPropertyChangedFor(nameof(ViewSingleFrame))]

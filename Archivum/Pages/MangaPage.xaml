@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:page="clr-namespace:Archivum.Pages"
     x:Name="_Page"
+    Title="{Binding Model.DisplayTitle}"
     x:DataType="page:MangaPage"
     Shell.NavBarIsVisible="True">
 
@@ -15,6 +16,7 @@
         <ToolbarItem Command="{Binding Model.MoveToPreviousViewCommand}" IconImageSource="{StaticResource IconPreviousPage}" />
         <ToolbarItem Command="{Binding Model.SetSingleFrameViewCommand}" IconImageSource="{StaticResource IconSinglePage}" />
         <ToolbarItem Command="{Binding Model.SetSpreadFrameViewCommand}" IconImageSource="{StaticResource IconSpreadPage}" />
+        <ToolbarItem Command="{Binding OpenPropertiesCommand}" IconImageSource="{StaticResource IconProperties}" />
         <ToolbarItem Command="{Binding CloseCommand}" IconImageSource="{StaticResource IconClose}" />
     </ContentPage.ToolbarItems>
 

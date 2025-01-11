@@ -17,11 +17,8 @@ public partial class MangaPage : ContentPage
         _model = viewModel;
         InitializeComponent();
         BindingContext = this;
-    }
 
-    protected override async void OnAppearing() {
-        await _model.LoadAsync();
-        base.OnAppearing();
+        _model.LoadAsync();
     }
 
 #if WINDOWS
@@ -37,6 +34,11 @@ public partial class MangaPage : ContentPage
         }
     }
 #endif
+
+    [RelayCommand]
+    async Task OpenPropertiesAsync() {
+        await Navigation.PushModalAsync(new Editor.MangaEditPage(_model));
+    }
 
     [RelayCommand]
     async Task CloseAsync() {

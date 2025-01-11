@@ -15,7 +15,6 @@ public partial class TitlePage : ContentPage
     public TitlePage(TitleViewModel model) {
         _model = model;
         InitializeComponent();
-        Title = model.Name;
         BindingContext = this;
 
 #if WINDOWS || MACCATALYST
@@ -46,6 +45,11 @@ public partial class TitlePage : ContentPage
     async Task OpenPropertiesAsync(MangaViewModel mangaViewModel) {
         if (mangaViewModel is null) return;
         await Navigation.PushModalAsync(new Editor.MangaEditPage(mangaViewModel));
+    }
+
+    [RelayCommand]
+    async Task OpenTitlePropertiesAsync() {
+        await Navigation.PushModalAsync(new Editor.TitleEditPage(_model));
     }
 
     [RelayCommand]

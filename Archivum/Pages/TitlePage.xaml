@@ -7,9 +7,11 @@
     xmlns:view="clr-namespace:Archivum.Views"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
     x:Name="_Page"
+    Title="{Binding Model.Name}"
     x:DataType="page:TitlePage">
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding OpenTitlePropertiesCommand}" IconImageSource="{StaticResource IconProperties}" />
         <ToolbarItem Command="{Binding CloseCommand}" IconImageSource="{StaticResource IconClose}" />
     </ContentPage.ToolbarItems>
 

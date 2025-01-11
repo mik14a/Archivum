@@ -14,7 +14,6 @@ public partial class AuthorPage : ContentPage
     public AuthorPage(AuthorViewModel model) {
         _model = model;
         InitializeComponent();
-        Title = model.Name;
         BindingContext = this;
 
 #if WINDOWS || MACCATALYST
@@ -45,6 +44,11 @@ public partial class AuthorPage : ContentPage
     async Task OpenPropertiesAsync(MangaViewModel mangaViewModel) {
         if (mangaViewModel is null) return;
         await Navigation.PushModalAsync(new Editor.MangaEditPage(mangaViewModel));
+    }
+
+    [RelayCommand]
+    async Task OpenAuthorPropertiesAsync() {
+        await Navigation.PushModalAsync(new Editor.AuthorEditPage(_model));
     }
 
     [RelayCommand]
