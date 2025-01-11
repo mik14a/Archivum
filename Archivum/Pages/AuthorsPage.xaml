@@ -10,6 +10,7 @@
     x:DataType="page:AuthorsPage">
 
     <CollectionView
+        x:Name="_CollectionView"
         ItemsSource="{Binding Model.Authors}"
         SelectionChangedCommand="{Binding SelectAuthorCommand}"
         SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"

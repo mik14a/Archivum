@@ -11,6 +11,7 @@
     x:DataType="page:MangasPage">
 
     <CollectionView
+        x:Name="_CollectionView"
         ItemsSource="{Binding Model.Mangas}"
         SelectionChangedCommand="{Binding SelectMangaCommand}"
         SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"

@@ -14,7 +14,9 @@ public partial class AuthorPage : ContentPage
     public AuthorPage(AuthorViewModel model) {
         _model = model;
         InitializeComponent();
+        Title = model.Name;
         BindingContext = this;
+
 #if WINDOWS || MACCATALYST
         _Page.SizeChanged += PageSizeChanged;
 #endif
@@ -27,8 +29,8 @@ public partial class AuthorPage : ContentPage
     }
 #endif
 
-    protected override void OnAppearing() {
-        _model.SyncAsync();
+    protected override async void OnAppearing() {
+        await _model.SyncAsync();
         base.OnAppearing();
     }
 
@@ -36,12 +38,18 @@ public partial class AuthorPage : ContentPage
     async Task SelectMangaAsync(MangaViewModel mangaViewModel) {
         if (mangaViewModel is null) return;
         await Navigation.PushAsync(new MangaPage(mangaViewModel));
+        _CollectionView.SelectedItem = null;
     }
 
     [RelayCommand]
     async Task OpenPropertiesAsync(MangaViewModel mangaViewModel) {
         if (mangaViewModel is null) return;
         await Navigation.PushModalAsync(new Editor.MangaEditPage(mangaViewModel));
+    }
+
+    [RelayCommand]
+    async Task CloseAsync() {
+        await Navigation.PopAsync();
     }
 
     readonly AuthorViewModel _model;

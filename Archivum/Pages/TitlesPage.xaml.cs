@@ -36,8 +36,8 @@ public partial class TitlesPage : ContentPage
     [RelayCommand]
     async Task SelectTitle(TitleViewModel titleViewModel) {
         if (titleViewModel is null) return;
-        var titlePage = new TitlePage(titleViewModel);
-        await Navigation.PushAsync(titlePage);
+        await Navigation.PushAsync(new TitlePage(titleViewModel));
+        _CollectionView.SelectedItem = null;
     }
 
     [RelayCommand]

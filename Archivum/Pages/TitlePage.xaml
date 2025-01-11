@@ -7,8 +7,11 @@
     xmlns:view="clr-namespace:Archivum.Views"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
     x:Name="_Page"
-    x:DataType="page:TitlePage"
-    Shell.NavBarIsVisible="False">
+    x:DataType="page:TitlePage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding CloseCommand}" IconImageSource="{StaticResource IconClose}" />
+    </ContentPage.ToolbarItems>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -23,6 +26,7 @@
             Source="{Binding Model.Image}" />
 
         <CollectionView
+            x:Name="_CollectionView"
             Grid.Row="1"
             ItemsSource="{Binding Model.Mangas}"
             SelectionChangedCommand="{Binding SelectMangaCommand}"
@@ -42,5 +46,18 @@
             </CollectionView.ItemsLayout>
         </CollectionView>
     </Grid>
+
+    <FlyoutBase.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem
+                Command="{Binding CloseCommand}"
+                IconImageSource="{StaticResource IconClose}"
+                Text="Close">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" Modifiers="None" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </FlyoutBase.ContextFlyout>
 
 </ContentPage>

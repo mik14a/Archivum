@@ -36,8 +36,8 @@ public partial class AuthorsPage : ContentPage
     [RelayCommand]
     async Task SelectAuthorAsync(AuthorViewModel authorViewModel) {
         if (authorViewModel is null) return;
-        var authorPage = new AuthorPage(authorViewModel);
-        await Navigation.PushAsync(authorPage);
+        await Navigation.PushAsync(new AuthorPage(authorViewModel));
+        _CollectionView.SelectedItem = null;
     }
 
     [RelayCommand]

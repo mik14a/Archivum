@@ -37,6 +37,7 @@ public partial class MangasPage : ContentPage
     async Task SelectMangaAsync(MangaViewModel mangaViewModel) {
         if (mangaViewModel is null) return;
         await Navigation.PushAsync(new MangaPage(mangaViewModel));
+        _CollectionView.SelectedItem = null;
     }
 
     [RelayCommand]

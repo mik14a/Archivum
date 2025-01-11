@@ -10,6 +10,7 @@
     x:DataType="page:TitlesPage">
 
     <CollectionView
+        x:Name="_CollectionView"
         ItemsSource="{Binding Model.Titles}"
         SelectionChangedCommand="{Binding SelectTitleCommand}"
         SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
