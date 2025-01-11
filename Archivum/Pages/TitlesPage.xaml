@@ -9,6 +9,10 @@
     x:Name="_Page"
     x:DataType="page:TitlesPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding RefreshCommand}" IconImageSource="{StaticResource IconRefresh}" />
+    </ContentPage.ToolbarItems>
+
     <CollectionView
         x:Name="_CollectionView"
         ItemsSource="{Binding Model.Titles}"

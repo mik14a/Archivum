@@ -10,6 +10,10 @@
     x:Name="_Page"
     x:DataType="page:MangasPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ref}" IconImageSource="{StaticResource IconRefresh}" />
+    </ContentPage.ToolbarItems>
+
     <CollectionView
         x:Name="_CollectionView"
         ItemsSource="{Binding Model.Mangas}"

@@ -18,7 +18,7 @@ public partial class TitlesViewModel : ObservableObject
         Titles.CollectionChanged += TitlesCollectionChanged;
     }
 
-    public async Task SyncAsync() {
+    public async Task SyncAsync(bool sortItems = false) {
         var titles = await _repository.GetTitlesAsync();
 
         var removed = Titles.Where(title => !titles.Any(t => t.Name == title.Name)).ToArray();
@@ -39,6 +39,22 @@ public partial class TitlesViewModel : ObservableObject
                 existing.LastModified = title.LastModified;
             } else {
                 Titles.Add(new(title, _repository, _settings));
+            }
+        }
+
+        if (sortItems) {
+            for (var i = 0; i < Titles.Count - 1; i++) {
+                for (var j = 0; j < Titles.Count - i - 1; j++) {
+                    var compareTitle = string.Compare(Titles[j].Name, Titles[j + 1].Name);
+                    if (0 < compareTitle) {
+                        (Titles[j + 1], Titles[j]) = (Titles[j], Titles[j + 1]);
+                    } else if (compareTitle == 0) {
+                        var compareAuthor = string.Compare(Titles[j].Author, Titles[j + 1].Author);
+                        if (0 < compareAuthor) {
+                            (Titles[j + 1], Titles[j]) = (Titles[j], Titles[j + 1]);
+                        }
+                    }
+                }
             }
         }
     }

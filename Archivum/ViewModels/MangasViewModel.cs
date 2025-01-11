@@ -18,12 +18,33 @@ public class MangasViewModel : ObservableObject
         Mangas.CollectionChanged += MangasCollectionChanged;
     }
 
-    public async Task SyncAsync() {
+    public async Task SyncAsync(bool sortItems = false) {
         var mangas = await _repository.GetMangasAsync();
         foreach (var manga in mangas) {
             var viewModel = Mangas.SingleOrDefault(m => m.Path == manga.Path);
             if (viewModel == null) {
                 Mangas.Add(new(manga, _repository, _settings));
+            }
+        }
+
+        if (sortItems) {
+            for (var i = 0; i < Mangas.Count - 1; i++) {
+                for (var j = 0; j < Mangas.Count - i - 1; j++) {
+                    var compareAuthor = string.Compare(Mangas[j].Author, Mangas[j + 1].Author);
+                    if (0 < compareAuthor) {
+                        (Mangas[j + 1], Mangas[j]) = (Mangas[j], Mangas[j + 1]);
+                    } else if (compareAuthor == 0) {
+                        var compareTitle = string.Compare(Mangas[j].Title, Mangas[j + 1].Title);
+                        if (0 < compareTitle) {
+                            (Mangas[j + 1], Mangas[j]) = (Mangas[j], Mangas[j + 1]);
+                        } else if (compareTitle == 0) {
+                            var compareVolume = string.Compare(Mangas[j].Volume, Mangas[j + 1].Volume);
+                            if (0 < compareVolume) {
+                                (Mangas[j + 1], Mangas[j]) = (Mangas[j], Mangas[j + 1]);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -141,9 +141,9 @@ public class LocalMangaRepository : IMangaRepository
     public async Task SaveLibraryAsync() {
 
         var library = new Models.Library {
-            Mangas = [.. _mangas.Values],
-            Authors = [.. _authors.Values],
-            Titles = [.. _titles.Values],
+            Mangas = [.. _mangas.Values.OrderBy(m => m.Author).ThenBy(m => m.Title).ThenBy(m => m.Volume)],
+            Authors = [.. _authors.Values.OrderBy(a => a.Name)],
+            Titles = [.. _titles.Values.OrderBy(t => t.Name).ThenBy(t => t.Author)],
             LastUpdated = DateTime.Now
         };
 

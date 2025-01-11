@@ -18,7 +18,7 @@ public partial class AuthorsViewModel : ObservableObject
         Authors.CollectionChanged += AuthorsCollectionChanged;
     }
 
-    public async Task SyncAsync() {
+    public async Task SyncAsync(bool sortItems = false) {
         var authors = await _repository.GetAuthorsAsync();
 
         var removed = Authors.Where(author => !authors.Any(a => a.Name == author.Name)).ToArray();
@@ -38,6 +38,17 @@ public partial class AuthorsViewModel : ObservableObject
                 existing.LastModified = author.LastModified;
             } else {
                 Authors.Add(new(author, _repository, _settings));
+            }
+        }
+
+        if (sortItems) {
+            for (var i = 0; i < Authors.Count - 1; i++) {
+                for (var j = 0; j < Authors.Count - i - 1; j++) {
+                    var compareAuthor = string.Compare(Authors[j].Name, Authors[j + 1].Name);
+                    if (0 < compareAuthor) {
+                        (Authors[j + 1], Authors[j]) = (Authors[j], Authors[j + 1]);
+                    }
+                }
             }
         }
     }
