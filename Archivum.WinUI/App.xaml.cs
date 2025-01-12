@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using WinUIEx;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -16,6 +18,10 @@ public partial class App : Application
     /// </summary>
     public App() {
         InitializeComponent();
+
+        var builder = Host.CreateApplicationBuilder();
+
+        _host = builder.Build();
     }
 
     /// <summary>
@@ -23,9 +29,14 @@ public partial class App : Application
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args) {
-        m_window = new MainWindow();
-        m_window.Activate();
+        _window = new MainWindow {
+            MinWidth = 320, MinHeight = 240,
+            ExtendsContentIntoTitleBar = true
+        };
+        _window.SetWindowSize(800, 600);
+        _window.Activate();
     }
 
-    Window? m_window;
+    readonly IHost _host;
+    Window _window;
 }
