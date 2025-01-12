@@ -26,7 +26,12 @@ public class LocalMangaRepository : IMangaRepository
         try {
             var directory = new DirectoryInfo(_setting.FolderPath);
             if (directory.Exists) {
-                var files = directory.EnumerateFiles("*.zip", SearchOption.AllDirectories);
+                var files = directory.GetFiles("*.zip", SearchOption.AllDirectories);
+                foreach (var manga in _mangas.Keys) {
+                    if (!files.Any(f => manga == f.FullName)) {
+                        _mangas.Remove(manga);
+                    }
+                }
                 foreach (var file in files) {
                     if (_mangas.ContainsKey(file.FullName)) continue;
                     var manga = Models.Manga.CreateFrom(file, _setting.FilePattern!);
@@ -42,7 +47,7 @@ public class LocalMangaRepository : IMangaRepository
     public async Task<IEnumerable<Models.Manga>> GetMangasFromAuthorAsync(string author) {
         await _semaphore.WaitAsync();
         try {
-            return [.. _mangas.Values.Where(m => m.Author == author)];
+            return _mangas.Values.Where(m => m.Author == author).ToArray();
         } finally {
             _semaphore.Release();
         }
@@ -51,7 +56,7 @@ public class LocalMangaRepository : IMangaRepository
     public async Task<IEnumerable<Models.Manga>> GetMangasFromTitleAsync(string title) {
         await _semaphore.WaitAsync();
         try {
-            return [.. _mangas.Values.Where(m => m.Title == title)];
+            return _mangas.Values.Where(m => m.Title == title).ToArray();
         } finally {
             _semaphore.Release();
         }
@@ -60,7 +65,16 @@ public class LocalMangaRepository : IMangaRepository
     public async Task<IEnumerable<Models.Author>> GetAuthorsAsync() {
         await _semaphore.WaitAsync();
         try {
-            var authors = GetAuthors(_mangas.Values).ToArray();
+            var authors = _mangas
+                .Values
+                .GroupBy(m => m.Author)
+                .Select(g => new Models.Author {
+                    Name = g.Key,
+                    Count = g.Count(),
+                    LastModified = g.Max(m => m.Modified),
+                    Cover = $"{g.First().Path},0"
+                })
+                .OrderBy(a => a.Name).ToArray();
 
             // First, remove authors that are no longer in the manga list
             foreach (var author in _authors.Keys) {
@@ -88,7 +102,17 @@ public class LocalMangaRepository : IMangaRepository
     public async Task<IEnumerable<Models.Title>> GetTitlesAsync() {
         await _semaphore.WaitAsync();
         try {
-            var titles = GetTitles(_mangas.Values).ToArray();
+            var titles = _mangas
+                .Values
+                .GroupBy(m => m.Title)
+                .Select(g => new Models.Title {
+                    Name = g.Key,
+                    Author = g.First().Author,
+                    Count = g.Count(),
+                    LastModified = g.Max(m => m.Modified),
+                    Cover = $"{g.First().Path},0"
+                })
+                .OrderBy(t => t.Name).ToArray();
 
             // First, remove titles that are no longer in the manga list
             foreach (var title in _titles.Keys) {
@@ -160,32 +184,6 @@ public class LocalMangaRepository : IMangaRepository
     DateTime _lastUpdated;
 
     readonly SemaphoreSlim _semaphore = new(1);
-
-    static IEnumerable<Models.Author> GetAuthors(IEnumerable<Models.Manga> mangas) {
-        return mangas
-            .GroupBy(m => m.Author)
-            .Select(g => new Models.Author {
-                Name = g.Key,
-                Favorite = false,
-                Count = g.Count(),
-                LastModified = g.Max(m => m.Modified),
-                Cover = $"{g.First().Path},0"
-            })
-            .OrderBy(a => a.Name);
-    }
-
-    static IEnumerable<Models.Title> GetTitles(IEnumerable<Models.Manga> mangas) {
-        return mangas
-            .GroupBy(m => m.Title)
-            .Select(g => new Models.Title {
-                Name = g.Key,
-                Author = g.First().Author,
-                Count = g.Count(),
-                LastModified = g.Max(m => m.Modified),
-                Cover = $"{g.First().Path},0"
-            })
-            .OrderBy(t => t.Name);
-    }
 
     static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
         Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
