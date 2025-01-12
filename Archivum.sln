@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35514.174 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archivum", "Archivum\Archivum.csproj", "{88D78198-2A9E-4341-8B06-B93BA2FB151A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archivum.Maui", "Archivum.Maui\Archivum.Maui.csproj", "{88D78198-2A9E-4341-8B06-B93BA2FB151A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
