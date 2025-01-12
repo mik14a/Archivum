@@ -13,8 +13,4 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
     public MainWindow() {
         InitializeComponent();
     }
-
-    void myButton_Click(object sender, RoutedEventArgs e) {
-        myButton.Content = "Clicked";
-    }
 }

@@ -43,6 +43,10 @@
                     Content="ホーム"
                     Icon="{ui:FontIcon Glyph=&#xE80F;}"
                     Tag="HomePage" />
+                <NavigationViewItem
+                    Content="マンガ"
+                    Icon="{ui:FontIcon Glyph=&#xE82D;}"
+                    Tag="MangasPage" />
             </NavigationView.MenuItems>
             <Frame x:Name="_ContentFrame" Margin="0,30,0,0" />
             <!--  Margin="0,47,0,0"  -->

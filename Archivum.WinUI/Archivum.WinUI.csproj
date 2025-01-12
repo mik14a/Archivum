@@ -10,6 +10,10 @@
     <UseWinUI>true</UseWinUI>
     <Nullable>enable</Nullable>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+
+    <!-- Disable UnhandledException -->
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION</DefineConstants>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,7 +35,9 @@
   <ItemGroup>
     <None Remove="AppShell.xaml" />
     <None Remove="Pages\HomePage.xaml" />
+    <None Remove="Pages\MangasPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Views\MangaView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +47,13 @@
     <Page Update="Pages\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Pages\MangasPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\MangaView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

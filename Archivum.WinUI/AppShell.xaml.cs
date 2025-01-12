@@ -1,5 +1,8 @@
+using System;
+using Archivum.Contracts.Repositories;
 using Archivum.Controls;
 using Archivum.Pages;
+using Archivum.Repositories;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -19,7 +22,26 @@ public sealed partial class AppShell : Shell
     public Frame ContentFrame => _ContentFrame;
 
     public AppShell() {
+        Loaded += AppShellLoaded;
+        Unloaded += AppShellUnloaded;
+        _repository = App.GetService<IMangaRepository>() as LocalMangaRepository;
         InitializeComponent();
+    }
+
+    void AppShellLoaded(object sender, RoutedEventArgs e) {
+        try {
+            _repository?.LoadLibraryAsync().ConfigureAwait(false);
+        } catch (Exception ex) {
+            System.Diagnostics.Debug.WriteLine(ex);
+        }
+    }
+
+    void AppShellUnloaded(object sender, RoutedEventArgs e) {
+        try {
+            _repository?.SaveLibraryAsync().ConfigureAwait(false);
+        } catch (Exception ex) {
+            System.Diagnostics.Debug.WriteLine(ex);
+        }
     }
 
     void NavigationViewSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
@@ -32,6 +54,10 @@ public sealed partial class AppShell : Shell
             };
             var selectedItem = (NavigationViewItem)args.SelectedItem;
             if ((string)selectedItem.Tag == "HomePage") _ContentFrame.NavigateToType(typeof(HomePage), null, frameNavigationOptions);
+            else if ((string)selectedItem.Tag == "MangasPage") _ContentFrame.NavigateToType(typeof(MangasPage), null, frameNavigationOptions);
+            else throw new NotImplementedException((string)selectedItem.Tag);
         }
     }
+
+    readonly LocalMangaRepository? _repository;
 }

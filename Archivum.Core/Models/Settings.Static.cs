@@ -44,4 +44,20 @@ public partial class Settings
         FilePattern = DefaultFilePattern,
         Backdrop = DefaultBackdrop
     };
+
+    /// <summary>
+    /// Ensures that all settings properties have valid values by initializing any null properties with their corresponding default values.
+    /// </summary>
+    /// <param name="settings">The Settings instance to initialize.</param>
+    /// <remarks>
+    /// This method performs a null-coalescing assignment for each property, using the values from <see cref="Default"/> as fallbacks.
+    /// Properties that already have non-null values are left unchanged.
+    /// </remarks>
+    public static void EnsureInitializeSettings(Settings settings) {
+        settings.FolderPath ??= Settings.Default.FolderPath;
+        settings.ImageExtensions ??= Settings.Default.ImageExtensions;
+        settings.FolderPattern ??= Settings.Default.FolderPattern;
+        settings.FilePattern ??= Settings.Default.FilePattern;
+        settings.Backdrop ??= Settings.Default.Backdrop;
+    }
 }

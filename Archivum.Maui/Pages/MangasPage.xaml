@@ -11,7 +11,7 @@
     x:DataType="page:MangasPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding ref}" IconImageSource="{StaticResource IconRefresh}" />
+        <ToolbarItem Command="{Binding RefreshCommand}" IconImageSource="{StaticResource IconRefresh}" />
     </ContentPage.ToolbarItems>
 
     <CollectionView

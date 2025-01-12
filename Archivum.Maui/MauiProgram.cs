@@ -62,7 +62,7 @@ public static class MauiProgram
             .AddJsonFile(_settingFile, optional: true);
 
         builder.Services
-            .Configure<Models.Settings>(EnsureInitializeSettings)
+            .Configure<Models.Settings>(Models.Settings.EnsureInitializeSettings)
             .Configure<Models.Settings>(builder.Configuration)
             .AddSingleton<IFolderPicker>(FolderPicker.Default)
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
@@ -98,14 +98,6 @@ public static class MauiProgram
     public static async Task SaveSettings(Models.Settings settings) {
         var json = JsonSerializer.Serialize(settings, _jsonSerializerOptions);
         await File.WriteAllTextAsync(_settingFile, json);
-    }
-
-    static void EnsureInitializeSettings(Models.Settings settings) {
-        settings.FolderPath ??= Models.Settings.Default.FolderPath;
-        settings.ImageExtensions ??= Models.Settings.Default.ImageExtensions;
-        settings.FolderPattern ??= Models.Settings.Default.FolderPattern;
-        settings.FilePattern ??= Models.Settings.Default.FilePattern;
-        settings.Backdrop ??= Models.Settings.Default.Backdrop;
     }
 
 #if WINDOWS10_0_17763_0_OR_GREATER
