@@ -21,23 +21,6 @@
         Grid.ColumnSpan="2"
         Aspect="AspectFill"
         Source="{Binding Image}" />
-    <Border
-        Grid.Row="0"
-        Grid.ColumnSpan="2"
-        BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground},
-                                          Dark={StaticResource DarkBackground}}"
-        HeightRequest="24"
-        HorizontalOptions="End"
-        IsVisible="{Binding IsFavorite}"
-        StrokeShape="RoundRectangle 12"
-        StrokeThickness="0"
-        VerticalOptions="Start"
-        WidthRequest="24">
-        <Image
-            HeightRequest="16"
-            Source="{StaticResource IconFavorite}"
-            WidthRequest="16" />
-    </Border>
     <Label
         Grid.Row="1"
         Grid.Column="0"
