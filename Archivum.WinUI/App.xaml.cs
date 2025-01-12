@@ -31,12 +31,15 @@ public partial class App : Application
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args) {
         _window = new MainWindow {
             MinWidth = 320, MinHeight = 240,
+            Content = new AppShell(),
             ExtendsContentIntoTitleBar = true
         };
+        var shell = (AppShell)_window.Content;
+        _window.SetTitleBar(shell.AppTitleBar);
         _window.SetWindowSize(800, 600);
         _window.Activate();
     }
 
     readonly IHost _host;
-    Window _window;
+    Window? _window;
 }

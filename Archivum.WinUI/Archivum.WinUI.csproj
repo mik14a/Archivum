@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
@@ -18,13 +18,32 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250109001-experimental2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.241112-preview1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
     <PackageReference Include="WinUIEx" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Archivum.Core\Archivum.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="AppShell.xaml" />
+    <None Remove="Pages\HomePage.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="AppShell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- Publish Properties -->
