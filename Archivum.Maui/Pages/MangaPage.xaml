@@ -3,6 +3,7 @@
     x:Class="Archivum.Pages.MangaPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Archivum.Controls"
     xmlns:page="clr-namespace:Archivum.Pages"
     x:Name="_Page"
     Title="{Binding Model.DisplayTitle}"
@@ -30,7 +31,7 @@
             Aspect="AspectFit"
             HorizontalOptions="End"
             IsVisible="{Binding Model.ViewSpreadFrame}"
-            Source="{Binding Model.Images[1]}">
+            Source="{Binding Model.Images[1], Converter={controls:ImageSourceConverter}}">
             <Image.GestureRecognizers>
                 <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToNextViewCommand}" />
             </Image.GestureRecognizers>
@@ -40,7 +41,7 @@
             Aspect="AspectFit"
             HorizontalOptions="Start"
             IsVisible="{Binding Model.ViewSpreadFrame}"
-            Source="{Binding Model.Images[0]}">
+            Source="{Binding Model.Images[0], Converter={controls:ImageSourceConverter}}">
             <Image.GestureRecognizers>
                 <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToPreviousViewCommand}" />
             </Image.GestureRecognizers>
@@ -51,7 +52,7 @@
             Aspect="AspectFit"
             HorizontalOptions="CenterAndExpand"
             IsVisible="{Binding Model.ViewSingleFrame}"
-            Source="{Binding Model.Images[0]}">
+            Source="{Binding Model.Images[0], Converter={controls:ImageSourceConverter}}">
             <Image.GestureRecognizers>
                 <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToNextFrameCommand}" />
             </Image.GestureRecognizers>

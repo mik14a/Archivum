@@ -37,7 +37,7 @@ public partial class AuthorsViewModel : ObservableObject
                 existing.Count = author.Count;
                 existing.LastModified = author.LastModified;
             } else {
-                Authors.Add(new(author, _repository, _settings));
+                Authors.Add(new(author, _repository,  _settings));
             }
         }
 

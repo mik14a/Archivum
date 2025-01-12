@@ -3,9 +3,10 @@
     x:Class="Archivum.Pages.TitlePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Archivum.Controls"
     xmlns:page="clr-namespace:Archivum.Pages"
     xmlns:view="clr-namespace:Archivum.Views"
-    xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
+    xmlns:viewmodel="clr-namespace:Archivum.ViewModels;assembly=Archivum.Core"
     x:Name="_Page"
     Title="{Binding Model.Name}"
     x:DataType="page:TitlePage">
@@ -25,7 +26,7 @@
             Grid.Row="0"
             Aspect="AspectFill"
             MaximumHeightRequest="320"
-            Source="{Binding Model.Image}" />
+            Source="{Binding Model.Image, Converter={controls:ImageSourceConverter}}" />
 
         <CollectionView
             x:Name="_CollectionView"

@@ -2,11 +2,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Maui;
-using Microsoft.Maui.Controls;
 
 namespace Archivum.Controls;
 
-public class MemoryImageSource : ImageSource, IStreamImageSource, IImageSource
+public partial class MemoryImageSource : Microsoft.Maui.Controls.ImageSource, IStreamImageSource, IImageSource
 {
     bool IImageSource.IsEmpty => _imageData == null;
 

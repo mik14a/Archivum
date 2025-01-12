@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using Archivum.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Maui.Controls;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Archivum.ViewModels;
 
-public partial class TitleViewModel : ObservableObject
+public partial class AuthorViewModel : ObservableObject
 {
     [ObservableProperty]
     public partial ImageSource? Image { get; set; }
     [ObservableProperty]
-    public partial string Name { get; set; }
+    public partial bool IsFavorite { get; set; }
     [ObservableProperty]
-    public partial string Author { get; set; }
+    public partial string Name { get; set; }
     [ObservableProperty]
     public partial int Count { get; set; }
     [ObservableProperty]
@@ -29,9 +29,9 @@ public partial class TitleViewModel : ObservableObject
 
     public ObservableCollection<MangaViewModel> Mangas { get; } = [];
 
-    public TitleViewModel(Models.Title model, IMangaRepository repository, Models.Settings settings) {
+    public AuthorViewModel(Models.Author model, IMangaRepository repository, Models.Settings settings) {
         Name = model.Name;
-        Author = model.Author;
+        IsFavorite = model.Favorite;
         Count = model.Count;
         LastModified = model.LastModified;
         Cover = model.Cover;
@@ -56,14 +56,14 @@ public partial class TitleViewModel : ObservableObject
                     using var stream = imageFile.Open();
                     using var memoryStream = new MemoryStream();
                     await stream.CopyToAsync(memoryStream);
-                    Image = new MemoryImageSource(memoryStream.ToArray());
+                    Image = new ImageSource(memoryStream.ToArray());
                 }
             } catch { }
         }
     }
 
     public async Task SyncAsync() {
-        var mangas = await _repository.GetMangasFromTitleAsync(Name);
+        var mangas = await _repository.GetMangasFromAuthorAsync(Name);
 
         var removed = Mangas.Where(manga => !mangas.Any(m => m.Path == manga.Path)).ToArray();
         foreach (var manga in removed) {
@@ -80,17 +80,20 @@ public partial class TitleViewModel : ObservableObject
 
     public void ApplyEdit() {
         _model.Name = Name;
-        _model.Author = Author;
         foreach (var manga in Mangas) {
-            manga.Title = Name;
-            manga.Author = Author;
+            manga.Author = Name;
             manga.ApplyEdit();
         }
     }
 
     public void CancelEdit() {
         Name = _model.Name;
-        Author = _model.Author;
+    }
+
+    [RelayCommand]
+    void ToggleFavorite() {
+        IsFavorite = !IsFavorite;
+        _model.Favorite = IsFavorite;
     }
 
     void MangasCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
@@ -101,7 +104,7 @@ public partial class TitleViewModel : ObservableObject
         }
     }
 
-    readonly Models.Title _model;
+    readonly Models.Author _model;
     readonly IMangaRepository _repository;
     readonly Models.Settings _settings;
 }

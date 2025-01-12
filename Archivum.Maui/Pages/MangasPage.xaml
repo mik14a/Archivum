@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:Archivum.Controls"
     xmlns:page="clr-namespace:Archivum.Pages"
     xmlns:view="clr-namespace:Archivum.Views"
-    xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
+    xmlns:viewmodel="clr-namespace:Archivum.ViewModels;assembly=Archivum.Core"
     x:Name="_Page"
     x:DataType="page:MangasPage">
 

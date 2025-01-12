@@ -41,7 +41,7 @@ public class Author
     /// Returns a string representation of the author for debugging purposes.
     /// </summary>
     /// <returns>A string containing the author's name in square brackets.</returns>
-    private string GetDebuggerDisplay() {
+    string GetDebuggerDisplay() {
         return $"[{Name}]";
     }
 }

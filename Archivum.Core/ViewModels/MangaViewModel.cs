@@ -8,7 +8,6 @@ using Archivum.Contracts.Repositories;
 using Archivum.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls;
 
 namespace Archivum.ViewModels;
 
@@ -84,7 +83,7 @@ public partial class MangaViewModel : ObservableObject
                 using var stream = imageFile.Open();
                 using var memoryStream = new MemoryStream();
                 await stream.CopyToAsync(memoryStream);
-                Image = new MemoryImageSource(memoryStream.ToArray());
+                Image = new ImageSource(memoryStream.ToArray());
             }
         } catch { }
     }
@@ -157,21 +156,20 @@ public partial class MangaViewModel : ObservableObject
         _images = new ImageSource[value];
         if (Index < 0 || _imageSources.Count <= Index) return;
         for (var i = 0; i < value; i++) {
-            _images[i] = new MemoryImageSource(_imageSources[Index + i]);
+            _images[i] = new ImageSource(_imageSources[Index + i]);
         }
     }
 
     partial void OnIndexChanged(int value) {
         if (value < 0 || _imageSources.Count <= value) return;
         for (var i = 0; i < Pages; i++) {
-            _images[i] = new MemoryImageSource(_imageSources[value + i]);
+            _images[i] = new ImageSource(_imageSources[value + i]);
         }
     }
 
     readonly Models.Manga _model;
     readonly IMangaRepository _repository;
     readonly Models.Settings _settings;
-    readonly string[] _imageExtensions;
 
     ImageSource?[] _images = [];
     readonly List<byte[]> _imageSources = [];

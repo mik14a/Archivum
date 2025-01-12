@@ -3,7 +3,8 @@
     x:Class="Archivum.Views.AuthorView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodel="clr-namespace:Archivum.ViewModels"
+    xmlns:controls="clr-namespace:Archivum.Controls"
+    xmlns:viewmodel="clr-namespace:Archivum.ViewModels;assembly=Archivum.Core"
     Padding="16"
     x:DataType="viewmodel:AuthorViewModel">
 
@@ -20,7 +21,7 @@
         Grid.Row="0"
         Grid.ColumnSpan="2"
         Aspect="AspectFill"
-        Source="{Binding Image}" />
+        Source="{Binding Image, Converter={controls:ImageSourceConverter}}" />
     <Label
         Grid.Row="1"
         Grid.Column="0"

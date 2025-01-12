@@ -4,6 +4,12 @@
     <TargetFrameworks>net9.0</TargetFrameworks>
     <RootNamespace>Archivum</RootNamespace>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0" />
+  </ItemGroup>
 
 </Project>
