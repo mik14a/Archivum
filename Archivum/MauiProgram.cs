@@ -12,12 +12,15 @@ using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using Archivum.Resources.Fonts;
+
+#if DEBUG
+using Microsoft.Extensions.Logging;
+#endif
 
 #if WINDOWS10_0_17763_0_OR_GREATER
 using Microsoft.Extensions.Options;
