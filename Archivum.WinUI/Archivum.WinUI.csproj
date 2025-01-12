@@ -21,6 +21,10 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Archivum.Core\Archivum.Core.csproj" />
+  </ItemGroup>
+
   <!-- Publish Properties -->
   <PropertyGroup>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>

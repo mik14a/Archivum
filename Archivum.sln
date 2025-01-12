@@ -1,8 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archivum.Core", "Archivum.Core\Archivum.Core.csproj", "{411DEEF7-AD83-41F9-AFB6-C2EFC9C5811F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archivum.Maui", "Archivum.Maui\Archivum.Maui.csproj", "{88D78198-2A9E-4341-8B06-B93BA2FB151A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archivum.WinUI", "Archivum.WinUI\Archivum.WinUI.csproj", "{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}"
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{411DEEF7-AD83-41F9-AFB6-C2EFC9C5811F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{411DEEF7-AD83-41F9-AFB6-C2EFC9C5811F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{411DEEF7-AD83-41F9-AFB6-C2EFC9C5811F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{411DEEF7-AD83-41F9-AFB6-C2EFC9C5811F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88D78198-2A9E-4341-8B06-B93BA2FB151A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88D78198-2A9E-4341-8B06-B93BA2FB151A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88D78198-2A9E-4341-8B06-B93BA2FB151A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88D78198-2A9E-4341-8B06-B93BA2FB151A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Debug|Any CPU.Build.0 = Debug|x86
-		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Release|Any CPU.ActiveCfg = Release|x86
-		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Release|Any CPU.Build.0 = Release|x86
+		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Debug|Any CPU.Build.0 = Debug|x64
+		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Release|Any CPU.ActiveCfg = Release|x64
+		{AC63D158-94E5-4ADB-A045-D8A2E6BBF565}.Release|Any CPU.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
