@@ -92,10 +92,10 @@ public partial class TitleViewModel : ObservableObject
         Author = _model.Author;
     }
 
-    void MangasCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
+    async void MangasCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
         if (e.Action == NotifyCollectionChangedAction.Add) {
             foreach (var manga in e.NewItems!.OfType<MangaViewModel>()) {
-                manga.LoadCoverAsync();
+                await manga.LoadCoverAsync().ConfigureAwait(false);
             }
         }
     }

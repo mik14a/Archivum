@@ -97,6 +97,7 @@ public partial class App : Application
             .AddSingleton<IBackdropSelectorService, BackdropSelectorService>()
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
+            .AddSingleton<ViewModels.HomeViewModel>()
             .AddSingleton<ViewModels.SettingsViewModel>()
             .AddSingleton<ViewModels.MangasViewModel>()
             .AddSingleton<ViewModels.AuthorsViewModel>()

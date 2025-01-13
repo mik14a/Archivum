@@ -59,10 +59,10 @@ public partial class TitlesViewModel : ObservableObject
         }
     }
 
-    void TitlesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
+    async void TitlesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
         if (e.Action == NotifyCollectionChangedAction.Add) {
             foreach (var title in e.NewItems!.OfType<TitleViewModel>()) {
-                title.LoadCoverAsync();
+                await title.LoadCoverAsync().ConfigureAwait(false);
             }
         }
     }

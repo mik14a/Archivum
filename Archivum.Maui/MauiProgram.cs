@@ -68,6 +68,7 @@ public static class MauiProgram
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddSingleton<IFolderPicker>(FolderPicker.Default)
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
+            .AddSingleton<HomeViewModel>()
             .AddSingleton<MangasViewModel>()
             .AddSingleton<MangasPage>()
             .AddSingleton<AuthorsViewModel>()
