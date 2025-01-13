@@ -5,33 +5,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Archivum.Controls"
     xmlns:viewmodel="clr-namespace:Archivum.ViewModels;assembly=Archivum.Core"
-    Padding="16"
-    x:DataType="viewmodel:AuthorViewModel">
+    x:DataType="viewmodel:AuthorViewModel"
+    HeightRequest="240"
+    WidthRequest="160">
 
     <Grid.RowDefinitions>
-        <RowDefinition Height="160" />
         <RowDefinition />
+        <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
 
     <Image
         Grid.Row="0"
-        Grid.ColumnSpan="2"
+        Grid.RowSpan="2"
         Aspect="AspectFill"
         Source="{Binding Image, Converter={controls:ImageSourceConverter}}" />
-    <Label
+    <VerticalStackLayout
         Grid.Row="1"
-        Grid.Column="0"
-        Text="{Binding Name}"
-        VerticalOptions="Start" />
-    <Label
-        Grid.Row="1"
-        Grid.Column="1"
-        Text="{Binding Count}"
-        VerticalOptions="End" />
+        Padding="8"
+        BackgroundColor="{StaticResource ControlOnImageFillColorDefaultBrush}"
+        Spacing="4">
+        <HorizontalStackLayout Spacing="4">
+            <Label Text="{Binding Name}" />
+            <Label Text="{Binding Count}" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
 
     <FlyoutBase.ContextFlyout>
         <MenuFlyout>

@@ -55,6 +55,8 @@ public sealed partial class AppShell : Shell
             var selectedItem = (NavigationViewItem)args.SelectedItem;
             if ((string)selectedItem.Tag == "HomePage") _ContentFrame.NavigateToType(typeof(HomePage), null, frameNavigationOptions);
             else if ((string)selectedItem.Tag == "MangasPage") _ContentFrame.NavigateToType(typeof(MangasPage), null, frameNavigationOptions);
+            else if ((string)selectedItem.Tag == "AuthorsPage") _ContentFrame.NavigateToType(typeof(AuthorsPage), null, frameNavigationOptions);
+            else if ((string)selectedItem.Tag == "TitlesPage") _ContentFrame.NavigateToType(typeof(TitlesPage), null, frameNavigationOptions);
             else throw new NotImplementedException((string)selectedItem.Tag);
         }
     }

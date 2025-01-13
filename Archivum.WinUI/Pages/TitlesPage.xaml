@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="Archivum.Pages.MangasPage"
+    x:Class="Archivum.Pages.TitlesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:Archivum.ViewModels"
     xmlns:views="using:Archivum.Views"
-    d:DataContext="{d:DesignInstance Type=local:MangasPage}"
+    d:DataContext="{d:DesignInstance Type=local:TitlesPage}"
     NavigationCacheMode="Enabled "
     mc:Ignorable="d">
 
@@ -26,10 +26,10 @@
         </CommandBar>
 
         <Grid Grid.Row="1">
-            <GridView ItemsSource="{x:Bind Model.Mangas}" SelectionMode="Single">
+            <GridView ItemsSource="{x:Bind Model.Titles}" SelectionMode="Single">
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodel:MangaViewModel">
-                        <views:MangaView />
+                    <DataTemplate x:DataType="viewmodel:TitleViewModel">
+                        <views:TitleView />
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <GridView.ItemsPanel>
@@ -40,5 +40,4 @@
             </GridView>
         </Grid>
     </Grid>
-
 </Page>

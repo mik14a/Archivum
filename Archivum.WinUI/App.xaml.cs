@@ -98,7 +98,9 @@ public partial class App : Application
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
             .AddSingleton<ViewModels.SettingsViewModel>()
-            .AddSingleton<ViewModels.MangasViewModel>();
+            .AddSingleton<ViewModels.MangasViewModel>()
+            .AddSingleton<ViewModels.AuthorsViewModel>()
+            .AddSingleton<ViewModels.TitlesViewModel>();
 
         _host = builder.Build();
     }

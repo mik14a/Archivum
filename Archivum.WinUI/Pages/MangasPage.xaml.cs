@@ -13,6 +13,7 @@ public sealed partial class MangasPage : Page
     public MangasPage() {
         Model = App.GetService<MangasViewModel>();
         InitializeComponent();
+        DataContext = this;
     }
 
     protected override async void OnNavigatedTo(NavigationEventArgs e) {

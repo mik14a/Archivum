@@ -47,6 +47,14 @@
                     Content="マンガ"
                     Icon="{ui:FontIcon Glyph=&#xE82D;}"
                     Tag="MangasPage" />
+                <NavigationViewItem
+                    Content="作者一覧"
+                    Icon="{ui:FontIcon Glyph=&#xE716;}"
+                    Tag="AuthorsPage" />
+                <NavigationViewItem
+                    Content="タイトル一覧"
+                    Icon="{ui:FontIcon Glyph=&#xE8F1;}"
+                    Tag="TitlesPage" />
             </NavigationView.MenuItems>
             <Frame x:Name="_ContentFrame" Margin="0,30,0,0" />
             <!--  Margin="0,47,0,0"  -->
