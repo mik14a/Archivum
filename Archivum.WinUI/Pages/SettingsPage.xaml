@@ -3,7 +3,87 @@
     x:Class="Archivum.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Archivum.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Archivum.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" />
+    xmlns:models="using:Archivum.Models"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewmodel="using:Archivum.ViewModels"
+    d:DataContext="{d:DesignInstance Type=local:SettingsPage}"
+    mc:Ignorable="d">
+
+    <Grid Margin="8" RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0">
+            <StackPanel>
+                <toolkit:SettingsExpander
+                    Description="アプリケーションの基本設定"
+                    Header="アプリケーション"
+                    IsExpanded="True">
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard Description="マンガファイルを格納するフォルダを指定します" Header="ライブラリフォルダ">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBox Text="{x:Bind Model.FolderPath, Mode=TwoWay}" />
+                                <Button Command="{x:Bind SelectFolderCommand}" Content="参照" />
+                            </StackPanel>
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Description="ウィンドウの背景エフェクトを選択します" Header="背景エフェクト">
+                            <ComboBox
+                                DisplayMemberPath="Key"
+                                ItemsSource="{x:Bind viewmodel:SettingsViewModel.BackdropItems}"
+                                SelectedItem="{x:Bind Model.Backdrop, Mode=TwoWay}" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Description="アプリケーションのテーマを選択します" Header="テーマ">
+                            <ComboBox
+                                DisplayMemberPath="Key"
+                                ItemsSource="{x:Bind viewmodel:SettingsViewModel.ThemeItems}"
+                                SelectedItem="{x:Bind Model.Theme, Mode=TwoWay}" />
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+
+                <toolkit:SettingsExpander
+                    Description="ファイル名とフォルダ構成の設定"
+                    Header="ファイル管理"
+                    IsExpanded="True">
+                    <toolkit:SettingsExpander.Items>
+                        <toolkit:SettingsCard Description="対応する画像ファイルの拡張子をセミコロン区切りで指定" Header="画像ファイル拡張子">
+                            <TextBox Text="{x:Bind Model.ImageExtensions, Mode=TwoWay}" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Description="フォルダ名のパターンを指定" Header="フォルダパターン">
+                            <TextBox Text="{x:Bind Model.FolderPattern, Mode=TwoWay}" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Description="ファイル名のパターンを指定" Header="ファイルパターン">
+                            <TextBox Text="{x:Bind Model.FilePattern, Mode=TwoWay}" />
+                        </toolkit:SettingsCard>
+                    </toolkit:SettingsExpander.Items>
+                </toolkit:SettingsExpander>
+            </StackPanel>
+        </ScrollView>
+
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="8">
+            <Button Command="{x:Bind CancelCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <FontIcon Glyph="&#xE74E;" />
+                    <TextBlock Text="キャンセル" />
+                </StackPanel>
+            </Button>
+            <Button Command="{x:Bind SaveCommand}" Style="{StaticResource AccentButtonStyle}">
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <FontIcon Glyph="&#xE74E;" />
+                    <TextBlock Text="保存" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

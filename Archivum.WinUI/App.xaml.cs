@@ -1,10 +1,17 @@
 using System;
 using System.IO;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
+using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
+using Archivum.Contracts.Services;
 using Archivum.Repositories;
+using Archivum.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.UI.Xaml;
 using WinUIEx;
 
@@ -57,6 +64,21 @@ public partial class App : Application
     }
 
     /// <summary>
+    /// Asynchronously saves the application settings to the settings file.
+    /// </summary>
+    /// <param name="settings">The settings object containing the configuration to save.</param>
+    /// <returns>A task representing the asynchronous save operation.</returns>
+    /// <remarks>
+    /// The settings are serialized to JSON format using the application's configured JSON serializer options,
+    /// which include full Unicode support and pretty printing. The resulting JSON is written to the
+    /// settings file specified during application initialization.
+    /// </remarks>
+    public static async Task SaveSettings(Models.Settings settings) {
+        var json = JsonSerializer.Serialize(settings, _jsonSerializerOptions);
+        await File.WriteAllTextAsync(_settingFile, json);
+    }
+
+    /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
     /// executed, and as such is the logical equivalent of main() or WinMain().
     /// </summary>
@@ -72,7 +94,10 @@ public partial class App : Application
         builder.Services
             .Configure<Models.Settings>(Models.Settings.EnsureInitializeSettings)
             .Configure<Models.Settings>(builder.Configuration)
+            .AddSingleton<IBackdropSelectorService, BackdropSelectorService>()
+            .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
+            .AddSingleton<ViewModels.SettingsViewModel>()
             .AddSingleton<ViewModels.MangasViewModel>();
 
         _host = builder.Build();
@@ -91,6 +116,15 @@ public partial class App : Application
         var shell = (AppShell)_window.Content;
         _window.SetTitleBar(shell.AppTitleBar);
         _window.SetWindowSize(800, 600);
+        var setting = _host.Services.GetRequiredService<IOptions<Models.Settings>>().Value!;
+        var backdropText = setting.Backdrop ?? Models.Settings.DefaultBackdrop;
+        var backdrop = Enum.TryParse(backdropText, out Controls.SystemBackdrop backdropType) ? backdropType : Controls.SystemBackdrop.Default;
+        var themeText = setting.Theme ?? Models.Settings.DefaultTheme;
+        var theme = Enum.TryParse(themeText, out Controls.SystemTheme themeType) ? themeType : Controls.SystemTheme.System;
+        var backdropSelectorService = _host.Services.GetService<IBackdropSelectorService>() as BackdropSelectorService;
+        backdropSelectorService?.InitializeAsync(_window, backdrop);
+        var themeSelectorService = _host.Services.GetService<IThemeSelectorService>() as ThemeSelectorService;
+        themeSelectorService?.InitializeAsync(_window, theme);
         _window.Activate();
     }
 
@@ -98,4 +132,8 @@ public partial class App : Application
     Window? _window;
 
     static readonly string _settingFile;
+    static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+        WriteIndented = true
+    };
 }

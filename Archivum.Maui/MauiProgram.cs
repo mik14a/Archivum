@@ -5,8 +5,11 @@ using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
+using Archivum.Contracts.Services;
 using Archivum.Pages;
 using Archivum.Repositories;
+using Archivum.Resources.Fonts;
+using Archivum.Services;
 using Archivum.ViewModels;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
@@ -16,7 +19,6 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
-using Archivum.Resources.Fonts;
 
 #if DEBUG
 using Microsoft.Extensions.Logging;
@@ -64,6 +66,8 @@ public static class MauiProgram
         builder.Services
             .Configure<Models.Settings>(Models.Settings.EnsureInitializeSettings)
             .Configure<Models.Settings>(builder.Configuration)
+            .AddSingleton<IBackdropSelectorService, BackdropSelectorService>()
+            .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
             .AddSingleton<IFolderPicker>(FolderPicker.Default)
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
             .AddSingleton<MangasViewModel>()

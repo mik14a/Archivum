@@ -35,6 +35,11 @@ public partial class Settings
     public static readonly string DefaultBackdrop = nameof(Controls.SystemBackdrop.Default);
 
     /// <summary>
+    /// Gets the default system theme type.
+    /// </summary>
+    public static readonly string DefaultTheme = nameof(Controls.SystemTheme.System);
+
+    /// <summary>
     /// Gets a new Settings instance initialized with default values.
     /// </summary>
     public static Settings Default => new() {
@@ -42,7 +47,8 @@ public partial class Settings
         ImageExtensions = DefaultImageExtensions,
         FolderPattern = DefaultFolderPattern,
         FilePattern = DefaultFilePattern,
-        Backdrop = DefaultBackdrop
+        Backdrop = DefaultBackdrop,
+        Theme = DefaultTheme
     };
 
     /// <summary>
@@ -59,5 +65,6 @@ public partial class Settings
         settings.FolderPattern ??= Settings.Default.FolderPattern;
         settings.FilePattern ??= Settings.Default.FilePattern;
         settings.Backdrop ??= Settings.Default.Backdrop;
+        settings.Theme ??= Settings.Default.Theme;
     }
 }

@@ -36,6 +36,11 @@ public partial class Settings
     public string? Backdrop { get; set; }
 
     /// <summary>
+    /// Gets or sets the system theme type.
+    /// </summary>
+    public string? Theme { get; set; }
+
+    /// <summary>
     /// Determines whether a ZIP archive entry represents an image file based on its extension.
     /// </summary>
     /// <param name="entry">The ZIP archive entry to check.</param>
