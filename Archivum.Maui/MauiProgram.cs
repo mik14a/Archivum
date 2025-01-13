@@ -27,8 +27,6 @@ using Microsoft.Extensions.Logging;
 #if WINDOWS10_0_17763_0_OR_GREATER
 using Microsoft.Extensions.Options;
 using Microsoft.Maui.Controls;
-using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Xaml.Media;
 #endif
 
 namespace Archivum;
@@ -82,12 +80,13 @@ public static class MauiProgram
         builder.ConfigureLifecycleEvents(events => {
 #if WINDOWS10_0_17763_0_OR_GREATER
             events.AddWindows(wndLifeCycleBuilder
-                => wndLifeCycleBuilder.OnWindowCreated(window
+                => wndLifeCycleBuilder.OnWindowCreated(async window
                     => {
-                        var backdrop = Application.Current!.Windows[0]!.Page!.Handler!.MauiContext!.Services!.GetService<IOptions<Models.Settings>>()!.Value.Backdrop;
-                        var systemBackdrop = Enum.TryParse<Controls.SystemBackdrop>(backdrop, out var parsedBackdrop) ? parsedBackdrop : Controls.SystemBackdrop.Default;
-                        if (systemBackdrop != Controls.SystemBackdrop.Default) {
-                            window.SystemBackdrop = CreateSystemBackdrop(systemBackdrop);
+                        var serviceProvider = Application.Current!.Windows[0]!.Page!.Handler!.MauiContext!.Services!;
+                        if (serviceProvider.GetService<IBackdropSelectorService>() is BackdropSelectorService backdropSelectorService) {
+                            var backdropText = serviceProvider.GetService<IOptions<Models.Settings>>()!.Value.Backdrop;
+                            var backdrop = Enum.TryParse<Controls.SystemBackdrop>(backdropText, out var parsedBackdrop) ? parsedBackdrop : Controls.SystemBackdrop.Default;
+                            await backdropSelectorService.InitializeAsync(window, backdrop);
                         }
                     }));
 #endif
@@ -105,17 +104,6 @@ public static class MauiProgram
         var json = JsonSerializer.Serialize(settings, _jsonSerializerOptions);
         await File.WriteAllTextAsync(_settingFile, json);
     }
-
-#if WINDOWS10_0_17763_0_OR_GREATER
-    static SystemBackdrop CreateSystemBackdrop(Controls.SystemBackdrop systemBackdrop) {
-        return systemBackdrop switch {
-            Controls.SystemBackdrop.Mica => new MicaBackdrop { Kind = MicaKind.Base },
-            Controls.SystemBackdrop.MicaAlt => new MicaBackdrop { Kind = MicaKind.BaseAlt },
-            Controls.SystemBackdrop.Acrylic => new DesktopAcrylicBackdrop(),
-            _ => throw new System.NotImplementedException(),
-        };
-    }
-#endif
 
     static readonly string _settingFile;
     static readonly JsonSerializerOptions _jsonSerializerOptions = new() {

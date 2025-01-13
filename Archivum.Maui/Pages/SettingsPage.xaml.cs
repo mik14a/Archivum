@@ -49,6 +49,7 @@ public partial class SettingsPage : ContentPage
 
     [RelayCommand]
     async Task CancelAsync() {
+        Model.Cancel();
         await Navigation.PopModalAsync();
     }
 
