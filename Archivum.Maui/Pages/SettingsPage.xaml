@@ -87,6 +87,7 @@
                     Grid.Row="4"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
+                    ItemDisplayBinding="{Binding Key}"
                     ItemsSource="{x:Static viewmodel:SettingsViewModel.BackdropItems}"
                     SelectedItem="{Binding Model.Backdrop}" />
 
