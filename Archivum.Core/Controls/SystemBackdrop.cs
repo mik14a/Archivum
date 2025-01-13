@@ -6,6 +6,11 @@ namespace Archivum.Controls;
 public enum SystemBackdrop
 {
     /// <summary>
+    /// The default backdrop effect for the application, which uses no special window background effects.
+    /// </summary>
+    Default,
+
+    /// <summary>
     /// The default Mica effect, which creates a translucent, layered appearance that incorporates desktop wallpaper colors.
     /// </summary>
     Mica,

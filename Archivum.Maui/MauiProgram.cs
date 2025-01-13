@@ -81,8 +81,10 @@ public static class MauiProgram
                 => wndLifeCycleBuilder.OnWindowCreated(window
                     => {
                         var backdrop = Application.Current!.Windows[0]!.Page!.Handler!.MauiContext!.Services!.GetService<IOptions<Models.Settings>>()!.Value.Backdrop;
-                        var systemBackdrop = Enum.TryParse<Controls.SystemBackdrop>(backdrop, out var parsedBackdrop) ? parsedBackdrop : Controls.SystemBackdrop.Mica;
-                        window.SystemBackdrop = CreateSystemBackdrop(systemBackdrop);
+                        var systemBackdrop = Enum.TryParse<Controls.SystemBackdrop>(backdrop, out var parsedBackdrop) ? parsedBackdrop : Controls.SystemBackdrop.Default;
+                        if (systemBackdrop != Controls.SystemBackdrop.Default) {
+                            window.SystemBackdrop = CreateSystemBackdrop(systemBackdrop);
+                        }
                     }));
 #endif
         });

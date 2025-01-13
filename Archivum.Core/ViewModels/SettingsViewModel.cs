@@ -6,6 +6,7 @@ namespace Archivum.ViewModels;
 public partial class SettingsViewModel : ObservableObject
 {
     public static readonly string[] BackdropItems = [
+        nameof(Controls.SystemBackdrop.Default),
         nameof(Controls.SystemBackdrop.Mica),
         nameof(Controls.SystemBackdrop.MicaAlt),
         nameof(Controls.SystemBackdrop.Acrylic)

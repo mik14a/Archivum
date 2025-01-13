@@ -32,7 +32,7 @@ public partial class Settings
     /// <summary>
     /// Gets the default system backdrop effect type.
     /// </summary>
-    public static readonly string DefaultBackdrop = nameof(Controls.SystemBackdrop.Mica);
+    public static readonly string DefaultBackdrop = nameof(Controls.SystemBackdrop.Default);
 
     /// <summary>
     /// Gets a new Settings instance initialized with default values.
