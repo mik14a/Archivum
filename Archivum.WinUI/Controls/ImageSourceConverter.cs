@@ -10,6 +10,7 @@ public partial class ImageSourceConverter : IValueConverter
     public object? Convert(object value, Type targetType, object parameter, string language) {
         if (value is not ImageSource source) return null;
         var bitmap = new BitmapImage();
+        if (parameter is int decodePixelHeight) bitmap.DecodePixelHeight = decodePixelHeight;
         using var stream = new MemoryStream(source.ImageData);
         bitmap.SetSource(stream.AsRandomAccessStream());
         return bitmap;

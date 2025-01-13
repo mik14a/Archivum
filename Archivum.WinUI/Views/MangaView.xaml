@@ -25,7 +25,7 @@
         Grid.Row="0"
         Grid.RowSpan="2"
         HorizontalAlignment="Center"
-        Source="{Binding Image, Converter={StaticResource ImageSourceConverter}}"
+        Source="{Binding Image, Converter={StaticResource ImageSourceConverter}, ConverterParameter=240}"
         Stretch="UniformToFill" />
     <StackPanel
         Grid.Row="1"
