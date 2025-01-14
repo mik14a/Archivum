@@ -6,6 +6,7 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using Archivum.Contracts.Services;
+using Archivum.Pages;
 using Archivum.Repositories;
 using Archivum.Services;
 using Microsoft.Extensions.Configuration;
@@ -96,6 +97,7 @@ public partial class App : Application
             .Configure<Models.Settings>(builder.Configuration)
             .AddSingleton<IBackdropSelectorService, BackdropSelectorService>()
             .AddSingleton<IThemeSelectorService, ThemeSelectorService>()
+            .AddSingleton<INavigationService, NavigationService>()
             .AddSingleton<IMangaRepository, LocalMangaRepository>()
             .AddSingleton<ViewModels.HomeViewModel>()
             .AddSingleton<ViewModels.SettingsViewModel>()
@@ -128,7 +130,10 @@ public partial class App : Application
         backdropSelectorService?.InitializeAsync(_window, backdrop);
         var themeSelectorService = _host.Services.GetService<IThemeSelectorService>() as ThemeSelectorService;
         themeSelectorService?.InitializeAsync(_window, theme);
+        var navigationService = _host.Services.GetService<INavigationService>() as NavigationService;
+        navigationService?.Initialize(shell.NavigationView, shell.ContentFrame);
         _window.Activate();
+        navigationService?.NavigateTo(nameof(HomePage));
     }
 
     readonly IHost _host;
