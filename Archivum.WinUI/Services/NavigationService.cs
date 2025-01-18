@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Archivum.Contracts.Services;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Archivum.Services;
 
@@ -22,11 +24,22 @@ public class NavigationService : INavigationService
         }
     }
 
-    public bool Navigate(Type sourcePageType, object parameter) {
+    public async Task<bool> PushAsync(Type sourcePageType, object parameter) {
         if (_navigationView == null) throw new InvalidOperationException();
         if (_contentFrame == null) throw new InvalidOperationException();
         _navigationView.SelectedItem = null;
-        return _contentFrame.Navigate(sourcePageType, parameter);
+        var options = new FrameNavigationOptions {
+            IsNavigationStackEnabled = true,
+        };
+        return await Task.FromResult(_contentFrame.NavigateToType(sourcePageType, parameter, options));
+    }
+
+    public async Task PopAsync() {
+        if (_contentFrame == null) throw new InvalidOperationException();
+        if (_contentFrame.CanGoBack) {
+            _contentFrame.GoBack();
+        }
+        await Task.CompletedTask;
     }
 
     NavigationView? _navigationView;

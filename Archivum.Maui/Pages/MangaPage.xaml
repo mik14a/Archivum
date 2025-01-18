@@ -64,7 +64,7 @@
             <MenuFlyoutItem
                 Command="{Binding Model.MoveToNextViewCommand}"
                 IconImageSource="{StaticResource IconNextPage}"
-                Text="Next Page">
+                Text="次のページ">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Left" Modifiers="None" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -72,7 +72,7 @@
             <MenuFlyoutItem
                 Command="{Binding Model.MoveToNextFrameCommand}"
                 IconImageSource="{StaticResource IconNextFrame}"
-                Text="Next Frame">
+                Text="次のコマ">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Left" Modifiers="Ctrl" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -80,7 +80,7 @@
             <MenuFlyoutItem
                 Command="{Binding Model.MoveToPreviousFrameCommand}"
                 IconImageSource="{StaticResource IconPreviousFrame}"
-                Text="PreviousFrame">
+                Text="前のコマ">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Right" Modifiers="Ctrl" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -88,7 +88,7 @@
             <MenuFlyoutItem
                 Command="{Binding Model.MoveToPreviousViewCommand}"
                 IconImageSource="{StaticResource IconPreviousPage}"
-                Text="Previous Page">
+                Text="前のページ">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Right" Modifiers="None" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -97,7 +97,7 @@
             <MenuFlyoutItem
                 Command="{Binding Model.SetSingleFrameViewCommand}"
                 IconImageSource="{StaticResource IconSinglePage}"
-                Text="Single Page">
+                Text="単ページ表示">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="1" Modifiers="None" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -105,7 +105,7 @@
             <MenuFlyoutItem
                 Command="{Binding Model.SetSpreadFrameViewCommand}"
                 IconImageSource="{StaticResource IconSpreadPage}"
-                Text="Spread View">
+                Text="見開き表示">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="2" Modifiers="None" />
                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -114,7 +114,7 @@
             <MenuFlyoutItem
                 Command="{Binding CloseCommand}"
                 IconImageSource="{StaticResource IconClose}"
-                Text="Close">
+                Text="閉じる">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape" Modifiers="None" />
                 </MenuFlyoutItem.KeyboardAccelerators>

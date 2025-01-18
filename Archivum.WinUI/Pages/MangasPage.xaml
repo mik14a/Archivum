@@ -26,7 +26,11 @@
         </CommandBar>
 
         <Grid Grid.Row="1">
-            <GridView ItemsSource="{x:Bind Model.Mangas}" SelectionMode="Single">
+            <GridView
+                IsItemClickEnabled="True"
+                ItemClick="ItemClick"
+                ItemsSource="{x:Bind Model.Mangas}"
+                SelectionMode="Single">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodel:MangaViewModel">
                         <views:MangaView />

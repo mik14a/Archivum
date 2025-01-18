@@ -65,12 +65,12 @@ public partial class MangaViewModel : ObservableObject
         Created = model.Created;
         Modified = model.Modified;
         Size = model.Size;
-
         IsRead = DateTime.MinValue < model.LastRead;
 
         _model = model;
         _repository = repository;
         _settings = settings;
+        _images = new ImageSource[2];
     }
 
     public async Task LoadCoverAsync() {
@@ -85,7 +85,9 @@ public partial class MangaViewModel : ObservableObject
                 await stream.CopyToAsync(memoryStream);
                 Image = new ImageSource(memoryStream.ToArray());
             }
-        } catch { }
+        } catch (Exception ex) {
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
     }
 
     public async Task LoadAsync() {
@@ -101,6 +103,10 @@ public partial class MangaViewModel : ObservableObject
             SetSingleFrameView();
             MoveToPreviousFrame();
         } catch { }
+    }
+
+    public void Unload() {
+        _imageSources.Clear();
     }
 
     public void ApplyEdit() {
@@ -153,7 +159,6 @@ public partial class MangaViewModel : ObservableObject
 
     partial void OnPagesChanged(int value) {
         if (value < 1 || 2 < value) return;
-        _images = new ImageSource[value];
         if (Index < 0 || _imageSources.Count <= Index) return;
         for (var i = 0; i < value; i++) {
             _images[i] = new ImageSource(_imageSources[Index + i]);
@@ -171,6 +176,6 @@ public partial class MangaViewModel : ObservableObject
     readonly IMangaRepository _repository;
     readonly Models.Settings _settings;
 
-    ImageSource?[] _images = [];
+    readonly ImageSource?[] _images = [];
     readonly List<byte[]> _imageSources = [];
 }

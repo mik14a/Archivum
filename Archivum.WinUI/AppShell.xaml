@@ -34,7 +34,9 @@
         <NavigationView
             x:Name="_NavigationView"
             Grid.RowSpan="2"
-            IsBackButtonVisible="Collapsed"
+            BackRequested="NavigationViewBackRequested"
+            IsBackButtonVisible="Auto"
+            IsBackEnabled="{Binding ElementName=_ContentFrame, Path=CanGoBack}"
             IsTabStop="False"
             PaneDisplayMode="Auto"
             SelectionChanged="NavigationViewSelectionChanged">
@@ -56,7 +58,10 @@
                     Icon="{ui:FontIcon Glyph=&#xE8F1;}"
                     Tag="TitlesPage" />
             </NavigationView.MenuItems>
-            <Frame x:Name="_ContentFrame" Margin="0,30,0,0" />
+            <Frame
+                x:Name="_ContentFrame"
+                Margin="0,30,0,0"
+                Navigating="ContentFrameNavigating" />
             <!--  Margin="0,47,0,0"  -->
         </NavigationView>
     </Grid>

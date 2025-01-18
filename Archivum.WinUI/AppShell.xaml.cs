@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Archivum.Contracts.Repositories;
 using Archivum.Controls;
 using Archivum.Pages;
@@ -45,12 +46,13 @@ public sealed partial class AppShell : Shell
     }
 
     void NavigationViewSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
+        if (args.SelectedItem == null) return;
         if (args.IsSettingsSelected) {
             _ContentFrame.Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
         } else {
             var frameNavigationOptions = new FrameNavigationOptions {
                 TransitionInfoOverride = args.RecommendedNavigationTransitionInfo,
-                IsNavigationStackEnabled = false
+                IsNavigationStackEnabled = true
             };
             var selectedItem = (NavigationViewItem)args.SelectedItem;
             if ((string)selectedItem.Tag == "HomePage") _ContentFrame.NavigateToType(typeof(HomePage), null, frameNavigationOptions);
@@ -58,6 +60,19 @@ public sealed partial class AppShell : Shell
             else if ((string)selectedItem.Tag == "AuthorsPage") _ContentFrame.NavigateToType(typeof(AuthorsPage), null, frameNavigationOptions);
             else if ((string)selectedItem.Tag == "TitlesPage") _ContentFrame.NavigateToType(typeof(TitlesPage), null, frameNavigationOptions);
             else throw new NotImplementedException((string)selectedItem.Tag);
+        }
+    }
+
+    void NavigationViewBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) {
+        _ContentFrame.GoBack();
+    }
+
+    void ContentFrameNavigating(object sender, NavigatingCancelEventArgs e) {
+        var item = _NavigationView.MenuItems
+           .OfType<NavigationViewItem>()
+           .SingleOrDefault(x => (string)x.Tag == e.SourcePageType.Name);
+        if ((NavigationViewItem)_NavigationView.SelectedItem != item) {
+            _NavigationView.SelectedItem = item;
         }
     }
 

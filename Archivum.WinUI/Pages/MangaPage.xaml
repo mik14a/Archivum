@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Archivum.Pages.MangaPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Archivum.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Archivum.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="using:Archivum.ViewModels"
+    d:DataContext="{d:DesignInstance Type=local:MangaPage}"
+    NavigationCacheMode="Disabled"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <controls:ImageSourceConverter x:Key="ImageSourceConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <CommandBar Grid.Row="0">
+            <AppBarButton
+                Command="{x:Bind Model.MoveToNextViewCommand}"
+                Icon="Previous"
+                Label="次のページ" />
+            <AppBarButton
+                Command="{x:Bind Model.MoveToNextFrameCommand}"
+                Icon="Back"
+                Label="次のコマ" />
+            <AppBarButton
+                Command="{x:Bind Model.MoveToPreviousFrameCommand}"
+                Icon="Forward"
+                Label="前のコマ" />
+            <AppBarButton
+                Command="{x:Bind Model.MoveToPreviousViewCommand}"
+                Icon="Next"
+                Label="前のページ" />
+            <AppBarSeparator />
+            <AppBarButton
+                Command="{x:Bind Model.SetSingleFrameViewCommand}"
+                Icon="Page"
+                Label="単ページ表示" />
+            <AppBarButton
+                Command="{x:Bind Model.SetSpreadFrameViewCommand}"
+                Icon="Page2"
+                Label="見開き表示" />
+            <AppBarSeparator />
+            <AppBarButton
+                Command="{x:Bind OpenPropertiesCommand}"
+                Icon="ContactInfo"
+                Label="プロパティ" />
+            <AppBarButton
+                Command="{x:Bind CloseCommand}"
+                Icon="Cancel"
+                Label="閉じる" />
+        </CommandBar>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Image
+                Grid.Column="0"
+                HorizontalAlignment="Right"
+                Source="{x:Bind Model.Images[1], Converter={StaticResource ImageSourceConverter}, Mode=OneWay}"
+                Stretch="Uniform"
+                Visibility="{x:Bind Model.ViewSpreadFrame, Mode=OneWay}" />
+            <Image
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Source="{x:Bind Model.Images[0], Converter={StaticResource ImageSourceConverter}, Mode=OneWay}"
+                Stretch="Uniform"
+                Visibility="{x:Bind Model.ViewSpreadFrame, Mode=OneWay}" />
+
+            <Image
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Source="{x:Bind Model.Images[0], Converter={StaticResource ImageSourceConverter}, Mode=OneWay}"
+                Stretch="Uniform"
+                Visibility="{x:Bind Model.ViewSingleFrame, Mode=OneWay}" />
+        </Grid>
+
+    </Grid>
+
+    <Page.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem Command="{x:Bind Model.MoveToNextViewCommand}" Text="次のページ">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72A;" />
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Left" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Command="{x:Bind Model.MoveToNextFrameCommand}" Text="次のコマ">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE893;" />
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Left" Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Command="{x:Bind Model.MoveToPreviousFrameCommand}" Text="前のコマ">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE892;" />
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Right" Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Command="{x:Bind Model.MoveToPreviousViewCommand}" Text="前のページ">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72B;" />
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Right" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Command="{x:Bind Model.SetSingleFrameViewCommand}" Text="単ページ表示">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8A5;" />
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Number1" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Command="{x:Bind Model.SetSpreadFrameViewCommand}" Text="見開き表示">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8A6;" />
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Number2" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Command="{x:Bind CloseCommand}" Text="閉じる">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8BB;" />
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" />
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </Page.ContextFlyout>
+
+</Page>

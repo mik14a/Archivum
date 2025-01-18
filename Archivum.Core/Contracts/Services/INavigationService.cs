@@ -1,9 +1,11 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Archivum.Contracts.Services;
 
 public interface INavigationService
 {
-    public void NavigateTo(string tag);
-    public bool Navigate(Type sourcePageType, object parameter);
+    void NavigateTo(string tag);
+    Task<bool> PushAsync(Type sourcePageType, object parameter);
+    Task PopAsync();
 }

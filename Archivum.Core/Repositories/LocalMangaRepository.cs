@@ -147,13 +147,13 @@ public class LocalMangaRepository : IMangaRepository
             if (library is null) return;
 
             foreach (var manga in library.Mangas) {
-                _mangas.Add(manga.Path, manga);
+                _mangas.TryAdd(manga.Path, manga);
             }
             foreach (var author in library.Authors) {
-                _authors.Add(author.Name, author);
+                _authors.TryAdd(author.Name, author);
             }
             foreach (var title in library.Titles) {
-                _titles.Add(title.Name, title);
+                _titles.TryAdd(title.Name, title);
             }
 
             _lastUpdated = library.LastUpdated;
