@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Archivum.Contracts.Repositories;
+using Archivum.Contracts.Services;
 using Archivum.Controls;
 using Archivum.Pages;
 using Archivum.Repositories;
@@ -25,6 +26,7 @@ public sealed partial class AppShell : Shell
     public AppShell() {
         Loaded += AppShellLoaded;
         Unloaded += AppShellUnloaded;
+        _navigationService = App.GetService<INavigationService>();
         _repository = App.GetService<IMangaRepository>() as LocalMangaRepository;
         InitializeComponent();
     }
@@ -35,6 +37,7 @@ public sealed partial class AppShell : Shell
         } catch (Exception ex) {
             System.Diagnostics.Debug.WriteLine(ex);
         }
+        _navigationService.NavigateTo(nameof(HomePage));
     }
 
     void AppShellUnloaded(object sender, RoutedEventArgs e) {
@@ -68,6 +71,7 @@ public sealed partial class AppShell : Shell
     }
 
     void ContentFrameNavigating(object sender, NavigatingCancelEventArgs e) {
+        if (e.SourcePageType == typeof(SettingsPage)) return;
         var item = _NavigationView.MenuItems
            .OfType<NavigationViewItem>()
            .SingleOrDefault(x => (string)x.Tag == e.SourcePageType.Name);
@@ -76,5 +80,6 @@ public sealed partial class AppShell : Shell
         }
     }
 
+    readonly INavigationService _navigationService;
     readonly LocalMangaRepository? _repository;
 }

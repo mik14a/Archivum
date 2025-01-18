@@ -133,7 +133,6 @@ public partial class App : Application
         var navigationService = _host.Services.GetService<INavigationService>() as NavigationService;
         navigationService?.Initialize(shell.NavigationView, shell.ContentFrame);
         _window.Activate();
-        navigationService?.NavigateTo(nameof(HomePage));
     }
 
     readonly IHost _host;

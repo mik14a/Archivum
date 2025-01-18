@@ -41,6 +41,7 @@ public sealed partial class MangaPage : Page
         switch (e.NavigationMode) {
         case NavigationMode.Back:
             _model?.Unload();
+            _model?.UpdateLastRead();
             break;
         }
         base.OnNavigatedFrom(e);

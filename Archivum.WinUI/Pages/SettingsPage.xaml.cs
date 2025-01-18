@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Archivum.Contracts.Services;
 using Archivum.ViewModels;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -16,6 +17,7 @@ public sealed partial class SettingsPage : Page
     public SettingsViewModel Model { get; }
 
     public SettingsPage() {
+        _navigationService = App.GetService<INavigationService>();
         Model = App.GetService<SettingsViewModel>();
         InitializeComponent();
         DataContext = this;
@@ -30,11 +32,14 @@ public sealed partial class SettingsPage : Page
     async Task SaveAsync() {
         var setting = Model.Apply();
         await App.SaveSettings(setting);
+        await _navigationService.PopAsync();
     }
 
     [RelayCommand]
     async Task CancelAsync() {
         Model.Cancel();
-        await Task.CompletedTask;
+        await _navigationService.PopAsync();
     }
+
+    readonly INavigationService _navigationService;
 }
