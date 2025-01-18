@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using Microsoft.Extensions.Options;
+using Microsoft.Maui.ApplicationModel;
 
 namespace Archivum.Repositories;
 
@@ -184,6 +185,20 @@ public class LocalMangaRepository : IMangaRepository
     DateTime _lastUpdated;
 
     readonly SemaphoreSlim _semaphore = new(1);
+
+    public static async Task RequestStoragePermission() {
+#if ANDROID
+        if (OperatingSystem.IsAndroidVersionAtLeast(30)) { // Android 11 or later
+            var activity = Platform.CurrentActivity;
+            if (activity != null && !Android.OS.Environment.IsExternalStorageManager) {
+                var intent = new Android.Content.Intent(Android.Provider.Settings.ActionManageAllFilesAccessPermission);
+                activity.StartActivity(intent);
+            }
+        }
+#endif
+        await Permissions.RequestAsync<Permissions.StorageRead>();
+        await Permissions.RequestAsync<Permissions.StorageWrite>();
+    }
 
     static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
         Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),

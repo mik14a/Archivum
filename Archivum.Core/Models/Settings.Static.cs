@@ -12,7 +12,13 @@ public partial class Settings
     /// <summary>
     /// Gets the default folder path for storing application data, located in the user's Documents folder.
     /// </summary>
+#if WINDOWS
     public static readonly string DefaultFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), nameof(Archivum));
+#elif ANDROID
+    public static readonly string DefaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+#else
+    public static readonly string DefaultFolderPath = Path.GetDirectoryName(null) ?? throw new NotSupportedException();
+#endif
 
     /// <summary>
     /// Gets the default list of supported image file extensions, separated by semicolons.

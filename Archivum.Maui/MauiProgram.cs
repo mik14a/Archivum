@@ -34,7 +34,13 @@ namespace Archivum;
 public static class MauiProgram
 {
     static MauiProgram() {
-        var path = Path.GetDirectoryName(Environment.ProcessPath) ?? Environment.CurrentDirectory;
+#if WINDOWS
+        var path = Path.GetDirectoryName(Environment.ProcessPath) ?? Directory.GetCurrentDirectory();
+#elif ANDROID
+        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+#else
+        var path = string.Empty ?? throw new NotSupportedException();
+#endif
         _settingFile = Path.Combine(path, "settings.json");
     }
 
@@ -58,7 +64,7 @@ public static class MauiProgram
         }
 
         builder.Configuration
-            .SetBasePath(Environment.CurrentDirectory)
+            .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile(_settingFile, optional: true);
 
         builder.Services
