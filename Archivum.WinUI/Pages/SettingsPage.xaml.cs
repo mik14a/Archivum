@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using Archivum.Contracts.Repositories;
 using Archivum.Contracts.Services;
 using Archivum.ViewModels;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 
@@ -12,12 +14,17 @@ namespace Archivum.Pages;
 /// <summary>
 /// A Settings page that can be used on its own or navigated to within a Frame.
 /// </summary>
+[INotifyPropertyChanged]
 public sealed partial class SettingsPage : Page
 {
     public SettingsViewModel Model { get; }
 
+    [ObservableProperty]
+    public partial int ProgressArrangeMangas { get; private set; }
+
     public SettingsPage() {
         _navigationService = App.GetService<INavigationService>();
+        _repository = App.GetService<IMangaRepository>();
         Model = App.GetService<SettingsViewModel>();
         InitializeComponent();
         DataContext = this;
@@ -26,6 +33,13 @@ public sealed partial class SettingsPage : Page
     [RelayCommand]
     async Task SelectFolderAsync() {
         await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    async Task ArrangeMangasAsync() {
+        var progress = new System.Progress<int>(value => ProgressArrangeMangas = value);
+        await _repository.ReorganizeMangaFiles(Model.FolderPath, Model.FolderPattern, Model.FilePattern, progress);
+        await _navigationService.PopAsync();
     }
 
     [RelayCommand]
@@ -42,4 +56,5 @@ public sealed partial class SettingsPage : Page
     }
 
     readonly INavigationService _navigationService;
+    readonly IMangaRepository _repository;
 }

@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Archivum.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Archivum.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,6 +14,10 @@
     xmlns:viewmodel="using:Archivum.ViewModels"
     d:DataContext="{d:DesignInstance Type=local:SettingsPage}"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
 
     <Grid Margin="8" RowSpacing="8">
         <Grid.RowDefinitions>
@@ -61,6 +66,21 @@
                         </toolkit:SettingsCard>
                         <toolkit:SettingsCard Description="ファイル名のパターンを指定" Header="ファイルパターン">
                             <TextBox Text="{x:Bind Model.FilePattern, Mode=TwoWay}" />
+                        </toolkit:SettingsCard>
+                        <toolkit:SettingsCard Description="フォルダ名/ファイル名パターンにしたがってファイルを整理" Header="マンガフォルダの整理">
+                            <StackPanel Orientation="Horizontal">
+                                <ProgressBar
+                                    Width="64"
+                                    Margin="8"
+                                    Visibility="{x:Bind ArrangeMangasCommand.IsRunning, Mode=OneWay}"
+                                    Value="{x:Bind ProgressArrangeMangas, Mode=OneWay}" />
+                                <Button Background="{StaticResource SystemFillColorCritical}" Command="{x:Bind ArrangeMangasCommand}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon Foreground="{StaticResource SystemFillColorCriticalBackground}" Glyph="&#xE8B1;" />
+                                        <TextBlock Foreground="{StaticResource SystemFillColorCriticalBackground}" Text="ファイルを整理" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         </toolkit:SettingsCard>
                     </toolkit:SettingsExpander.Items>
                 </toolkit:SettingsExpander>

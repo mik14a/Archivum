@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,4 +12,6 @@ public interface IMangaRepository
 
     Task<IEnumerable<Models.Author>> GetAuthorsAsync();
     Task<IEnumerable<Models.Title>> GetTitlesAsync();
+
+    Task ReorganizeMangaFiles(string folderPath, string folderPattern, string filePattern, IProgress<int> progress);
 }

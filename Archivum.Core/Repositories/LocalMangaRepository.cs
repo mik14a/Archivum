@@ -163,6 +163,38 @@ public class LocalMangaRepository : IMangaRepository
         }
     }
 
+    public async Task ReorganizeMangaFiles(string folderPath, string folderPattern, string filePattern, IProgress<int> progress) {
+
+        // collect all files to move
+        var filesToMove = new Dictionary<Models.Manga, string>();
+        foreach (var manga in _mangas.Values) {
+            var filePath = BuildMangaFilePath(manga, folderPath, folderPattern, filePattern);
+            if (ShouldMoveFile(manga.Path, filePath)) {
+                filesToMove.Add(manga, filePath);
+            }
+        }
+
+        foreach (var (index, (manga, newFilePath)) in filesToMove.Index()) {
+            var directoryName = Path.GetDirectoryName(newFilePath);
+            if (!Directory.Exists(directoryName)) {
+                Directory.CreateDirectory(directoryName!);
+            }
+            System.Diagnostics.Debug.WriteLine($"Move: {manga.Path} -> {newFilePath}");
+            File.Move(manga.Path, newFilePath, overwrite: false);
+            manga.Path = newFilePath;
+            progress.Report((index + 1) * 100 / filesToMove.Count);
+            await Task.Yield();
+        }
+
+        // file is not moved if the name is the same or the destination file already exists
+        static bool ShouldMoveFile(string currentPath, string newPath) {
+            return currentPath != newPath  // name is different
+                   && File.Exists(currentPath)  // source file exists
+                   && !File.Exists(newPath)  // destination file does not exist
+                   && !string.IsNullOrWhiteSpace(Path.GetDirectoryName(newPath));  // destination folder name is valid
+        }
+    }
+
     public async Task SaveLibraryAsync() {
 
         var library = new Models.Library {
@@ -198,6 +230,20 @@ public class LocalMangaRepository : IMangaRepository
 #endif
         await Permissions.RequestAsync<Permissions.StorageRead>();
         await Permissions.RequestAsync<Permissions.StorageWrite>();
+    }
+
+    static string BuildMangaFilePath(Models.Manga manga, string folderPath, string folderPattern, string filePattern) {
+        var folderName = ReplacePatterns(folderPattern, manga);
+        var fileExtension = Path.GetExtension(manga.Path);
+        var fileName = ReplacePatterns(filePattern, manga) + fileExtension;
+        return Path.Combine(folderPath, folderName, fileName);
+
+        static string ReplacePatterns(string pattern, Models.Manga manga) {
+            return pattern
+                .Replace(Models.Manga.AuthorPattern, manga.Author)
+                .Replace(Models.Manga.TitlePattern, manga.Title)
+                .Replace(Models.Manga.VolumePattern, manga.Volume);
+        }
     }
 
     static readonly JsonSerializerOptions _jsonSerializerOptions = new() {

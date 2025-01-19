@@ -23,28 +23,9 @@ public partial class SettingsPage : ContentPage
 
     [RelayCommand]
     async Task ArrangeMangasAsync() {
-        var mangas = await _repository.GetMangasAsync();
-        foreach (var manga in mangas) {
-            var folderName = Model.FolderPattern!
-                .Replace(Models.Manga.AuthorPattern, manga.Author)
-                .Replace(Models.Manga.TitlePattern, manga.Title)
-                .Replace(Models.Manga.VolumePattern, manga.Volume);
-            var fileExtension = Path.GetExtension(manga.Path);
-            var fileName = Model.FilePattern!
-                .Replace(Models.Manga.AuthorPattern, manga.Author)
-                .Replace(Models.Manga.TitlePattern, manga.Title)
-                .Replace(Models.Manga.VolumePattern, manga.Volume)
-                + fileExtension;
-            var filePath = Path.Combine(Model.FolderPath, folderName, fileName);
-            if (filePath != manga.Path && File.Exists(manga.Path) && !File.Exists(filePath)) {
-                var fileDirectory = Path.GetDirectoryName(filePath);
-                if (fileDirectory != null) {
-                    if (!Directory.Exists(fileDirectory)) Directory.CreateDirectory(fileDirectory);
-                    File.Move(manga.Path, filePath, overwrite: false);
-                    manga.Path = filePath;
-                }
-            }
-        }
+        var progress = new System.Progress<int>(value => System.Diagnostics.Debug.WriteLine(value));
+        await _repository.ReorganizeMangaFiles(Model.FolderPath, Model.FolderPattern, Model.FilePattern, progress);
+        await Navigation.PopModalAsync();
     }
 
     [RelayCommand]
