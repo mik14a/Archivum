@@ -16,14 +16,14 @@ public partial class MangasPage : ContentPage
         InitializeComponent();
         BindingContext = this;
 
-#if WINDOWS || MACCATALYST
+#if WINDOWS || ANDROID || MACCATALYST
         _Page.SizeChanged += PageSizeChanged;
 #endif
     }
 
-#if WINDOWS || MACCATALYST
+#if WINDOWS || ANDROID || MACCATALYST
     void PageSizeChanged(object? sender, System.EventArgs e) {
-        ColumnSpan = ((int)_Page.Width + 159) / 160;
+        ColumnSpan = ((int)_Page.Width + 191 + 32) / (192 + 32);
         OnPropertyChanged(nameof(ColumnSpan));
     }
 #endif

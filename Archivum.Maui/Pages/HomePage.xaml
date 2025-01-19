@@ -84,7 +84,7 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodel:MangaViewModel">
-                            <view:MangaView />
+                            <view:MangaView HeightRequest="256" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -104,7 +104,7 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodel:AuthorsViewModel">
-                            <view:AuthorView />
+                            <view:AuthorView HeightRequest="256" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -124,7 +124,7 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodel:TitlesViewModel">
-                            <view:TitleView />
+                            <view:TitleView HeightRequest="256" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

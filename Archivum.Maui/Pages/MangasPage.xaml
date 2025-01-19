@@ -16,21 +16,23 @@
 
     <CollectionView
         x:Name="_CollectionView"
+        Margin="16"
+        ItemSizingStrategy="MeasureFirstItem"
         ItemsSource="{Binding Model.Mangas}"
         SelectionChangedCommand="{Binding SelectMangaCommand}"
         SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
         SelectionMode="Single">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="viewmodel:MangaViewModel">
-                <view:MangaView />
+                <view:MangaView HeightRequest="256" />
             </DataTemplate>
         </CollectionView.ItemTemplate>
         <CollectionView.ItemsLayout>
             <GridItemsLayout
-                HorizontalItemSpacing="4"
+                HorizontalItemSpacing="16"
                 Orientation="Vertical"
                 Span="{Binding ColumnSpan}"
-                VerticalItemSpacing="4" />
+                VerticalItemSpacing="16" />
         </CollectionView.ItemsLayout>
     </CollectionView>
 

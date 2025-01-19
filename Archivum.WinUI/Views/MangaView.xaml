@@ -30,15 +30,10 @@
     <StackPanel
         Grid.Row="1"
         Padding="8"
-        Background="{StaticResource ControlOnImageFillColorDefaultBrush}"
-        Spacing="4">
-        <TextBlock Text="{Binding Author}" />
-        <StackPanel Orientation="Horizontal" Spacing="4">
-            <TextBlock Text="{Binding Title}" />
-            <TextBlock Text="{Binding Volume}" />
-        </StackPanel>
-        <TextBlock Text="{Binding Created}" />
-        <TextBlock Text="{Binding Size}" />
+        Background="{StaticResource ControlOnImageFillColorDefaultBrush}">
+        <TextBlock HorizontalAlignment="Left" Text="{Binding Author}" />
+        <TextBlock HorizontalAlignment="Center" Text="{Binding Title}" />
+        <TextBlock HorizontalAlignment="Right" Text="{Binding Volume}" />
     </StackPanel>
 
 </Grid>

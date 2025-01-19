@@ -18,35 +18,35 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
         <Image
             Grid.Row="0"
-            Grid.ColumnSpan="2"
-            Aspect="AspectFit"
-            MaximumHeightRequest="320"
+            Aspect="AspectFill"
             Source="{Binding Model.Image, Converter={controls:ImageSourceConverter}}" />
 
         <CollectionView
             x:Name="_CollectionView"
             Grid.Row="1"
+            Margin="16"
+            ItemSizingStrategy="MeasureFirstItem"
             ItemsSource="{Binding Model.Mangas}"
             SelectionChangedCommand="{Binding SelectMangaCommand}"
             SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
             SelectionMode="Single">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodel:MangaViewModel">
-                    <view:MangaView />
+                    <view:MangaView HeightRequest="256" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.ItemsLayout>
                 <GridItemsLayout
-                    HorizontalItemSpacing="4"
+                    HorizontalItemSpacing="16"
                     Orientation="Vertical"
                     Span="{Binding ColumnSpan}"
-                    VerticalItemSpacing="4" />
+                    VerticalItemSpacing="16" />
             </CollectionView.ItemsLayout>
         </CollectionView>
     </Grid>

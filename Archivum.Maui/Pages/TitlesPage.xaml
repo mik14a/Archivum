@@ -15,21 +15,23 @@
 
     <CollectionView
         x:Name="_CollectionView"
+        Margin="16"
+        ItemSizingStrategy="MeasureFirstItem"
         ItemsSource="{Binding Model.Titles}"
         SelectionChangedCommand="{Binding SelectTitleCommand}"
         SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
         SelectionMode="Single">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="viewmodel:TitleViewModel">
-                <view:TitleView />
+                <view:TitleView HeightRequest="256" />
             </DataTemplate>
         </CollectionView.ItemTemplate>
         <CollectionView.ItemsLayout>
             <GridItemsLayout
-                HorizontalItemSpacing="4"
+                HorizontalItemSpacing="16"
                 Orientation="Vertical"
                 Span="{Binding ColumnSpan}"
-                VerticalItemSpacing="4" />
+                VerticalItemSpacing="16" />
         </CollectionView.ItemsLayout>
     </CollectionView>
 

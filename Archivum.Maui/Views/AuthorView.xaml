@@ -10,24 +10,36 @@
     WidthRequest="160">
 
     <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
         <RowDefinition />
         <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <Image
         Grid.Row="0"
-        Grid.RowSpan="2"
+        Grid.RowSpan="3"
         Aspect="AspectFill"
         Source="{Binding Image, Converter={controls:ImageSourceConverter}}" />
-    <VerticalStackLayout
-        Grid.Row="1"
-        Padding="8"
+    <Border
+        Margin="4"
         BackgroundColor="{StaticResource ControlOnImageFillColorDefaultBrush}"
-        Spacing="4">
-        <HorizontalStackLayout Spacing="4">
-            <Label Text="{Binding Name}" />
-            <Label Text="{Binding Count}" />
-        </HorizontalStackLayout>
+        HeightRequest="32"
+        HorizontalOptions="Start"
+        StrokeShape="RoundRectangle 16"
+        WidthRequest="32">
+        <Label
+            HorizontalOptions="Center"
+            Text="{Binding Count}"
+            VerticalOptions="Center" />
+    </Border>
+    <VerticalStackLayout
+        Grid.Row="2"
+        Padding="8"
+        BackgroundColor="{StaticResource ControlOnImageFillColorDefaultBrush}">
+        <Label
+            HorizontalOptions="CenterAndExpand"
+            LineBreakMode="TailTruncation"
+            Text="{Binding Name}" />
     </VerticalStackLayout>
 
     <FlyoutBase.ContextFlyout>

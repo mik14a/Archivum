@@ -18,25 +18,34 @@
     </Grid.Resources>
 
     <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
         <RowDefinition />
         <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <Image
         Grid.Row="0"
-        Grid.RowSpan="2"
+        Grid.RowSpan="3"
         HorizontalAlignment="Center"
         Source="{Binding Image, Converter={StaticResource ImageSourceConverter}, ConverterParameter=240}"
         Stretch="UniformToFill" />
-    <StackPanel
-        Grid.Row="1"
-        Padding="8"
+    <Border
+        Width="32"
+        Height="32"
+        Margin="4"
+        HorizontalAlignment="Left"
         Background="{StaticResource ControlOnImageFillColorDefaultBrush}"
-        Spacing="4">
-        <StackPanel Orientation="Horizontal" Spacing="4">
-            <TextBlock Text="{Binding Name}" />
-            <TextBlock Text="{Binding Count}" />
-        </StackPanel>
+        CornerRadius="16">
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{Binding Count}" />
+    </Border>
+    <StackPanel
+        Grid.Row="2"
+        Padding="8"
+        Background="{StaticResource ControlOnImageFillColorDefaultBrush}">
+        <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
     </StackPanel>
 
 </Grid>
