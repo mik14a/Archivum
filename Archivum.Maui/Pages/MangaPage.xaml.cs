@@ -62,5 +62,9 @@ public partial class MangaPage : ContentPage
         OnPropertyChanged(nameof(FullFlame));
     }
 
+    private void SliderValueChanged(object sender, ValueChangedEventArgs e) {
+        Model.SetFrameIndex((int)e.NewValue);
+    }
+
     readonly MangaViewModel _model;
 }

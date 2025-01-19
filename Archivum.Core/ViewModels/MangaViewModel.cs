@@ -47,14 +47,15 @@ public partial class MangaViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(ViewSingleFrame))]
     [NotifyPropertyChangedFor(nameof(ViewSpreadFrame))]
     [NotifyPropertyChangedFor(nameof(Images))]
-    public partial int Pages { get; protected set; } = 0;
+    public partial int Frame { get; protected set; } = 0;
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Images))]
     public partial int Index { get; protected set; } = -1;
 
-    public bool ViewSingleFrame => 1 == Pages;
-    public bool ViewSpreadFrame => 2 == Pages;
+    public bool ViewSingleFrame => 1 == Frame;
+    public bool ViewSpreadFrame => 2 == Frame;
     public ImageSource?[] Images => _images;
+    public int Pages => _imageSources.Count;
 
     public MangaViewModel(Models.Manga model, IMangaRepository repository, Models.Settings settings) {
         Author = model.Author;
@@ -102,6 +103,7 @@ public partial class MangaViewModel : ObservableObject
             }
             SetSingleFrameView();
             MoveToPreviousFrame();
+            OnPropertyChanged(nameof(Pages));
         } catch { }
     }
 
@@ -123,18 +125,22 @@ public partial class MangaViewModel : ObservableObject
         Cover = _model.Cover;
     }
 
+    public void SetFrameIndex(int value) {
+        Index = Math.Clamp(value, 0, _imageSources.Count - Frame);
+    }
+
     public void UpdateLastRead() {
         _model.LastRead = DateTime.Now;
     }
 
     [RelayCommand]
     void SetSingleFrameView() {
-        Pages = 1;
+        Frame = 1;
     }
 
     [RelayCommand]
     void SetSpreadFrameView() {
-        Pages = 2;
+        Frame = 2;
     }
 
     [RelayCommand]
@@ -149,15 +155,15 @@ public partial class MangaViewModel : ObservableObject
 
     [RelayCommand]
     void MoveToPreviousView() {
-        Index = Math.Max(0, Index - Pages);
+        Index = Math.Max(0, Index - Frame);
     }
 
     [RelayCommand]
     void MoveToNextView() {
-        Index = Math.Min(_imageSources.Count - Pages, Index + Pages);
+        Index = Math.Min(_imageSources.Count - Frame, Index + Frame);
     }
 
-    partial void OnPagesChanged(int value) {
+    partial void OnFrameChanged(int value) {
         if (value < 1 || 2 < value) return;
         if (Index < 0 || _imageSources.Count <= Index) return;
         for (var i = 0; i < value; i++) {
@@ -167,7 +173,7 @@ public partial class MangaViewModel : ObservableObject
 
     partial void OnIndexChanged(int value) {
         if (value < 0 || _imageSources.Count <= value) return;
-        for (var i = 0; i < Pages; i++) {
+        for (var i = 0; i < Frame; i++) {
             _images[i] = new ImageSource(_imageSources[value + i]);
         }
     }

@@ -53,6 +53,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -111,6 +112,16 @@
                 BackgroundColor="Transparent"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill" />
+
+            <Slider
+                Grid.Row="3"
+                Grid.ColumnSpan="3"
+                Margin="8"
+                ValueChanged="SliderValueChanged"
+                FlowDirection="RightToLeft"
+                IsVisible="{Binding FullFlame}"
+                Maximum="{Binding Model.Pages, Mode=OneWay}"
+                Value="{Binding Model.Index, Mode=TwoWay}" />
 
             <Grid.GestureRecognizers>
                 <SwipeGestureRecognizer Command="{Binding Model.MoveToNextViewCommand}" Direction="Right" />
