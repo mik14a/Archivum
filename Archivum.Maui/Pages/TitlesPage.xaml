@@ -15,7 +15,6 @@
 
     <CollectionView
         x:Name="_CollectionView"
-        Margin="16"
         ItemSizingStrategy="MeasureFirstItem"
         ItemsSource="{Binding Model.Titles}"
         SelectionChangedCommand="{Binding SelectTitleCommand}"

@@ -31,6 +31,11 @@
                 ItemClick="ItemClick"
                 ItemsSource="{x:Bind Model.Mangas}"
                 SelectionMode="Single">
+                <GridView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="4,4,4,4" />
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodel:MangaViewModel">
                         <views:MangaView />
@@ -38,7 +43,7 @@
                 </GridView.ItemTemplate>
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Horizontal" />
+                        <ItemsWrapGrid Margin="4" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
             </GridView>

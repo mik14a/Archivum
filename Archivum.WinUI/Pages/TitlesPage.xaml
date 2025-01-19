@@ -27,6 +27,11 @@
 
         <Grid Grid.Row="1">
             <GridView ItemsSource="{x:Bind Model.Titles}" SelectionMode="Single">
+                <GridView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="4,4,4,4" />
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodel:TitleViewModel">
                         <views:TitleView />
@@ -34,7 +39,7 @@
                 </GridView.ItemTemplate>
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Horizontal" />
+                        <ItemsWrapGrid Margin="4" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
             </GridView>

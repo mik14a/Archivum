@@ -30,7 +30,6 @@
         <CollectionView
             x:Name="_CollectionView"
             Grid.Row="1"
-            Margin="16"
             ItemSizingStrategy="MeasureFirstItem"
             ItemsSource="{Binding Model.Mangas}"
             SelectionChangedCommand="{Binding SelectMangaCommand}"

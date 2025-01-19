@@ -7,9 +7,9 @@
     xmlns:local="using:Archivum.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:Archivum.ViewModels"
-    NavigationCacheMode="Enabled "
     xmlns:views="using:Archivum.Views"
     d:DataContext="{d:DesignInstance Type=local:AuthorsPage}"
+    NavigationCacheMode="Enabled "
     mc:Ignorable="d">
 
     <Grid>
@@ -27,6 +27,11 @@
 
         <Grid Grid.Row="1">
             <GridView ItemsSource="{x:Bind Model.Authors}" SelectionMode="Single">
+                <GridView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="4,4,4,4" />
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodel:AuthorViewModel">
                         <views:AuthorView />
@@ -34,7 +39,7 @@
                 </GridView.ItemTemplate>
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Horizontal" />
+                        <ItemsWrapGrid Margin="4" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
             </GridView>

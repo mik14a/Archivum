@@ -81,6 +81,11 @@
                 <StackPanel Spacing="8">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="最近読んだマンガ" />
                     <GridView ItemsSource="{x:Bind Model.RecentMangas}" SelectionMode="Single">
+                        <GridView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                <Setter Property="Margin" Value="4,4,4,4" />
+                            </Style>
+                        </GridView.ItemContainerStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodel:MangaViewModel">
                                 <views:MangaView />
@@ -92,6 +97,11 @@
                 <StackPanel Spacing="8">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="お気に入りの作者" />
                     <GridView ItemsSource="{x:Bind Model.FavoriteAuthors}" SelectionMode="Single">
+                        <GridView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                <Setter Property="Margin" Value="4,4,4,4" />
+                            </Style>
+                        </GridView.ItemContainerStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodel:AuthorViewModel">
                                 <views:AuthorView />
@@ -103,6 +113,11 @@
                 <StackPanel Spacing="8">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="人気のタイトル" />
                     <GridView ItemsSource="{x:Bind Model.PopularTitles}" SelectionMode="Single">
+                        <GridView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                <Setter Property="Margin" Value="4,4,4,4" />
+                            </Style>
+                        </GridView.ItemContainerStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodel:TitleViewModel">
                                 <views:TitleView />
