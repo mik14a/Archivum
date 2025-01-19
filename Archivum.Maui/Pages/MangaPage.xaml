@@ -8,7 +8,7 @@
     x:Name="_Page"
     Title="{Binding Model.DisplayTitle}"
     x:DataType="page:MangaPage"
-    Shell.NavBarIsVisible="True">
+    Shell.NavBarIsVisible="{Binding FullFlame, Mode=OneWay}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding Model.MoveToNextViewCommand}" IconImageSource="{StaticResource IconNextPage}" />
@@ -21,42 +21,102 @@
         <ToolbarItem Command="{Binding CloseCommand}" IconImageSource="{StaticResource IconClose}" />
     </ContentPage.ToolbarItems>
 
-    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Image
-            Grid.Column="0"
-            Aspect="AspectFit"
-            HorizontalOptions="End"
-            IsVisible="{Binding Model.ViewSpreadFrame}"
-            Source="{Binding Model.Images[1], Converter={controls:ImageSourceConverter}}">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToNextViewCommand}" />
-            </Image.GestureRecognizers>
-        </Image>
-        <Image
-            Grid.Column="1"
-            Aspect="AspectFit"
-            HorizontalOptions="Start"
-            IsVisible="{Binding Model.ViewSpreadFrame}"
-            Source="{Binding Model.Images[0], Converter={controls:ImageSourceConverter}}">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToPreviousViewCommand}" />
-            </Image.GestureRecognizers>
-        </Image>
-        <Image
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Aspect="AspectFit"
-            HorizontalOptions="CenterAndExpand"
-            IsVisible="{Binding Model.ViewSingleFrame}"
-            Source="{Binding Model.Images[0], Converter={controls:ImageSourceConverter}}">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToNextFrameCommand}" />
-            </Image.GestureRecognizers>
-        </Image>
+    <Grid>
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.Column="0"
+                Aspect="AspectFit"
+                HorizontalOptions="End"
+                IsVisible="{Binding Model.ViewSpreadFrame}"
+                Source="{Binding Model.Images[1], Converter={controls:ImageSourceConverter}}" />
+            <Image
+                Grid.Column="1"
+                Aspect="AspectFit"
+                HorizontalOptions="Start"
+                IsVisible="{Binding Model.ViewSpreadFrame}"
+                Source="{Binding Model.Images[0], Converter={controls:ImageSourceConverter}}" />
+            <Image
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Aspect="AspectFit"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding Model.ViewSingleFrame}"
+                Source="{Binding Model.Images[0], Converter={controls:ImageSourceConverter}}" />
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.Column="0"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToNextViewCommand}" />
+                    <SwipeGestureRecognizer Command="{Binding Model.MoveToNextViewCommand}" Direction="Right" />
+                    <SwipeGestureRecognizer Command="{Binding Model.MoveToPreviousViewCommand}" Direction="Left" />
+                </Border.GestureRecognizers>
+            </Border>
+            <Border
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.Column="2"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Buttons="Primary" Command="{Binding Model.MoveToPreviousViewCommand}" />
+                    <SwipeGestureRecognizer Command="{Binding Model.MoveToNextViewCommand}" Direction="Right" />
+                    <SwipeGestureRecognizer Command="{Binding Model.MoveToPreviousViewCommand}" Direction="Left" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Border
+                Grid.Row="0"
+                Grid.Column="1"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill" />
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Buttons="Primary" Command="{Binding ToggleViewFrameCommand}" />
+                    <SwipeGestureRecognizer Command="{Binding Model.MoveToNextViewCommand}" Direction="Right" />
+                    <SwipeGestureRecognizer Command="{Binding Model.MoveToPreviousViewCommand}" Direction="Left" />
+                </Border.GestureRecognizers>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="1"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill" />
+
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer Command="{Binding Model.MoveToNextViewCommand}" Direction="Right" />
+                <SwipeGestureRecognizer Command="{Binding Model.MoveToPreviousViewCommand}" Direction="Left" />
+            </Grid.GestureRecognizers>
+        </Grid>
     </Grid>
 
     <FlyoutBase.ContextFlyout>

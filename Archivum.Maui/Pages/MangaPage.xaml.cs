@@ -1,7 +1,7 @@
-using Archivum.ViewModels;
-using Microsoft.Maui.Controls;
-using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using Archivum.ViewModels;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls;
 
 #if WINDOWS
 using Microsoft.UI.Xaml;
@@ -13,12 +13,18 @@ public partial class MangaPage : ContentPage
 {
     public MangaViewModel Model => _model;
 
+    public bool FullFlame { get; set; } = true;
+
     public MangaPage(MangaViewModel viewModel) {
         _model = viewModel;
         InitializeComponent();
         BindingContext = this;
 
         _model.LoadAsync();
+    }
+
+    protected override void OnAppearing() {
+        base.OnAppearing();
     }
 
     protected override void OnDisappearing() {
@@ -48,6 +54,12 @@ public partial class MangaPage : ContentPage
     [RelayCommand]
     async Task CloseAsync() {
         await Navigation.PopAsync();
+    }
+
+    [RelayCommand]
+    void ToggleViewFrame() {
+        FullFlame = !FullFlame;
+        OnPropertyChanged(nameof(FullFlame));
     }
 
     readonly MangaViewModel _model;
