@@ -37,11 +37,13 @@
 
   <ItemGroup>
     <None Remove="AppShell.xaml" />
+    <None Remove="Pages\AuthorPage.xaml" />
     <None Remove="Pages\AuthorsPage.xaml" />
     <None Remove="Pages\HomePage.xaml" />
     <None Remove="Pages\MangaPage.xaml" />
     <None Remove="Pages\MangasPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\TitlePage.xaml" />
     <None Remove="Pages\TitlesPage.xaml" />
     <None Remove="Views\AuthorView.xaml" />
     <None Remove="Views\MangaView.xaml" />
@@ -50,6 +52,9 @@
 
   <ItemGroup>
     <Page Update="AppShell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\AuthorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\AuthorsPage.xaml">
@@ -65,6 +70,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\TitlePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\TitlesPage.xaml">

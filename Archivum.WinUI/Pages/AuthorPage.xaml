@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="Archivum.Pages.TitlesPage"
+    x:Class="Archivum.Pages.AuthorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Archivum.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Archivum.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="using:Archivum.ViewModels"
     xmlns:views="using:Archivum.Views"
-    d:DataContext="{d:DesignInstance Type=local:TitlesPage}"
-    NavigationCacheMode="Enabled "
+    d:DataContext="{d:DesignInstance Type=local:AuthorPage}"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <controls:ImageSourceConverter x:Key="ImageSourceConverter" />
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
         <CommandBar Grid.Row="0">
             <AppBarButton
-                Command="{x:Bind RefreshCommand}"
-                Icon="Refresh"
-                Label="再読み込み" />
+                Command="{x:Bind CloseCommand}"
+                Icon="Cancel"
+                Label="閉じる" />
         </CommandBar>
 
-        <Grid Grid.Row="1">
+        <Image
+            Grid.Row="1"
+            Source="{x:Bind Model.Image, Converter={StaticResource ImageSourceConverter}, Mode=OneWay}"
+            Stretch="UniformToFill" />
+
+        <Grid Grid.Row="2">
             <GridView
                 IsItemClickEnabled="True"
                 ItemClick="ItemClick"
-                ItemsSource="{x:Bind Model.Titles}"
+                ItemsSource="{x:Bind Model.Mangas}"
                 SelectionMode="Single">
                 <GridView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
@@ -37,8 +47,8 @@
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodel:TitleViewModel">
-                        <views:TitleView />
+                    <DataTemplate x:DataType="viewmodel:MangaViewModel">
+                        <views:MangaView />
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <GridView.ItemsPanel>

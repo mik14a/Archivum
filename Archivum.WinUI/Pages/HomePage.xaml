@@ -49,21 +49,21 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 Style="{StaticResource HeaderTextBlockStyle}"
-                                Text="{x:Bind Model.MangaCount}" />
+                                Text="{x:Bind Model.MangaCount, Mode=OneWay}" />
                             <TextBlock HorizontalAlignment="Center" Text="マンガ" />
                         </StackPanel>
                         <StackPanel Grid.Column="1">
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 Style="{StaticResource HeaderTextBlockStyle}"
-                                Text="{x:Bind Model.AuthorCount}" />
+                                Text="{x:Bind Model.AuthorCount, Mode=OneWay}" />
                             <TextBlock HorizontalAlignment="Center" Text="作者" />
                         </StackPanel>
                         <StackPanel Grid.Column="2">
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 Style="{StaticResource HeaderTextBlockStyle}"
-                                Text="{x:Bind Model.TitleCount}" />
+                                Text="{x:Bind Model.TitleCount, Mode=OneWay}" />
                             <TextBlock HorizontalAlignment="Center" Text="タイトル" />
                         </StackPanel>
                         <StackPanel
@@ -73,7 +73,7 @@
                             Orientation="Horizontal"
                             Spacing="8">
                             <TextBlock Text="合計サイズ" />
-                            <TextBlock Text="{x:Bind Model.TotalSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}" />
+                            <TextBlock Text="{x:Bind Model.TotalSize, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

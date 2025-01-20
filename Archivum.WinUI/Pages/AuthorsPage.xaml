@@ -26,7 +26,11 @@
         </CommandBar>
 
         <Grid Grid.Row="1">
-            <GridView ItemsSource="{x:Bind Model.Authors}" SelectionMode="Single">
+            <GridView
+                IsItemClickEnabled="True"
+                ItemClick="ItemClick"
+                ItemsSource="{x:Bind Model.Authors}"
+                SelectionMode="Single">
                 <GridView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
                         <Setter Property="Margin" Value="4,4,4,4" />

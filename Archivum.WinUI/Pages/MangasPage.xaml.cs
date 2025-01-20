@@ -18,9 +18,9 @@ public sealed partial class MangasPage : Page
         DataContext = this;
     }
 
-    protected override async void OnNavigatedTo(NavigationEventArgs e) {
+    protected override void OnNavigatedTo(NavigationEventArgs e) {
         base.OnNavigatedTo(e);
-        await Model.SyncAsync();
+        Model.SyncAsync().ConfigureAwait(false);
     }
 
     [RelayCommand]

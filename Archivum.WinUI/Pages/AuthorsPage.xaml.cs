@@ -1,45 +1,42 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
+using Archivum.Contracts.Services;
 using Archivum.ViewModels;
 using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Archivum.Pages;
+
 /// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
+/// An Authors page that can be used on its own or navigated to within a Frame.
 /// </summary>
 public sealed partial class AuthorsPage : Page
 {
     public AuthorsViewModel Model { get; }
 
-    public AuthorsPage()
-    {
+    public AuthorsPage() {
         Model = App.GetService<AuthorsViewModel>();
+        _navigationService = App.GetService<INavigationService>();
         InitializeComponent();
     }
 
-    protected override async void OnNavigatedTo(NavigationEventArgs e) {
+    protected override void OnNavigatedTo(NavigationEventArgs e) {
         base.OnNavigatedTo(e);
-        await Model.SyncAsync();
+        Model.SyncAsync().ConfigureAwait(false);
     }
 
     [RelayCommand]
     async Task RefreshAsync() {
         await Model.SyncAsync(true);
     }
+
+    void ItemClick(object sender, ItemClickEventArgs e) {
+        var model = (AuthorViewModel)e.ClickedItem;
+        _navigationService.PushAsync(typeof(AuthorPage), model);
+    }
+
+    readonly INavigationService _navigationService;
 }
