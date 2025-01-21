@@ -80,6 +80,14 @@ public sealed partial class AppShell : Shell
         }
     }
 
+    void OnPaneDisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args) {
+        if (args.DisplayMode == NavigationViewDisplayMode.Minimal) {
+            VisualStateManager.GoToState(this, "Compact", true);
+        } else {
+            VisualStateManager.GoToState(this, "Default", true);
+        }
+    }
+
     readonly INavigationService _navigationService;
     readonly LocalMangaRepository? _repository;
 }

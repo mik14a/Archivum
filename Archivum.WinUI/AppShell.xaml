@@ -19,7 +19,6 @@
         <Border
             x:Name="_AppTitleBar"
             Height="{Binding ElementName=_NavigationView, Path=CompactPaneLength}"
-            Margin="48,0,0,0"
             VerticalAlignment="Stretch"
             AutomationProperties.AutomationId="AppTitleBar"
             Canvas.ZIndex="1"
@@ -35,6 +34,7 @@
             x:Name="_NavigationView"
             Grid.RowSpan="2"
             BackRequested="NavigationViewBackRequested"
+            DisplayModeChanged="OnPaneDisplayModeChanged"
             IsBackButtonVisible="Auto"
             IsBackEnabled="{Binding ElementName=_ContentFrame, Path=CanGoBack}"
             IsTabStop="False"
@@ -64,6 +64,21 @@
                 Navigating="ContentFrameNavigating" />
             <!--  Margin="0,47,0,0"  -->
         </NavigationView>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="TitleBarStates">
+                <VisualState x:Name="Default">
+                    <VisualState.Setters>
+                        <Setter Target="_AppTitleBar.Margin" Value="48,0,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Compact">
+                    <VisualState.Setters>
+                        <Setter Target="_AppTitleBar.Margin" Value="80,0,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 
 </controls:Shell>
