@@ -6,7 +6,6 @@ using System.Text.Unicode;
 using System.Threading.Tasks;
 using Archivum.Contracts.Repositories;
 using Archivum.Contracts.Services;
-using Archivum.Pages;
 using Archivum.Repositories;
 using Archivum.Services;
 using Microsoft.Extensions.Configuration;
@@ -32,8 +31,8 @@ public partial class App : Application
     /// The settings file 'settings.json' will be located in this directory.
     /// </summary>
     static App() {
-        var path = Path.GetDirectoryName(Environment.ProcessPath) ?? Environment.CurrentDirectory;
-        _settingFile = Path.Combine(path, "settings.json");
+        _settingFolder = Path.GetDirectoryName(Environment.ProcessPath) ?? Environment.CurrentDirectory;
+        _settingFile = Path.Combine(_settingFolder, "settings.json");
     }
 
     /// <summary>
@@ -78,6 +77,28 @@ public partial class App : Application
         var json = JsonSerializer.Serialize(settings, _jsonSerializerOptions);
         await File.WriteAllTextAsync(_settingFile, json);
     }
+
+    /// <summary>
+    /// Gets the full path to the application's settings file.
+    /// </summary>
+    /// <returns>A string containing the absolute path to the settings.json file.</returns>
+    /// <remarks>
+    /// This method provides access to the location of the application's configuration file.
+    /// The settings file is located in the same directory as the application executable.
+    /// </remarks>
+    public static string GetSettingFile() {
+        return _settingFile;
+    }
+
+    /// <summary>
+    /// Gets the main application window instance.
+    /// </summary>
+    /// <returns>The current main window of the application, or null if the window has not been initialized.</returns>
+    /// <remarks>
+    /// This property provides access to the primary window of the WinUI application.
+    /// The window is initialized during the OnLaunched event and may be null before that point.
+    /// </remarks>
+    public Window? MainWindow => _window;
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -138,6 +159,7 @@ public partial class App : Application
     readonly IHost _host;
     Window? _window;
 
+    static readonly string _settingFolder;
     static readonly string _settingFile;
     static readonly JsonSerializerOptions _jsonSerializerOptions = new() {
         Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),

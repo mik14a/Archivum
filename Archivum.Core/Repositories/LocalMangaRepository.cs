@@ -25,21 +25,7 @@ public class LocalMangaRepository : IMangaRepository
     public async Task<IEnumerable<Models.Manga>> GetMangasAsync() {
         await _semaphore.WaitAsync();
         try {
-            var directory = new DirectoryInfo(_setting.FolderPath);
-            if (directory.Exists) {
-                var files = directory.GetFiles("*.zip", SearchOption.AllDirectories);
-                foreach (var manga in _mangas.Keys) {
-                    if (!files.Any(f => manga == f.FullName)) {
-                        _mangas.Remove(manga);
-                    }
-                }
-                foreach (var file in files) {
-                    if (_mangas.ContainsKey(file.FullName)) continue;
-                    var manga = Models.Manga.CreateFrom(file, _setting.FilePattern!);
-                    _mangas.Add(file.FullName, manga);
-                }
-            }
-            return [.. _mangas.Values];
+            return GetMangas();
         } finally {
             _semaphore.Release();
         }
@@ -66,35 +52,7 @@ public class LocalMangaRepository : IMangaRepository
     public async Task<IEnumerable<Models.Author>> GetAuthorsAsync() {
         await _semaphore.WaitAsync();
         try {
-            var authors = _mangas
-                .Values
-                .GroupBy(m => m.Author)
-                .Select(g => new Models.Author {
-                    Name = g.Key,
-                    Count = g.Count(),
-                    LastModified = g.Max(m => m.Modified),
-                    Cover = $"{g.First().Path},0"
-                })
-                .OrderBy(a => a.Name).ToArray();
-
-            // First, remove authors that are no longer in the manga list
-            foreach (var author in _authors.Keys) {
-                if (!authors.Any(a => author == a.Name)) {
-                    _authors.Remove(author);
-                }
-            }
-
-            // Then, add or update authors that are in the manga list
-            foreach (var author in authors) {
-                if (_authors.TryGetValue(author.Name, out var existing)) {
-                    existing.Count = author.Count;
-                    existing.LastModified = author.LastModified;
-                    existing.Cover = author.Cover;
-                } else {
-                    _authors.Add(author.Name, author);
-                }
-            }
-            return [.. _authors.Values];
+            return GetAuthors();
         } finally {
             _semaphore.Release();
         }
@@ -103,37 +61,22 @@ public class LocalMangaRepository : IMangaRepository
     public async Task<IEnumerable<Models.Title>> GetTitlesAsync() {
         await _semaphore.WaitAsync();
         try {
-            var titles = _mangas
-                .Values
-                .GroupBy(m => m.Title)
-                .Select(g => new Models.Title {
-                    Name = g.Key,
-                    Author = g.First().Author,
-                    Count = g.Count(),
-                    LastModified = g.Max(m => m.Modified),
-                    Cover = $"{g.First().Path},0"
-                })
-                .OrderBy(t => t.Name).ToArray();
+            return GetTitles();
+        } finally {
+            _semaphore.Release();
+        }
+    }
 
-            // First, remove titles that are no longer in the manga list
-            foreach (var title in _titles.Keys) {
-                if (!titles.Any(t => title == t.Name)) {
-                    _titles.Remove(title);
-                }
-            }
-
-            // Then, add or update titles that are in the manga list
-            foreach (var title in titles) {
-                if (_titles.TryGetValue(title.Name, out var existing)) {
-                    existing.Author = title.Author;
-                    existing.Count = title.Count;
-                    existing.LastModified = title.LastModified;
-                    existing.Cover = title.Cover;
-                } else {
-                    _titles.Add(title.Name, title);
-                }
-            }
-            return [.. _titles.Values];
+    public async Task RebuildLibraryAsync() {
+        await _semaphore.WaitAsync();
+        try {
+            _mangas.Clear();
+            _authors.Clear();
+            _titles.Clear();
+            _ = GetMangas();
+            _ = GetAuthors();
+            _ = GetTitles();
+            await SaveLibraryAsync();
         } finally {
             _semaphore.Release();
         }
@@ -206,6 +149,90 @@ public class LocalMangaRepository : IMangaRepository
 
         var json = JsonSerializer.Serialize(library, _jsonSerializerOptions);
         await File.WriteAllTextAsync(_cacheFile, json);
+    }
+
+    IEnumerable<Models.Manga> GetMangas() {
+        var directory = new DirectoryInfo(_setting.FolderPath);
+        if (directory.Exists) {
+            var files = directory.GetFiles("*.zip", SearchOption.AllDirectories);
+            foreach (var manga in _mangas.Keys) {
+                if (!files.Any(f => manga == f.FullName)) {
+                    _mangas.Remove(manga);
+                }
+            }
+            foreach (var file in files) {
+                if (_mangas.ContainsKey(file.FullName)) continue;
+                var manga = Models.Manga.CreateFrom(file, _setting.FilePattern!);
+                _mangas.Add(file.FullName, manga);
+            }
+        }
+        return [.. _mangas.Values];
+    }
+
+    IEnumerable<Models.Author> GetAuthors() {
+        var authors = _mangas
+            .Values
+            .GroupBy(m => m.Author)
+            .Select(g => new Models.Author {
+                Name = g.Key,
+                Count = g.Count(),
+                LastModified = g.Max(m => m.Modified),
+                Cover = $"{g.First().Path},0"
+            })
+            .OrderBy(a => a.Name).ToArray();
+
+        // First, remove authors that are no longer in the manga list
+        foreach (var author in _authors.Keys) {
+            if (!authors.Any(a => author == a.Name)) {
+                _authors.Remove(author);
+            }
+        }
+
+        // Then, add or update authors that are in the manga list
+        foreach (var author in authors) {
+            if (_authors.TryGetValue(author.Name, out var existing)) {
+                existing.Count = author.Count;
+                existing.LastModified = author.LastModified;
+                existing.Cover = author.Cover;
+            } else {
+                _authors.Add(author.Name, author);
+            }
+        }
+        return [.. _authors.Values];
+    }
+
+    IEnumerable<Models.Title> GetTitles() {
+        var titles = _mangas
+            .Values
+            .GroupBy(m => m.Title)
+            .Select(g => new Models.Title {
+                Name = g.Key,
+                Author = g.First().Author,
+                Count = g.Count(),
+                LastModified = g.Max(m => m.Modified),
+                Cover = $"{g.First().Path},0"
+            })
+            .OrderBy(t => t.Name).ToArray();
+
+        // First, remove titles that are no longer in the manga list
+        foreach (var title in _titles.Keys) {
+            if (!titles.Any(t => title == t.Name)) {
+                _titles.Remove(title);
+            }
+        }
+
+        // Then, add or update titles that are in the manga list
+        foreach (var title in titles) {
+            if (_titles.TryGetValue(title.Name, out var existing)) {
+                existing.Author = title.Author;
+                existing.Count = title.Count;
+                existing.LastModified = title.LastModified;
+                existing.Cover = title.Cover;
+            } else {
+                _titles.Add(title.Name, title);
+            }
+        }
+        return [.. _titles.Values];
     }
 
     readonly Models.Settings _setting;

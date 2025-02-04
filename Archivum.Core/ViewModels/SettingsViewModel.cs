@@ -41,6 +41,8 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     public partial KeyValuePair<string, SystemTheme> Theme { get; set; }
 
+    public bool FilePatternChanged => _setting.FilePattern != FilePattern;
+
     public SettingsViewModel(IOptions<Models.Settings> settings,
                              IBackdropSelectorService backdropSelectorService,
                              IThemeSelectorService themeSelectorService) {
